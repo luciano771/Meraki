@@ -1,41 +1,25 @@
 <?php
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require 'PHPMailer/src/Exception.php';
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Obtener los datos del formulario
     $nombre = $_POST["nombre"];
     $email = $_POST["email"];
     $mensaje = $_POST["mensaje"];
 
-    $mail = new PHPMailer(true);
-    $mail->SMTPDebug = 10;
+    // Realizar alguna acción con los datos, como enviar un correo electrónico
+    // Aquí puedes agregar tu código para enviar el correo o procesar los datos de otra manera
 
-    try {
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'pereyraluciano771@gmail.com'; // Cambia esto a tu dirección de correo Gmail
-        $mail->Password = '42269143'; // Cambia esto a tu contraseña de correo Gmail
-        $mail->SMTPSecure = 'ssl'; // Puede ser 'ssl' o 'tls'
-        $mail->Port = 587; // Puerto SMTP
+    // Ejemplo: Enviar un correo electrónico de confirmación
+    $to = "pereyraluciano771@gmail.com"; // Cambia esto por la dirección de correo a la que quieres enviar el mensaje
+    $subject = "Mensaje de contacto de $nombre";
+    $message = "Nombre: $nombre\n";
+    $message .= "Email: $email\n";
+    $message .= "Mensaje:\n$mensaje\n";
 
-        $mail->setFrom($email, $nombre);
-        $mail->addAddress('pereyraluciano771@gmail.com'); // Cambia esto a la dirección de destino
-        $mail->isHTML(false);
-
-        $mail->Subject = "Mensaje de contacto de $nombre";
-        $mail->Body = "Nombre: $nombre\nEmail: $email\nMensaje:\n$mensaje";
-
-        $mail->send();
-        echo "Gracias por contactarnos. Su mensaje ha sido enviado.";
-    } catch (Exception $e) {
-        echo  $e;
+    // Utiliza la función mail() para enviar el correo (configura la función mail() según tus necesidades)
+    if (mail($to, $subject, $message)) {
+        echo "El mensaje se ha enviado con éxito.";
+    } else {
+        echo "Hubo un error al enviar el mensaje.";
     }
-} else {
-    echo "Acceso no permitido.";
 }
 ?>
