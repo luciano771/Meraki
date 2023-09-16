@@ -1,0 +1,324 @@
+@import url("https://fonts.googleapis.com/css?family=Lato");
+/* Reset de estilos */
+body, h1, h2, h3, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos generales */
+body {
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    font-family:"lato";
+
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.logo {
+    max-width: 100px; /* Ajusta el tamaño del logo según tus necesidades */
+    position: absolute; /* Posición absoluta para superponer el logo */
+    top: 20px; /* Ajusta la distancia desde la parte superior según tu diseño */
+    left: 20px; /* Ajusta la distancia desde la izquierda según tu diseño */
+}
+/* Encabezado */
+.header {
+    color: white;
+    text-align: center;
+    background: linear-gradient(to bottom, #c0bfbf, #cecece); /* Fondo de gradiente en tonos grises */
+    width: 100%;
+    height: 150px;
+ 
+}
+ 
+.header h1 {
+    font-size: 36px;
+    
+}
+
+.header p {
+    font-size: 18px;
+}
+
+ 
+
+/* Sección de Servicios */
+.services {
+    background-color: white;
+    padding: 40px 0;
+}
+
+.services h2 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    justify-content: center;
+}
+
+.service {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.service h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.service p {
+    font-size: 16px;
+}
+/*SECCION DE STAFF*/
+
+/* ... (Estilos previos) */
+
+/* Sección de Staff */
+.staff {
+    background-color: #f9f9f9;
+    padding: 40px 0;
+}
+
+.staff h2 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.staff-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Ajusta el ancho automáticamente */
+    gap: 20px;
+    justify-items: center; /* Centra los elementos horizontalmente */
+}
+
+.staff-member {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 20px;
+    text-align: center;
+    border-radius: 25px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transition:transform 1s;
+    width: 100%; /* Ocupa todo el ancho del contenedor de la cuadrícula */
+    max-width: 330px; /* Ancho máximo de cada elemento staff-member */
+
+}
+
+.staff-member img {
+    max-width: 40%;
+    border-radius: 50%;
+}
+ 
+
+.staff-member:hover{
+
+    transform: scale(1.05);
+}
+
+.staff-member h3 {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.staff-member h4 {
+    font-size: 15px;
+    margin-top: 5px;
+}
+
+.staff-member p {
+    font-size: 16px;
+}
+
+.staff-member .linkdin {
+    max-width: 15%;
+    border-radius: 100%;
+}
+ 
+/* Sección de clientes */
+ 
+.clientes {
+    background-color: #f9f9f9;
+    padding: 40px 0;
+}
+
+.clientes h2 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.clientes-grid {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan automáticamente */
+    justify-content: center;
+}
+
+.clientes-member {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 20px;
+    text-align: center;
+    border-radius: 25px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    transition:transform 1s;
+    margin: 10px; /* Agregar margen a cada miembro para separarlos */
+    width: calc(33.33% - 20px); /* Ajusta el ancho de cada miembro para que haya 3 por fila */
+    max-width: 300px; /* Ajusta el ancho máximo según tus preferencias */
+}
+
+.clientes-member img {
+    max-width: 50%;
+    border-radius: 50%;
+}
+ 
+
+.clientes-member:hover{
+
+    transform: scale(1.08);
+}
+
+.clientes-member h3 {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.clientes-member h4 {
+    font-size: 15px;
+    margin-top: 5px;
+}
+ 
+.clientes-member p {
+    font-size: 16px;
+}
+
+.clientes-member .linkdin {
+    max-width: 15%;
+    border-radius: 100%;
+}
+ 
+/* Sección de empresa */
+ 
+.empresa {
+    background-color: #f9f9f9;
+    padding: 40px 0;
+}
+
+.empresa h2 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.empresa-grid {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan automáticamente */
+    justify-content: center;
+}
+
+.empresa-member {
+    text-align: center; /*lo dejo porque sino se tira hacia la derecha la imagen*/
+    transition:transform 1s;
+    margin: 10px; /* Agregar margen a cada miembro para separarlos */
+    width: calc(33.33% - 20px); /* Ajusta el ancho de cada miembro para que haya 3 por fila */
+    max-width: 300px; /* Ajusta el ancho máximo según tus preferencias */
+}
+
+.empresa-member img {
+    max-width: 50%;
+    border-radius: 50%;
+}
+ 
+
+.empresa-member:hover{
+
+    transform: scale(1.08);
+}
+ 
+ 
+
+/* Sección de Proyectos */
+/* Carrusel de proyectos */
+.projects {
+    background-color: #f5f5f5;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.project-carousel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow-x: scroll; /* Permitir desplazamiento horizontal */
+    scrollbar-width: none; /* Ocultar la barra de desplazamiento en Firefox */
+}
+ 
+.project-carousel::-webkit-scrollbar {
+    display: none; /* Ocultar la barra de desplazamiento en Webkit (Chrome, Safari, Edge) */
+}
+
+.project-slide {
+    flex: 0 0 300px; /* Ancho de cada proyecto en el carrusel */
+    margin-right: 20px; /* Espacio entre proyectos */
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition:transform 1s;
+}
+
+.project-slide:hover{
+    transform: scale(1.08);
+}
+
+.project-slide img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.project-slide h3 {
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.project-slide p {
+    font-size: 16px;
+}
+
+/* Pie de Página */
+.footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.footer p {
+    font-size: 16px;
+}
+
+.footer img {
+    width: 90px;
+    height: 140px;
+    transition: transform 1s;
+}
+
+.footer img:hover{
+    transform: scale(1.1);
+}
