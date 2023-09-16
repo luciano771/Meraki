@@ -17,9 +17,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Utiliza la función mail() para enviar el correo (configura la función mail() según tus necesidades)
     if (mail($to, $subject, $message)) {
-        header("Location: respuesta.html");
+        header("Location: okresponseMail.html");
     } else {
-        echo "Hubo un error al enviar el mensaje.";
+        header("Location: badrequestMail.html");
     }
 }
 ?>
