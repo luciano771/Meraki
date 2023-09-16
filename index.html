@@ -84,7 +84,7 @@
                 <!-- Servicio 1 -->
                 <div class="service">
                     <h3>Desarrollo Web</h3>
-                    <p>Creación de sitios web a medida con las últimas tecnologías.</p>
+                    <p>Desarrollamos sitios web con Wordress, Maquetado web, Landing pages, e-commerce, asp net core MVC</p>
                 </div>
                 <!-- Servicio 2 -->
                 <div class="service">
@@ -140,33 +140,61 @@
     <!-- Sección de Proyectos -->
     <section class="projects">
         <div class="container">
-            <h2>Nuestros Proyectos Destacados</h2><br>
+            <h2>Proyectos Destacados</h2><br><br>
             <!-- Agrega el CSS de Slick Carousel -->
             <div class="project-carousel">
               <!-- Proyecto 1 -->
               <div class="project-slide">
                   <img src="imagenes/empresaargentecno.png" alt="Proyecto 1">
                   <h3>Argentecno</h3>
-                  <p>Desarrollamos el backend de la integracion de Mercado Libre al servicio que ofrece Argentecno. En este proyecto usamos las siguientes tecnologias: .NET FRAMEWORK 4.8, SQLSERVER.</p>
+                  <p>Desarrollamos el backend de la integracion de Mercado Libre al servicio que ofrece Argentecno. <br> En este proyecto usamos las siguientes tecnologias: .NET FRAMEWORK 4.8, SQLSERVER.</p>
               </div>
               <div class="project-slide">
-                <img src="imagenes/argentecno.png" alt="Proyecto 1">
-                <h3>Proyecto 2</h3>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quod cum voluptatem quas doloribus maxime molestiae ex excepturi saepe ut rem.</p>
+                <img src="imagenes/Ekkon.png" alt="Proyecto 1">
+                <h3>Backend para logistica</h3>
+                <p>Se realizo un mantenimiento y optimizacion de un sofware que gestiona la logistica de una empresa, en este proyecto se agrego la opcion de buscar pedidos dentro de agrupados y generar una grilla con la opcion de eliminar o agregar mas pedidos. Para esto se uso SQLSERVER y ASP NET WEBFORMS y javascript</p>
             </div>
             <div class="project-slide">
-              <img src="imagenes/argentecno.png" alt="Proyecto 1">
-              <h3>Proyecto 3</h3>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima officia omnis tempora dolores. Necessitatibus vel reiciendis dicta commodi, illo repellendus!</p>
-          </div>
+              <img src="imagenes/ekkon1.png" alt="Proyecto 1">
+              <h3>Backend de nuevos procesos</h3>
+              <p>Se realizo un mantenimiento y optimizacion de un sofware que gestiona la logistica de una empresa, en este proyecto se agrego la funcionalidad llamada Hoja de ruta que funciona como historial de pedidos detallando Empresa de transporte y chofer asignado. Para esto se uso SQLSERVER (querys,store procedures,analisis) y ASP NET WEBFORMS y javascript</p>
+            </div>
           <div class="project-slide">
-            <img src="imagenes/argentecno.png" alt="Proyecto 1">
-            <h3>Proyecto 4</h3>
-            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Unde optio aliquam sapiente, ut cum obcaecati totam veniam dolor repellendus labore.</p>
-        </div>
+            <img src="imagenes/Ekkon2.png" alt="Proyecto 1"><br>
+            <h3>Armado de Grillas e informes con Report Viewer</h3><br>
+            <p>Se realizo un mantenimiento y optimizacion de un sofware que gestiona la logistica de una empresa, en este proyecto se agregaron 2 grillas con la opcion de generar un informe usando Report Viewer, imprimirlo, o vizualiar los datos en un popup, Para esto se uso SQLSERVER (querys,store procedures,analisis),ASP NET WEBFORMS y javascript</p>
+          </div>
                
         </div>
     </section>
+
+
+    <!--formulario de contacto-->
+
+    <section class="contacto">
+      <div class="container">
+          <h2>Contacto</h2>
+          <form action="enviar.php" method="POST">
+              <div class="form-group">
+                  <label for="nombre">Nombre:</label>
+                  <input type="text" id="nombre" name="nombre" required>
+              </div>
+              <div class="form-group">
+                  <label for="email">Email:</label>
+                  <input type="email" id="email" name="email" required>
+              </div>
+              <div class="form-group">
+                  <label for="mensaje">Mensaje:</label>
+                  <textarea id="mensaje" name="mensaje" rows="4" required></textarea>
+              </div>
+              <div class="form-group">
+                  <button type="submit">Enviar</button>
+              </div>
+          </form>
+      </div>
+  </section>
+   
+  
 
     <!-- Pie de Página -->
     <footer class="footer">
