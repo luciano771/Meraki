@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Aquí puedes agregar tu código para enviar el correo o procesar los datos de otra manera
 
     // Ejemplo: Enviar un correo electrónico de confirmación
-    $to = "pereyraluciano771@gmail.com"; // Cambia esto por la dirección de correo a la que quieres enviar el mensaje
+    $to = "pereyraluciano771@gmail.com", "martinez.jose.ig@hotmail.com", "viitavitu@gmail.com"; // Cambia esto por la dirección de correo a la que quieres enviar el mensaje
     $subject = "Mensaje de contacto de $nombre";
     $message = "Nombre: $nombre\n";
     $message .= "Email: $email\n";
