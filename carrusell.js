@@ -4,7 +4,7 @@ $(document).ready(function(){
         slidesToShow: 3, // Número de proyectos a mostrar en un momento dado
         slidesToScroll: 1, // Número de proyectos a desplazarse a la vez
         autoplay: true, // Activar reproducción automática
-        autoplaySpeed: 2000, // Duración de cada diapositiva en milisegundos
+        autoplaySpeed: 1200, // Duración de cada diapositiva en milisegundos
         responsive: [
             {
                 breakpoint: 768, // Cambia el número de proyectos a mostrar en resoluciones más pequeñas
