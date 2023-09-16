@@ -25,6 +25,12 @@ body {
     top: 20px; /* Ajusta la distancia desde la parte superior según tu diseño */
     left: 20px; /* Ajusta la distancia desde la izquierda según tu diseño */
 }
+.wsp {
+    max-width: 60px; /* Ajusta el tamaño del logo según tus necesidades */
+    position: absolute; /* Posición absoluta para superponer el logo */
+    top: 40px; /* Ajusta la distancia desde la parte superior según tu diseño */
+    right: 25px; /* Ajusta la distancia desde la izquierda según tu diseño */
+}
 /* Encabezado */
 .header {
     color: white;
