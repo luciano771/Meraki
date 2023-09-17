@@ -15,47 +15,76 @@ body {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
     padding: 20px;
+     
+    
 }
 .logo {
-    max-width: 100px; /* Ajusta el tamaño del logo según tus necesidades */
+    max-width: 60px; /* Ajusta el tamaño del logo según tus necesidades */
     position: absolute; /* Posición absoluta para superponer el logo */
-    top: 20px; /* Ajusta la distancia desde la parte superior según tu diseño */
+    top: 10px; /* Ajusta la distancia desde la parte superior según tu diseño */
     left: 20px; /* Ajusta la distancia desde la izquierda según tu diseño */
 }
 .wsp {
     max-width: 60px; /* Ajusta el tamaño del logo según tus necesidades */
     position: absolute; /* Posición absoluta para superponer el logo */
-    top: 40px; /* Ajusta la distancia desde la parte superior según tu diseño */
-    right: 25px; /* Ajusta la distancia desde la izquierda según tu diseño */
+    top: 0px; /* Ajusta la distancia desde la parte superior según tu diseño */
+    right: 20px; /* Ajusta la distancia desde la izquierda según tu diseño */
 }
 /* Encabezado */
 .header {
     color: white;
     text-align: center;
-    background: linear-gradient(to bottom, #c0bfbf, #cecece); /* Fondo de gradiente en tonos grises */
     width: 100%;
-    height: 150px;
- 
+    height: 60px;
+    background-color: #324d9b ;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    z-index: 100;
+     
 }
  
-.header h1 {
-    font-size: 36px;
-    
+ 
+
+/* Sección de descripcion */
+.descripcion{
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;  
+    display: flex; 
+    align-items: center;
+    background-color: #fdfdfdff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
+ 
+}  
+.descripcion-container{
+    width: calc(50% - 10px); /* Ajusta el ancho de cada miembro para que haya 3 por fila */
 }
 
-.header p {
-    font-size: 18px;
+.descripcion-container img {
+    background-size:contain;   
+}
+ 
+
+.descripcion h2{
+    font-size: 30px;
+
 }
 
- 
+.descripcion p{
+    font-size: 20px;
+
+}
 
 /* Sección de Servicios */
 .services {
     background-color: white;
     padding: 40px 0;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+
 }
 
 .services h2 {
@@ -95,6 +124,7 @@ body {
 /* Sección de Staff */
 .staff {
     background-color: #f9f9f9;
+    box-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1);
     padding: 40px 0;
 }
 
@@ -109,6 +139,7 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Ajusta el ancho automáticamente */
     gap: 20px;
     justify-items: center; /* Centra los elementos horizontalmente */
+     
 }
 
 .staff-member {
@@ -120,8 +151,8 @@ body {
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     transition:transform 1s;
     width: 100%; /* Ocupa todo el ancho del contenedor de la cuadrícula */
-    max-width: 330px; /* Ancho máximo de cada elemento staff-member */
-
+    max-width: 270px; /* Ancho máximo de cada elemento staff-member */
+     
 }
 
 .staff-member img {
@@ -153,6 +184,23 @@ body {
     max-width: 15%;
     border-radius: 100%;
 }
+/*seccion tecnologias*/
+
+.tecnologias{
+    max-width: 100%;
+    margin: 20px;
+    padding: 10px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.tecnologias-container{
+    margin: 20px;
+    padding: 10px;
+}
+ 
  
 /* Sección de clientes */
  
@@ -184,7 +232,9 @@ body {
     margin: 10px; /* Agregar margen a cada miembro para separarlos */
     width: calc(33.33% - 20px); /* Ajusta el ancho de cada miembro para que haya 3 por fila */
     max-width: 300px; /* Ajusta el ancho máximo según tus preferencias */
+    min-width: 300px;
 }
+
 
 .clientes-member img {
     max-width: 50%;
@@ -368,10 +418,11 @@ body {
 
 /* Pie de Página */
 .footer {
-    background-color: #333;
+    background-color: #324d9b ;
     color: white;
     text-align: center;
     padding: 20px 0;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 .footer p {
@@ -387,3 +438,117 @@ body {
 .footer img:hover{
     transform: scale(1.1);
 }
+
+@media screen and (max-width: 768px) {
+
+    .logo {
+        max-width: 45px; /* Ajusta el tamaño del logo según tus necesidades */
+        position: absolute; /* Posición absoluta para superponer el logo */
+        top: 5px; /* Ajusta la distancia desde la parte superior según tu diseño */
+        left: 6px; /* Ajusta la distancia desde la izquierda según tu diseño */
+    }
+    .wsp {
+        max-width: 40px; /* Ajusta el tamaño del logo según tus necesidades */
+        position: absolute; /* Posición absoluta para superponer el logo */
+        top: 0px; /* Ajusta la distancia desde la parte superior según tu diseño */
+        right: 5px; /* Ajusta la distancia desde la izquierda según tu diseño */
+    }
+    /* Encabezado */
+    .header {
+        width: 100%;
+        height: 40px;
+        padding: 0;
+    }
+      
+    /* Sección de descripcion */
+    .descripcion{
+        display: grid;
+    } 
+    .descripcion-container{
+        align-items: center;
+        text-align: center;
+        width: 100%;
+        margin-top: 50px;
+    }
+    .descripcion-container img {
+        max-width: 300px; 
+        max-height: 300px;  
+ 
+    }
+    .descripcion h2{
+        font-size: 30px;
+    }
+
+    .descripcion p{
+        font-size: 15px;
+
+    }
+
+
+
+}
+
+/*ANIMACIONES*/
+@keyframes show {
+    from{
+        opacity: 0;
+        scale: 5%;
+    }
+    to{
+        opacity: 1;
+        scale: 100%;
+    }
+}
+
+@keyframes header {
+    from {
+        margin-left: 100%;
+        width: 300%;
+      }
+    
+      to {
+        margin-left: 0%;
+        width: 100%;
+      }
+}
+.staff-member{
+    view-timeline-name: --image;
+    view-timeline-axis: grid;
+    animation-timeline: --image;
+    animation-name: show;
+    animation-range: entry 50% cover 55%;
+    animation-fill-mode:both;
+}
+
+.project-carousel{
+
+    view-timeline-name: --image;
+    view-timeline-axis: grid;
+
+    animation-timeline: --image;
+    animation-name: show;
+    animation-range: entry 50% cover 55%;
+    animation-fill-mode:both;
+ }
+
+ .clientes-member{
+    view-timeline-name: --image;
+    view-timeline-axis: grid;
+
+    animation-timeline: --image;
+    animation-name: show;
+    animation-range: entry 50% cover 55%;
+    animation-fill-mode:both;
+ }
+
+ .empresa-member{
+    view-timeline-name: --image;
+    view-timeline-axis: grid;
+
+    animation-timeline: --image;
+    animation-name: show;
+    animation-range: entry 50% cover 55%;
+    animation-fill-mode:both;
+ }
+
+ 
