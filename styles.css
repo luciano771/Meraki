@@ -22,15 +22,21 @@ body {
     
 }
 .logo {
-    max-width: 60px; /* Ajusta el tamaño del logo según tus necesidades */
+    max-width: 55px; /* Ajusta el tamaño del logo según tus necesidades */
     position: absolute; /* Posición absoluta para superponer el logo */
     top: 10px; /* Ajusta la distancia desde la parte superior según tu diseño */
     left: 20px; /* Ajusta la distancia desde la izquierda según tu diseño */
 }
-.wsp {
+.logo2 {
     max-width: 60px; /* Ajusta el tamaño del logo según tus necesidades */
     position: absolute; /* Posición absoluta para superponer el logo */
-    top: 0px; /* Ajusta la distancia desde la parte superior según tu diseño */
+    top: 32px; /* Ajusta la distancia desde la parte superior según tu diseño */
+    left: 60px; /* Ajusta la distancia desde la izquierda según tu diseño */
+}
+.wsp {
+    max-width: 50px; /* Ajusta el tamaño del logo según tus necesidades */
+    position: absolute; /* Posición absoluta para superponer el logo */
+    top: 5px; /* Ajusta la distancia desde la parte superior según tu diseño */
     right: 20px; /* Ajusta la distancia desde la izquierda según tu diseño */
 }
 /* Encabezado */
@@ -200,7 +206,7 @@ body {
     margin: 20px;
     padding: 10px;
 }
- 
+
  
 /* Sección de clientes */
  
@@ -447,6 +453,12 @@ body {
         top: 5px; /* Ajusta la distancia desde la parte superior según tu diseño */
         left: 6px; /* Ajusta la distancia desde la izquierda según tu diseño */
     }
+    .logo2 {
+        max-width: 40px; /* Ajusta el tamaño del logo según tus necesidades */
+        position: absolute; /* Posición absoluta para superponer el logo */
+        top: 22px; /* Ajusta la distancia desde la parte superior según tu diseño */
+        left: 30px; /* Ajusta la distancia desde la izquierda según tu diseño */
+    }
     .wsp {
         max-width: 40px; /* Ajusta el tamaño del logo según tus necesidades */
         position: absolute; /* Posición absoluta para superponer el logo */
@@ -551,4 +563,30 @@ body {
     animation-fill-mode:both;
  }
 
+ @keyframes crecerYReducir {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.03);
+    }
+}
+
  
+ 
+.tecnologias-container img {
+
+    animation: crecerYReducir 1.5s infinite alternate; /* 2 segundos de duración, infinita y en sentido inverso */
+}
+
+.logo{
+    animation: crecerYReducir  1s infinite alternate; /* 2 segundos de duración, infinita y en sentido inverso */
+
+}
+
+ 
+
+.logo2{
+    animation: crecerYReducir  1.5s infinite alternate; /* 2 segundos de duración, infinita y en sentido inverso */
+
+}
