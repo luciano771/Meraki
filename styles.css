@@ -574,19 +574,23 @@ body {
 
  
  
-.tecnologias-container img {
+ 
+
+.tecnologias-container  img{
 
     animation: crecerYReducir 1.5s infinite alternate; /* 2 segundos de duración, infinita y en sentido inverso */
+   
 }
 
+
 .logo{
-    animation: crecerYReducir  1s infinite alternate; /* 2 segundos de duración, infinita y en sentido inverso */
+    animation: crecerYReducir  2s infinite alternate; /* 2 segundos de duración, infinita y en sentido inverso */
 
 }
 
  
 
 .logo2{
-    animation: crecerYReducir  1.5s infinite alternate; /* 2 segundos de duración, infinita y en sentido inverso */
+    animation: crecerYReducir  2s infinite alternate; /* 2 segundos de duración, infinita y en sentido inverso */
 
 }
