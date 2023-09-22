@@ -3,7 +3,7 @@
 
 class LoginController {
     public function showLoginForm() {
-        include 'Views/Eventos.html';
+        header('Location: Views/Eventos.html');
      }
 
     public function processLogin() {
