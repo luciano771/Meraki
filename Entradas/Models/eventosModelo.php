@@ -1,10 +1,10 @@
 <?php
 class conexion extends PDO
 {
-    private $hostBd = '';
-    private $nombreBd = '';
-    private $usuarioBd = '';
-    private $passwordBd = '';
+    private $hostBd = 'merakicodelabs.com';
+    private $nombreBd = 'u955829785_eventos';
+    private $usuarioBd = 'u955829785_root';
+    private $passwordBd = 'LUCIAno4226';
 
     public function __construct()
     {
@@ -27,7 +27,18 @@ class conexion extends PDO
         $session_id = session_id();
         return  $session_id;
     }
- 
+    
+    public function insertUser($name, $email, $password) {
+        try {
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $query = $this->prepare("INSERT INTO usuarios (nombre, correo_electronico, contrasena) VALUES (?, ?, ?)");
+            return $query->execute([$name, $email, $hashedPassword]);
+        } catch (PDOException $e) {
+            echo 'Error en el modelo: ' . $e->getMessage();
+            exit;
+        }
+    }
+
 
     public function insertUser($name, $email, $password) {
         try {
