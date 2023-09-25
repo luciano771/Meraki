@@ -6,7 +6,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $Titulo = $_POST['Titulo'];
     $Descripcion = $_POST['Descripcion'];
     $Fecha_inicio = $_POST['Fecha_inicio'];
-
+    // Crea una fecha en formato "yyyy-mm-dd"
+    $Fecha_inicio_Guardarbase = date('Y-m-d', strtotime(str_replace('/', '-', $Fecha_inicio)));
+    
     // Acceder al archivo subido
     $file = $_FILES["file"]["name"];
 
@@ -17,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Mueve el archivo del directorio temporal a la ubicación deseada
 
-        $url_insert = dirname(__FILE__) . "/../imagenes/";
+        $url_insert = dirname(__FILE__) . "/../imagenes";
         $url_target = str_replace('\\', '/', $url_insert) . '/' . $file;
 
         if (!file_exists($url_insert)) {
@@ -30,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Ha habido un error al cargar tu archivo.";
         }
 
+        $url_base = '../imagenes/' . $_FILES["file"]["name"];
+
 
 
         // Crear una instancia de la clase de conexión
@@ -40,9 +44,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $sql = "INSERT INTO eventos (titulo, descripcion, fecha_inicio, img) VALUES (?, ?, ?, ?)";
             $stmt = $db->prepare($sql);
-            $stmt->execute([$Titulo, $Descripcion, $Fecha_inicio, $url_target]);
+            $stmt->execute([$Titulo, $Descripcion, $Fecha_inicio_Guardarbase, $url_base]);
 
-            echo "Evento insertado con éxito en la base de datos.";
+            header('Location: ../Views/Eventos.html');
         } catch (PDOException $e) {
             echo "Error al insertar el evento: " . $e->getMessage();
         }
@@ -50,5 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "Error al cargar el archivo. Código de error: " . $archivo['error'];
     }
 }
+
+ 
+
 
 ?>

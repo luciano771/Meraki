@@ -2,7 +2,7 @@
 
 class conexion extends PDO
 {
-    private $hostBd = 'merakicodelabs.com';
+    private $hostBd = '154.56.48.154';
     private $nombreBd = 'u955829785_eventos';
     private $usuarioBd = 'u955829785_root';
     private $passwordBd = 'LUCIAno4226';

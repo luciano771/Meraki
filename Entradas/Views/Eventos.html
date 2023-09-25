@@ -16,47 +16,45 @@
 
    
  
-    <section class="eventos">
-        <div class="contenedor">
-            <div class="eventos">
-                <img src="../imagenes/Daniel Chan .jpg">
-                <h3>Lorem, ipsum dolor.</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-                <a href="reservar.html"><button type="button" class="btn btn-outline-info">Reservar</button></a>
-            </div>
-            <div class="eventos">
-                <img src="../imagenes/Emmet brown y Marty McDly.jpg">
-                <h3>Lorem, ipsum dolor.</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-                <a href="reservar.html"><button type="button" class="btn btn-outline-info">Reservar</button></a>
-            </div>
-            <div class="eventos">
-                <img src="../imagenes/Fede y Nati.jpg">
-                <h3>Lorem, ipsum dolor.</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-                <a href="reservar.html"><button type="button" class="btn btn-outline-info">Reservar</button></a>
-            </div>
-            <div class="eventos">
-                <img src="../imagenes/Miyagi.jpg">
-                <h3>Lorem, ipsum dolor.</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-                <a href="reservar.html"><button type="button" class="btn btn-outline-info">Reservar</button></a>
-            </div>
-            <div class="eventos">
-                <img src="../imagenes/Post Di Marco.jpg">
-                <h3>Lorem, ipsum dolor.</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-                <a href="reservar.html"><button type="button" class="btn btn-outline-info">Reservar</button></a>
-
-            </div>
-            <div class="eventos">
-                <img src="../imagenes/Sofia.jpg">
-                <h3>Lorem, ipsum dolor.</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
-                <a href="reservar.html"><button type="button" class="btn btn-outline-info">Reservar</button></a>
-
-            </div>
-        </div>
+     <section>
+        <div id="eventos-container"></div>
     </section>
+
+    <script>
+        function convertirFechaAFormatoDMY(fecha) {
+        var partes = fecha.split("-");
+        if (partes.length === 3) {
+            var anio = partes[0];
+            var mes = partes[1];
+            var dia = partes[2];
+            return dia + "/" + mes + "/" + anio;
+        }
+        return fecha;
+        }
+
+        // Hacer una solicitud AJAX para obtener los datos de la tabla eventos
+        fetch('../Models/obtenerEventos.php')
+            .then(response => response.json())
+            .then(data => {
+                // Iterar sobre los datos y generar divs para cada evento
+                const eventosContainer = document.getElementById('eventos-container');
+                data.forEach(evento => {
+                    const divEvento = document.createElement('div');
+                    divEvento.className = 'evento';
+                    divEvento.innerHTML = `
+                        <h2>${evento.titulo}</h2>
+                        <p>${evento.descripcion}</p>
+                        <p>Fecha de inicio: ${convertirFechaAFormatoDMY(evento.fecha_inicio)}</p>
+                        <img src="${evento.img}" alt="Imagen del evento" class="img">
+                        <br><br>
+                        <a href="reservar.html"><button type="button" class="btn btn-outline-info">Reservar</button></a>
+                    `;
+                    eventosContainer.appendChild(divEvento);
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener los datos de eventos:', error);
+            });
+    </script>
 </body>
 </html>

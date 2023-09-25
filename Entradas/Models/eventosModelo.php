@@ -1,27 +1,7 @@
 <?php
-class conexion extends PDO
+class models extends PDO
 {
-    private $hostBd = 'merakicodelabs.com';
-    private $nombreBd = 'u955829785_eventos';
-    private $usuarioBd = 'u955829785_root';
-    private $passwordBd = 'LUCIAno4226';
-
-    public function __construct()
-    {
-        try{
-            parent::__construct('mysql:host='. $this->hostBd
-            . ';dbname=' . $this->nombreBd .
-            ';charset=utf8',$this->usuarioBd,$this->passwordBd,
-            array(PDO::ATTR_ERRMODE =>PDO::ERRMODE_EXCEPTION));
-
-        }
-        catch(PDOException $e)
-        {
-            echo 'Error: ' . $e->getMessage();
-            exit;
-        }
-    }
-
+     
     public string function session_usuarios(){
         session_start();
         $session_id = session_id();
@@ -69,6 +49,7 @@ class conexion extends PDO
         }
     }
 
+    
      
 
 }
