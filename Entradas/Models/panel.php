@@ -6,9 +6,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $Titulo = $_POST['Titulo'];
     $Descripcion = $_POST['Descripcion'];
     $Fecha_inicio = $_POST['Fecha_inicio'];
+    $Fecha_fin = $_POST['Fecha_fin'];
+
     // Crea una fecha en formato "yyyy-mm-dd"
     $Fecha_inicio_Guardarbase = date('Y-m-d', strtotime(str_replace('/', '-', $Fecha_inicio)));
-    
+    $Fecha_fin_Guardarbase = date('Y-m-d', strtotime(str_replace('/', '-', $Fecha_fin)));
+
     // Acceder al archivo subido
     $file = $_FILES["file"]["name"];
 
@@ -42,9 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Ahora puedes utilizar $db para interactuar con la base de datos
         // Por ejemplo, insertar estos datos en la tabla 'eventos'
         try {
-            $sql = "INSERT INTO eventos (titulo, descripcion, fecha_inicio, img) VALUES (?, ?, ?, ?)";
+            $sql = "INSERT INTO eventos (titulo, descripcion, fecha_inicio, fecha_fin, img) VALUES (?, ?, ?, ?, ?)";
             $stmt = $db->prepare($sql);
-            $stmt->execute([$Titulo, $Descripcion, $Fecha_inicio_Guardarbase, $url_base]);
+            $stmt->execute([$Titulo, $Descripcion, $Fecha_inicio_Guardarbase,$Fecha_fin_Guardarbase, $url_base]);
 
             header('Location: ../Views/Eventos.html');
         } catch (PDOException $e) {
