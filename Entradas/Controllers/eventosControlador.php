@@ -1,8 +1,8 @@
 <?php
  
 
-class LoginController {
-    public function showLoginForm() {
+class PaginaPrincial {
+    public function showPaginaPrincial() {
         header('Location: Views/Eventos.html');
      }
  
