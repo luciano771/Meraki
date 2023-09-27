@@ -6,6 +6,16 @@
     <link rel="stylesheet" href="Estilos/panel.css">
 </head>
 <body>
+<?php
+    session_start();
+
+    // Verificar si el usuario está autenticado
+    if (!isset($_SESSION['autenticado'])) {
+        // Si no está autenticado, redirigir al inicio de sesión
+        header('Location: login.html');
+        exit;
+    }
+?>
     <header>
         <div class="cabecera">
             <h1>Subir Nuevo Evento</h1>
@@ -13,7 +23,7 @@
     </header>
      
     
-    <form action="../Models/panel.php" method="post"  enctype="multipart/form-data">
+    <form action="../Controllers/panelController.php" method="POST"  enctype="multipart/form-data">
         <div class="contenedor"> 
             <div class="mb-3">
                 <label for="Titulo" class="form-label">Titulo:</label>
@@ -30,10 +40,6 @@
             <div class="mb-3">
                 <label for="Fecha_fin" class="form-label">Fecha fin:</label>
                 <input type="text" class="form-control" id="Fecha_fin" name="Fecha_fin" required>
-            </div>
-            <div class="mb-3">
-                <label for="dni" class="form-label">DNI:</label>
-                <input type="text" class="form-control" id="dni" name="dni" required>
             </div>
             <div class="form-group">
                 <label for="file">Imagen:</label>

@@ -1,12 +1,10 @@
 <?php
  
-
-class PaginaPrincial {
-    public function showPaginaPrincial() {
-        header('Location: Views/Eventos.html');
-     }
+ include '../Models/EventosModel.php';
+ $db = new conexion();
+ $instancia = new EventosModel($db);
+ $instancia->ObtenerEventos();
  
-}
-
+ 
 
 ?>
