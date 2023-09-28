@@ -5,6 +5,10 @@
  $instancia = new EventosModel($db);
  $instancia->ObtenerEventos();
  
+     
+unset($db);
+unset($instancia);
+
  
 
 ?>

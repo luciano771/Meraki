@@ -63,6 +63,15 @@ class ActoresModel {
         $reader->close();       
     }
 
+    public function CheckearCompra() {
+        try {
+            $sql = "INSERT INTO actores (compra) VALUES (?)";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Error al insertar el comprador: " . $e->getMessage();
+        }
+    }
 
 
 }

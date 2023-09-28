@@ -14,7 +14,7 @@
         </div>
      </header>
 
-    <form action="" method="post">
+    <form action="../Controllers/compradoresController.php" method="post">
         <div class="contenedor"> 
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
@@ -34,17 +34,16 @@
             </div>
             <div class="mb-3">
                 <label for="dni" class="form-label">DNI actor</label>
-                <input type="text" class="form-control" id="dni" name="dni" required>
+                <input type="text" class="form-control" id="dni_actor" name="dni_actor" required>
             </div>
             <div class="mb-3">
                 <label for="cantidad_entradas" class="form-label">Cantidad de Entradas</label>
                 <input type="number" class="form-control" id="cantidad_entradas" name="cantidad_entradas" required>
             </div>
+            <input type="hidden" name="pk_eventos" value="<?php echo $_GET['pk_eventos']; ?>">
             <button type="submit" class="btn btn-primary">Comprar</button>
-        
         </div>
     </form>
     <br>
- 
 </body>
 </html>

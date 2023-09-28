@@ -22,18 +22,18 @@
 
     <script>
         function convertirFechaAFormatoDMY(fecha) {
-        var partes = fecha.split("-");
-        if (partes.length === 3) {
-            var anio = partes[0];
-            var mes = partes[1];
-            var dia = partes[2];
-            return dia + "/" + mes + "/" + anio;
+            var partes = fecha.split("-");
+            if (partes.length === 3) {
+                var anio = partes[0];
+                var mes = partes[1];
+                var dia = partes[2];
+                return dia + "/" + mes + "/" + anio;
+            }
+            return fecha;
         }
-        return fecha;
-        }
-
+    
         // Hacer una solicitud AJAX para obtener los datos de la tabla eventos
-        fetch('../Models/obtenerEventos.php')
+        fetch('../controllers/eventosControlador.php')
             .then(response => response.json())
             .then(data => {
                 // Iterar sobre los datos y generar divs para cada evento
@@ -44,19 +44,55 @@
                     divEvento.innerHTML = `
                         <h2>${evento.titulo}</h2>
                         <p>${evento.descripcion}</p>
-                        <p>Fecha de inicio: ${convertirFechaAFormatoDMY(evento.fecha_inicio)}</p>
-                        <p>Fecha de inicio: ${convertirFechaAFormatoDMY(evento.fecha_fin)}</p>
-
+                        <p>Fecha de Inicio: ${convertirFechaAFormatoDMY(evento.fecha_inicio)}</p>
+                        <p>Fecha de Finalizacion: ${convertirFechaAFormatoDMY(evento.fecha_fin)}</p>
+    
                         <img src="${evento.img}" alt="Imagen del evento" class="img">
-                        <br><br>
-                        <a href="reservar.html"><button type="button" class="btn btn-outline-info">Reservar</button></a>
-                    `;
+                        `;
+
+                        const fechaActual = new Date();
+                        const fechaInicioEvento = new Date(evento.fecha_inicio); // Supongo que "evento.fecha_fin" es la fecha de finalización del evento
+                        const fechaFinEvento = new Date(evento.fecha_fin);
+
+                        let botonAInsertar;
+
+                        if (fechaActual > fechaInicioEvento && fechaActual<fechaFinEvento) {
+                            divEvento.innerHTML += `
+                                <br><br>
+                                <button type="button" class="btn btn-outline-info reservar-btn" data-pk-eventos="${evento.pk_eventos}">Reservar</button>
+                                `;                        
+                        } else {
+                            divEvento.innerHTML += `<br><br><button type="button" class="btn btn-outline-secondary reservar-btn" data-pk-eventos="${evento.pk_eventos}">Reservar</button>
+                            `;     
+                        }
+
+
+
+
                     eventosContainer.appendChild(divEvento);
+    
+                    // Agregar un controlador de eventos al botón "Reservar"
+                    const reservarBtn = divEvento.querySelector('.reservar-btn');
+                    reservarBtn.addEventListener('click', function() {
+                        // Obtener el valor de data-pk-eventos del botón
+                        const pkEventos = this.getAttribute('data-pk-eventos');
+    
+                        // Ahora puedes utilizar pkEventos en tu aplicación, por ejemplo, enviarlo al servidor o realizar alguna otra acción específica
+                        console.log('pk_eventos al hacer clic en Reservar:', pkEventos);
+                        
+                        if (fechaActual > fechaInicioEvento && fechaActual<fechaFinEvento) {
+                            window.location.href = `reservar.php?pk_eventos=${pkEventos}`;                       
+                        } else {
+                            alert("No disponible para compras."); 
+                        }
+                        
+                    });
                 });
             })
             .catch(error => {
                 console.error('Error al obtener los datos de eventos:', error);
             });
     </script>
+    
 </body>
 </html>
