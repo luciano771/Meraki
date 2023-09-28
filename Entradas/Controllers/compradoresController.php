@@ -14,6 +14,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dni_actor = $_POST["dni_actor"];
     $cantidad_entradas = $_POST["cantidad_entradas"];
 
+
+    
     $instancia->setEmail($email);
     $instancia->setNombre($nombre);
     $instancia->setApellido($apellido);
