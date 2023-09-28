@@ -50,7 +50,7 @@
             <div class="col-xs-3">
             <input type="file" name="archivo" value="archivo" size="80" />
             <br>
-            <a href="../Models/arch1.xlsx">Descarge archivo de modelo</a>
+            <a href="../Models/Modelo.xlsx">Descarge archivo de modelo</a>
             </div>
             <br>
             <button type="submit" class="btn btn-primary">Cargar evento</button>

@@ -47,18 +47,19 @@ class CompradoresModel {
     }
   
     public function insertarComprador($dni_actor, $id) {
+        $fk_eventos = $this->fk_eventos;
         try {
-            // Iniciar una transacción
+            // CONFIGURAR E Iniciar una transacción con el nivel de aislamiento READ COMMITTED
+            $this->db->exec("SET TRANSACTION ISOLATION LEVEL READ COMMITTED");
             $this->db->beginTransaction();
-    
             // Bloquear la fila del actor con el DNI correspondiente
-            $consulta = "SELECT compra FROM actores WHERE dni = :dni_actor FOR UPDATE";
+            $consulta = "SELECT compra FROM actores WHERE dni = :dni_actor AND fk_eventos = :fk_eventos";
             $stmt = $this->db->prepare($consulta);
             $stmt->bindParam(':dni_actor', $dni_actor, PDO::PARAM_STR);
+            $stmt->bindParam(':fk_eventos', $fk_eventos, PDO::PARAM_INT); // Agregamos esto
             $stmt->execute();
             $compra = $stmt->fetchColumn();
-            
-            if ($compra === null) {
+            if ($compra === false || $compra === null) {
                 // El DNI no existe en la tabla de actores, muestra un mensaje de error o toma medidas adecuadas
                 echo '<script>
                 alert("El dni no esta registrado.");
@@ -78,9 +79,10 @@ class CompradoresModel {
                 echo "Comprador insertado con éxito.";
     
                 // Actualizar el campo "compra" en la tabla "actores" a 1
-                $sql = "UPDATE actores SET compra = 1 WHERE dni = :dni_actor";
+                $sql = "UPDATE actores SET compra = 1 WHERE dni = :dni_actor and fk_eventos = :fk_eventos ";
                 $stmt = $this->db->prepare($sql);
                 $stmt->bindParam(':dni_actor', $dni_actor, PDO::PARAM_STR);
+                $stmt->bindParam(':fk_eventos', $fk_eventos, PDO::PARAM_INT); // Agregamos esto
                 $stmt->execute();
                 echo "Campo compra actualizado con éxito.";
             }

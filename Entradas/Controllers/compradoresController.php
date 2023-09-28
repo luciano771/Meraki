@@ -24,8 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $instancia->setTokenEntrada($clave);
     $id = $_POST['pk_eventos'];
     $instancia ->setFk_eventos($id);
- 
-        $instancia->insertarComprador($dni_actor,$id);
+    $instancia->insertarComprador($dni_actor,$id);
    
 }
  
