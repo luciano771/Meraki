@@ -113,12 +113,12 @@ class CompradoresModel {
         if (mail($to, $subject, $message)) {
             echo '<script>
             alert("Se envio un correo a su email con el codigo de compra. Porfavor revisar en spam en caso de no encontrarlo en la carpeta principal.");
-            window.location.href = "../Views/Eventos.php";
+            window.location.href = "../Views/Eventos.html";
             </script>';
         } else {
             echo '<script>
             alert("Hubo un error al mandar el correo con su codigo de compra. Comunicarse con el organizador del evento para obtenerlo.");
-            window.location.href = "../Views/Eventos.php";
+            window.location.href = "../Views/Eventos.html";
             </script>';
         }
     }
