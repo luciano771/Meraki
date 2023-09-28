@@ -56,7 +56,8 @@
             <button type="submit" class="btn btn-primary">Cargar evento</button>
         </div>
         <br>
-    </form> 
+        
+    </form>  
     <br><br>
 
 
