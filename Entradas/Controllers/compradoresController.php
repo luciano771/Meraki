@@ -53,7 +53,7 @@ function GenerarToken() {
     return $clave;
 }
 
-
+ 
 
 unset($db);
 unset($instancia);
