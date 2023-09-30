@@ -100,6 +100,7 @@ class CompradoresModel {
             $this->db->rollBack();
     
             // Manejar el error de alguna manera adecuada, por ejemplo, lanzando una excepción
+            
             throw new Exception('Error al verificar la compra: ' . $e->getMessage());
         }
     }
