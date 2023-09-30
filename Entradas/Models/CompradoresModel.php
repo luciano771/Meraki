@@ -111,10 +111,10 @@ class CompradoresModel {
     $to = $this->email; // Cambia esto por la dirección de correo a la que quieres enviar el mensaje
     $subject = "Mensaje de contacto de $this->nombre";
     $message = "Nombre: $this->nombre\n";
-    $message .= "La compra de su entrada fue efectiva. El código de compra es el siguiente: $this->TokenEntrada\n";
+    $message .= "La reserva de su entrada para el estudiante con dni $this->dni_actor fue efectiva.\nEl código de compra es el siguiente: $this->TokenEntrada\n";
 
     // Configura los parámetros de correo
-    $headers = "From: pereyraluciano771@gmail.com"; // Reemplaza con tu dirección de correo
+    $headers = "From: team@merakicodelabs.com"; // Reemplaza con tu dirección de correo
 
     // Utiliza la función mail() con el servidor SMTP de Hostinger
     if (mail($to, $subject, $message, $headers)) {
