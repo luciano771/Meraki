@@ -20,11 +20,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $instancia->setDni($dni);
     $instancia->setDni_actor($dni_actor);
     $instancia->setCantidadEntradas($cantidad_entradas);
-    $clave = GenerarToken();
-    $instancia->setTokenEntrada($clave);
+    //$clave = GenerarToken();
+    //$instancia->ConsultarToken();
     $id = $_POST['pk_eventos'];
     $instancia ->setFk_eventos($id);
-    $instancia->insertarComprador($dni_actor,$id);
+    $instancia->insertarComprador();
    
 }
  
@@ -33,24 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-function GenerarToken() {
-    $letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; // Letras disponibles
-    $numeros = '0123456789'; // Números disponibles
-
-    $clave = '';
-
-    // Generar 3 letras aleatorias
-    for ($i = 0; $i < 3; $i++) {
-        $clave .= $letras[rand(0, strlen($letras) - 1)];
-    }
-
-    // Generar 3 números aleatorios
-    for ($i = 0; $i < 3; $i++) {
-        $clave .= $numeros[rand(0, strlen($numeros) - 1)];
-    }
-
-    return $clave;
-}
+ 
 
  
 
