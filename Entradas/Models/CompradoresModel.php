@@ -100,7 +100,7 @@ class CompradoresModel {
             $this->db->rollBack();
     
             // Manejar el error de alguna manera adecuada, por ejemplo, lanzando una excepción
-            
+
             throw new Exception('Error al verificar la compra: ' . $e->getMessage());
         }
     }
@@ -108,26 +108,27 @@ class CompradoresModel {
    
     
     public function enviarMail(){
-       
-        $to = $this->email; // Cambia esto por la dirección de correo a la que quieres enviar el mensaje
-        $subject = "Mensaje de contacto de $this->nombre";
-        $message = "Nombre: $this->nombre\n";
-        $message .= "La compra de su entrada fue efectiva. El codigo de compra es el siguiente: $this->TokenEntrada\n";
+    $to = $this->email; // Cambia esto por la dirección de correo a la que quieres enviar el mensaje
+    $subject = "Mensaje de contacto de $this->nombre";
+    $message = "Nombre: $this->nombre\n";
+    $message .= "La compra de su entrada fue efectiva. El código de compra es el siguiente: $this->TokenEntrada\n";
 
-    
-        // Utiliza la función mail() para enviar el correo (configura la función mail() según tus necesidades)
-        if (mail($to, $subject, $message)) {
-            echo '<script>
-            alert("Se envio un correo a su email con el codigo de compra. Porfavor revisar en spam en caso de no encontrarlo en la carpeta principal.");
-            //window.location.href = "../Views/Eventos.html";
-            </script>';
-        } else {
-            echo '<script>
-            alert("Hubo un error al mandar el correo con su codigo de compra. Comunicarse con el organizador del evento para obtenerlo.");
-            //window.location.href = "../Views/Eventos.html";
-            </script>';
-        }
+    // Configura los parámetros de correo
+    $headers = "From: pereyraluciano771@gmail.com"; // Reemplaza con tu dirección de correo
+
+    // Utiliza la función mail() con el servidor SMTP de Hostinger
+    if (mail($to, $subject, $message, $headers)) {
+        echo '<script>
+        alert("Se envió un correo a su email con el código de compra. Por favor, revisa la carpeta de spam en caso de no encontrarlo en la bandeja de entrada.");
+        //window.location.href = "../Views/Eventos.html";
+        </script>';
+    } else {
+        echo '<script>
+        alert("Hubo un error al enviar el correo con el código de compra. Comunícate con el organizador del evento para obtenerlo.");
+        //window.location.href = "../Views/Eventos.html";
+        </script>';
     }
+}
 
 
     public function ConsultarToken(){
