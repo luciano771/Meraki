@@ -13,9 +13,9 @@ class SessionesModel
     public function setSession(){
         $this->session = $this->session_usuarios();
     }
-    public function setPrimerasSessiones(){
-        $this->session = $this->ConsultaSessiones();
-    }
+    // public function setPrimerasSessiones(){
+    //     $this->session = $this->ConsultaSessiones();
+    // }
     public function setListadoSessiones(){
         $this->ListadoSessiones = $this->SessionListado();
     }
@@ -74,26 +74,26 @@ class SessionesModel
             }       
     }
 
-    public function ConsultaSessiones(){
-        $this->setSession();
-        try{
-            $sql = "SELECT MIN(id_sessiones) FROM sessiones";
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute();
-            $id_sessiones = $stmt->fetchColumn();
-            echo "consulta realizada con éxito.<br>";       
-        }
-        catch(PDOException $e){
-            $id_sessiones = null;
-            echo $e;
-        }
-        return $id_sessiones;
-    }
+    // public function ConsultaSessiones(){
+    //     $this->setSession();
+    //     try{
+    //         $sql = "SELECT MIN(id_sessiones) FROM sessiones";
+    //         $stmt = $this->db->prepare($sql);
+    //         $stmt->execute();
+    //         $id_sessiones = $stmt->fetchColumn();
+    //         echo "consulta realizada con éxito.<br>";       
+    //     }
+    //     catch(PDOException $e){
+    //         $id_sessiones = null;
+    //         echo $e;
+    //     }
+    //     return $id_sessiones;
+    // }
 
     public function ConsultaSessionesMin(){
         $this->setSession();
         try{
-            $sql = "SELECT MIN(sessiones) FROM sessiones";
+            $sql = "SELECT sessiones FROM sessiones where id_sessiones =  (SELECT MIN(id_sessiones) FROM sessiones);";
             $stmt = $this->db->prepare($sql);
             $stmt->execute();
             $id_sessiones = $stmt->fetchColumn();
