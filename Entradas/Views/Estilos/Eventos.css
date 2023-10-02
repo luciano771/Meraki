@@ -4,20 +4,42 @@
     font: arial;
 }
 
-header{
+/* Estilos para el encabezado */
+header {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    justify-content: space-between; /* Alinea los elementos a los extremos (izquierda y derecha) del contenedor */
+    align-items: center; /* Alinea verticalmente en el centro */
+    padding: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     width: 100%;
-     
 }
 
-.cabecera{
-    padding: 10px;
+/* Estilos para el título */
+#titulo {
+    flex: 1; /* Ocupa todo el espacio disponible restante */
+    text-align: center; /* Centra el texto horizontalmente */
+   
+    
 }
 
+/* Estilos para el h2 dentro del título */
+#titulo h2 {
+    margin-left: 270px; /* Elimina el margen por defecto del h2 */
+}
+
+/* Estilos para sessiones-listado */
+#sessiones-listado {
+ 
+    text-align: right; /* Alinea el texto hacia la derecha dentro del contenedor */
+    padding: 5px; /* Agrega un espacio entre el texto y el borde del contenedor */
+    width: 260px; /* Ancho deseado */
+}
+
+
+ 
+ 
+
+ 
 
 
 #eventos-container {

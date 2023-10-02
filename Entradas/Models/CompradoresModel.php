@@ -51,6 +51,7 @@ class CompradoresModel {
             $stmt->bindParam(':dni_actor', $this->dni_actor, PDO::PARAM_STR);
             $stmt->bindParam(':fk_eventos', $this->fk_eventos, PDO::PARAM_INT); // Agregamos esto
             $stmt->execute();
+            $this->db->commit();
             $compra = $stmt->fetchColumn();
             if ($compra === false || $compra === null) {
                 // El DNI no existe en la tabla de actores, muestra un mensaje de error o toma medidas adecuadas
@@ -65,7 +66,8 @@ class CompradoresModel {
                 //window.location.href = "../Views/reservar.php?pk_eventos=' . $this->fk_eventos . '";
                 </script>';
             } else {
-
+                $this->db->exec("SET TRANSACTION ISOLATION LEVEL READ COMMITTED");
+                $this->db->beginTransaction();
                 // No se ha realizado una compra, proceder con la inserción y actualización
                 $sql = "INSERT INTO comprador (email, nombre, apellido, dni, cantidad_entradas, CodigoEntrada, fk_eventos) VALUES (:email, :nombre, :apellido, :dni, :cantidad_entradas, :TokenEntrada, :fk_eventos)";
                 $stmt = $this->db->prepare($sql);
@@ -76,31 +78,30 @@ class CompradoresModel {
                 $stmt->bindParam(':cantidad_entradas', $this->cantidad_entradas, PDO::PARAM_INT);
                 $stmt->bindParam(':TokenEntrada', $this->TokenEntrada, PDO::PARAM_STR);
                 $stmt->bindParam(':fk_eventos', $this->fk_eventos, PDO::PARAM_INT);
+                $this->db->commit();
                 $stmt->execute();
                 echo "Comprador insertado con éxito.";
-
-    
                 // Actualizar el campo "compra" en la tabla "actores" a 1
+
+
+                $this->db->exec("SET TRANSACTION ISOLATION LEVEL READ COMMITTED");
+                $this->db->beginTransaction();
                 $sql = "UPDATE actores SET compra = 1 WHERE dni = :dni_actor and fk_eventos = :fk_eventos ";
                 $stmt = $this->db->prepare($sql);
                 $stmt->bindParam(':dni_actor', $this->dni_actor, PDO::PARAM_STR);
                 $stmt->bindParam(':fk_eventos', $this->fk_eventos, PDO::PARAM_INT); // Agregamos esto
+                $this->db->commit();
                 $stmt->execute();
                 echo "Campo compra actualizado con éxito.";
+
+                $this->enviarMail();
             }
     
             // Confirmar la transacción
-            $this->db->commit();
-            echo '<script>
-            alert("Compra realizada con exito!.");
-            </script>';
-            $this->enviarMail();
-        } catch (PDOException $e) {
+         } catch (PDOException $e) {
             // Si hay un error, deshacer la transacción
             $this->db->rollBack();
-    
             // Manejar el error de alguna manera adecuada, por ejemplo, lanzando una excepción
-
             throw new Exception('Error al verificar la compra: ' . $e->getMessage());
         }
     }
@@ -143,7 +144,7 @@ class CompradoresModel {
             $token = $token + 1;
         }
         else{
-            $token= 1;
+            $token= 100000;
         }
 
         }

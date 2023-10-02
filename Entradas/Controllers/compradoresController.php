@@ -1,10 +1,15 @@
 <?php
 
 include_once('../Models/CompradoresModel.php');
+include_once('../Models/SessionesModel.php');
 include_once('../Models/Conexion.php');
 
 $db = new conexion();
 $instancia = new CompradoresModel($db);
+$instancia2 = new SessionesModel($db);
+
+ 
+ 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
@@ -25,6 +30,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['pk_eventos'];
     $instancia ->setFk_eventos($id);
     $instancia->insertarComprador();
+
+    if (isset($_POST['activo']) && $_POST['activo'] === 'no') {
+ 
+        $instancia2->BorrarSession();
+        session_destroy();
+    
+    } 
+    
    
 }
  
@@ -39,5 +52,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 unset($db);
 unset($instancia);
-
+unset($instancia2);
 ?>

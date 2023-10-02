@@ -9,12 +9,14 @@
 </head>
 <body>
     <header>
-        <div class="cabecera">
+        <div id="titulo">
             <h2>Eventos disponibles</h2>
+        </div>
+            <div id="sessiones-listado">
         </div>
      </header>
 
-   
+    
  
      <section>
         <div id="eventos-container"></div>
@@ -33,7 +35,7 @@
         }
     
         // Hacer una solicitud AJAX para obtener los datos de la tabla eventos
-        fetch('../Controllers/eventosControlador.php')
+        fetch('../Controllers/eventosControlador.php?consultarEventos=true')
             .then(response => response.json())
             .then(data => {
                 // Iterar sobre los datos y generar divs para cada evento
@@ -59,14 +61,12 @@
                         if (fechaActual > fechaInicioEvento && fechaActual<fechaFinEvento) {
                             divEvento.innerHTML += `
                                 <br><br>
-                                <button type="button" class="btn btn-outline-info reservar-btn" data-pk-eventos="${evento.pk_eventos}">Reservar</button>
+                                <button type="button" class="btn btn-outline-info reservar-btn" data-pk-eventos="${evento.pk_eventos}" >Reservar</button>
                                 `;                        
                         } else {
-                            divEvento.innerHTML += `<br><br><button type="button" class="btn btn-outline-secondary reservar-btn" data-pk-eventos="${evento.pk_eventos}">Reservar</button>
+                            divEvento.innerHTML += `<br><br><button type="button" class="btn btn-outline-secondary reservar-btn" data-pk-eventos="${evento.pk_eventos}" >Reservar</button>
                             `;     
                         }
-
-
 
 
                     eventosContainer.appendChild(divEvento);
@@ -81,7 +81,7 @@
                         console.log('pk_eventos al hacer clic en Reservar:', pkEventos);
                         
                         if (fechaActual > fechaInicioEvento && fechaActual<fechaFinEvento) {
-                            window.location.href = `reservar.php?pk_eventos=${pkEventos}`;                       
+                            VerificarOrden(pkEventos);                      
                         } else {
                             alert("No disponible para compras."); 
                         }
@@ -92,6 +92,97 @@
             .catch(error => {
                 console.error('Error al obtener los datos de eventos:', error);
             });
+
+            const sessionesContainer = document.getElementById("sessiones-listado")
+
+            fetch('../Controllers/sessionesController.php')
+            .then(response => response.json())
+            .then(data => {
+                // Verifica que data sea un array
+ 
+                // Verifica que la propiedad "sessiones" exista en el objeto
+                if (Array.isArray(data)) {
+                const divSessiones = document.createElement('div');
+                divSessiones.className = 'divSessiones';
+                divSessiones.innerHTML = `
+                    <h6>Cantidad de usuarios en session: ${data.length}</h6>
+                `;
+                sessionesContainer.appendChild(divSessiones);
+                }
+                            
+            })
+            .catch(error => {
+                console.error('Error al obtener los usuarios en espera:', error);
+            });
+
+           
+
+            
+            window.addEventListener("beforeunload", function (e) {
+                console.log("Evento beforeunload disparado"); // Agrega un mensaje de depuración en la consola
+
+                enviarSolicitudPOSTParaCerrarSesion();
+            });
+       
+
+            function enviarSolicitudPOSTParaCerrarSesion() {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "../Controllers/eventosControlador.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        // La solicitud POST se ha completado con éxito
+                        // Puedes mostrar un mensaje o realizar otras acciones aquí
+                    }
+                };
+                xhr.send("activo=no");
+            }
+
+
+        // Obtén el estado de sesión del servidor y configúralo en estadoSession
+ 
+        function enviarHeartbeat() {
+            fetch("../Controllers/eventosControlador.php?ESTADOSESSION=ESTADO")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error en la solicitud AJAX");
+                    }
+                    return response.text();
+                    
+                })
+                .catch(error => {
+                    // Maneja errores en la solicitud AJAX
+                    console.error("Error en la solicitud AJAX:", error);
+                });
+        }
+
+        setInterval(enviarHeartbeat, 1000); // por seg
+
+ 
+        function VerificarOrden(pkEventos) {
+            fetch("../Controllers/eventosControlador.php?VerificarOrden=true")
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error en la solicitud AJAX");
+                    }
+                    return response.text();
+                })
+                .then(data => {
+                    data = data.trim(); // Elimina espacios en blanco y caracteres no deseados
+                    if (data === "true") {
+                        window.location.href = `reservar.php?pk_eventos=${pkEventos}`;
+                    } else {
+                        alert("Debe esperar en la fila para reservar la entrada");
+                    }
+                })
+                .catch(error => {
+                    // Maneja errores en la solicitud AJAX
+                    console.error("Error en la solicitud AJAX:", error);
+                });
+        }
+
+
+
     </script>
     
 </body>

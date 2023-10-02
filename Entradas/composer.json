@@ -1,5 +1,6 @@
 {
     "require": {
-        "box/spout": "^3.3"
+        "box/spout": "^3.3",
+        "cboden/ratchet": "^0.4.4"
     }
 }

@@ -1,19 +1,154 @@
 <?php
-
+require_once 'Conexion.php';
 class SessionesModel  
 {   
-    private $db; // Almacena la instancia de la conexión a la base de datos
+    private $db; 
     private $session;
+    private $PrimerasSessiones;
+    private $ListadoSessiones;
 
-
+    public function __construct($db) {
+        $this->db = $db;
+    }
+    public function setSession(){
+        $this->session = $this->session_usuarios();
+    }
+    public function setPrimerasSessiones(){
+        $this->session = $this->ConsultaSessiones();
+    }
+    public function setListadoSessiones(){
+        $this->ListadoSessiones = $this->SessionListado();
+    }
+    
+    public function getSession() {
+        return $this->session;
+    }
+    public function getListadoSessiones() {
+        return $this->ListadoSessiones;
+    }
     public function session_usuarios(){
         // Iniciar una sesión de PHP si aún no ha sido iniciada
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        // Obtener el ID de la sesión
-        $this->session = session_id();
+        return session_id();
     }
+    public function InsertarSession(){
+        $this->setSession();
+        if(!$this->SessionBool()){
+            try{
+                $this->session = session_id();
+                $this->db->exec("SET TRANSACTION ISOLATION LEVEL READ COMMITTED");
+                $this->db->beginTransaction();
+                $sql = "INSERT INTO sessiones (sessiones) VALUES (:sessiones)";
+                $stmt = $this->db->prepare($sql);
+                $stmt->bindParam(':sessiones', $this->session, PDO::PARAM_STR);
+                $stmt->execute();
+                $this->db->commit();
+                echo "session insertada con éxito. <br>";       
+            }
+            catch(PDOException $e){
+                $this->db->rollBack();
+                throw new Exception('Error al insertar la session: ' . $e->getMessage());
+            } 
+        }  
+         
+    }
+
+    public function BorrarSession(){
+        $this->setSession();
+            try{
+                $this->session = session_id();
+                $this->db->exec("SET TRANSACTION ISOLATION LEVEL READ COMMITTED");
+                $this->db->beginTransaction();
+                $sql = "DELETE FROM sessiones WHERE sessiones = :sessiones";
+                $stmt = $this->db->prepare($sql);
+                $stmt->bindParam(':sessiones', $this->session, PDO::PARAM_STR);
+                $stmt->execute();
+                $this->db->commit();
+                echo "session borrada con éxito. <br>";       
+            }
+            catch(PDOException $e){
+                $this->db->rollBack();
+                throw new Exception('Error al borrar la session: ' . $e->getMessage());
+            }       
+    }
+
+    public function ConsultaSessiones(){
+        $this->setSession();
+        try{
+            $sql = "SELECT MIN(id_sessiones) FROM sessiones";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            $id_sessiones = $stmt->fetchColumn();
+            echo "consulta realizada con éxito.<br>";       
+        }
+        catch(PDOException $e){
+            $id_sessiones = null;
+            echo $e;
+        }
+        return $id_sessiones;
+    }
+
+    public function ConsultaSessionesMin(){
+        $this->setSession();
+        try{
+            $sql = "SELECT MIN(sessiones) FROM sessiones";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            $id_sessiones = $stmt->fetchColumn();
+                 
+        }
+        catch(PDOException $e){
+            $id_sessiones = null;
+            echo $e;
+        }
+        return $id_sessiones;
+    }
+
+    public function SessionListado(){
+        $this->setSession();
+        try{
+            $sql = "SELECT sessiones FROM sessiones";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute();
+            $id_sessiones = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        catch(PDOException $e){
+            $id_sessiones = null;
+            echo $e; 
+        }
+        return $id_sessiones; 
+    }
+
+    public function SessionBool(){
+        
+        $listadoSessiones = $this->SessionListado();
+        $guardada = false;
+        foreach ($listadoSessiones as $fila) {
+            if($fila['sessiones'] == $this->session){
+                $guardada = true;
+            }
+        }
+        return $guardada;
+
+    }
+
+    public function SessionFilas() {
+        $this->setSession();
+        if ($this->session == $this->ConsultaSessionesMin()) {
+            return true; // Tu sesión tiene el valor más pequeño
+        } else {
+            return false; // Tu sesión no tiene el valor más pequeño
+        }
+    }
+    
+
+
+    
+
+
+
 }
 
 ?>

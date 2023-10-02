@@ -60,9 +60,7 @@ class EventosModel
         try{
         $consulta = "SELECT * FROM eventos";
         $stmt = $this->db->query($consulta);
-
         $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
         header('Content-Type: application/json');
         echo json_encode($resultados);
         } catch (PDOException $e) {
