@@ -15,14 +15,13 @@ if (isset($_POST['activo']) && $_POST['activo'] == 'no') {
 } 
 
 if (isset($_GET['ESTADOSESSION']) && $_GET['ESTADOSESSION'] == 'ESTADO') {
-    if (session_status() == PHP_SESSION_NONE) {
+    if (session_status() == PHP_SESSION_ACTIVE) {
+        echo 'Ya posee una sesión activa.';
+    } else {
         header('Location: ../index.php');
     }
-    else{
-        echo'ya posee una session';
-    }
-     
-} 
+}
+
 
 if (isset($_GET['VerificarOrden']) && $_GET['VerificarOrden'] == 'true') {
      $sessionOrden = $instancia2->SessionFilas();
