@@ -139,24 +139,25 @@
             }
 
 
-        // Obtén el estado de sesión del servidor y configúralo en estadoSession
+        
+        //    Obtén el estado de sesión del servidor y configúralo en estadoSession
  
-        // function enviarHeartbeat() {
-        //         fetch("../Controllers/eventosControlador.php?ESTADOSESSION=ESTADO")
-        //             .then(response => {
-        //                 if (!response.ok) {
-        //                     throw new Error("Error en la solicitud AJAX");
-        //                 }
-        //                 return response.text();
+        function enviarHeartbeat() {
+                fetch("../Controllers/eventosControlador.php?ESTADOSESSION=ESTADO")
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Error en la solicitud AJAX");
+                        }
+                        return response.text();
 
-        //             })
-        //             .catch(error => {
-        //                 // Maneja errores en la solicitud AJAX
-        //                 console.error("Error en la solicitud AJAX:", error);
-        //             });
-        //     }
+                    })
+                    .catch(error => {
+                        // Maneja errores en la solicitud AJAX
+                        console.error("Error en la solicitud AJAX:", error);
+                    });
+            }
 
-        //setInterval(enviarHeartbeat, 1000); // por seg
+        setInterval(enviarHeartbeat, 1000); // por seg
 
  
         function VerificarOrden(pkEventos) {
