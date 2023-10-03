@@ -10,6 +10,16 @@ header .cabecera{
     padding: 10px;
 }
 
+.principal{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:10px;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
 form{
     
     display: flex;
@@ -31,6 +41,37 @@ form{
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     border-radius: 25px;
     border: 1px solid #ddd;
-    
 
 }
+
+#administrador{
+    padding: 10px;
+    max-width: 600px;
+    max-height: 1100px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 25px;
+    border: 1px solid #ddd;
+    margin-top:50px;
+ 
+ }
+
+ 
+
+.eventoPanel p{
+
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 25px;
+    border: 1px solid #ddd;
+    margin: 15px;
+    text-align: center;
+    padding: 1px;
+
+}
+.eventoPanel p button{
+    margin: 5px;
+    text-align: center;
+}
+ 
+ 
+ 

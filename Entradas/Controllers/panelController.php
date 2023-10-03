@@ -80,6 +80,21 @@ $instancia2 = new ActoresModel($db);
             
             echo '<script>alert("fila es nulo. Por favor, complete todos los campos antes de continuar.");</script>';
         }
+     }
+
+
+    if($_SERVER["REQUEST_METHOD"] == "GET"){
+        if($_GET["TraerEventos"]=="true"){
+            $instancia->ObtenerEventos();
+            if(isset($_GET["accion"]) && $_GET["accion"]=="modificar"){
+                $pkevento = $_GET["pkEvento"];
+                //hago un update 
+            }
+            else if(isset($_GET["accion"]) && $_GET["accion"]=="eliminar"){
+                $pkevento = $_GET["pkEvento"];
+                //elimino el evento y los actores de ese evento.
+            }
+        }
     }
 
     

@@ -46,12 +46,9 @@
                     divEvento.innerHTML = `
                         <h2>${evento.titulo}</h2>
                         <p>${evento.descripcion}</p>
-                        <p>Fecha de Inicio: ${convertirFechaAFormatoDMY(evento.fecha_inicio)}</p>
-                        <p>Fecha de Finalizacion: ${convertirFechaAFormatoDMY(evento.fecha_fin)}</p>
-    
+                        <p>Fecha de Inicio: ${convertirFechaAFormatoDMY(evento.fecha_inicio)}</p>   
                         <img src="${evento.img}" alt="Imagen del evento" class="img">
                         `;
-
                         const fechaActual = new Date();
                         const fechaInicioEvento = new Date(evento.fecha_inicio); // Supongo que "evento.fecha_fin" es la fecha de finalización del evento
                         const fechaFinEvento = new Date(evento.fecha_fin);
