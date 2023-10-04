@@ -68,6 +68,21 @@ class EventosModel
         }
     }   
 
+    public function ObtenerEventosPorId($pkevento){
+
+        try{
+        $consulta = "SELECT * FROM eventos where pk_eventos= :pkevento";
+        $stmt = $this->db->prepare($consulta);
+        $stmt->bindParam(':pkevento', $pkevento, PDO::PARAM_INT); 
+        $stmt->execute();
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        header('Content-Type: application/json');
+        echo json_encode($resultados);
+        } catch (PDOException $e) {
+        echo 'Error: ' . $e->getMessage();
+        }
+    }   
+
      
 
 }

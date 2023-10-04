@@ -23,8 +23,6 @@
             <p>Recuerde no cerrar ni actualizar la pagina ya que perdera su turno. </p>  
         </div>
     </section>
-
-
     <script>
 
 

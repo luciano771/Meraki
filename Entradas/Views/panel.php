@@ -53,7 +53,7 @@
                     <a href="../Models/Modelo.xlsx">Descarge archivo de modelo</a>
                     </div>
                     <br>
-                    <button type="submit" class="btn btn-primary">Cargar evento</button>
+                    <button type="submit" id ="boton" class="btn btn-primary">Cargar evento</button>
                 </div>
             </form>
             <div id="administrador"></div>       
@@ -85,23 +85,29 @@
                                 Btn.addEventListener("click", function() {
                                     const pkEventos = this.getAttribute('pkeventos');
                                     const accion = this.getAttribute('accion');
-                                    //MandarGet(pkEventos,accion);
-                                    console.log('pkeventos es:', pkEventos," y la accion es: ",accion);     
-                        });
+                                    console.log('pkeventos es:', pkEventos," y la accion es: ",accion);
+                                    if(accion=='modificar'){
+                                            MandarGet(pkEventos, accion)
+                                            .then(data => {
+                                                if(data.length>0){
+                                                    const evento = data[0];
+                                                    console.log("Respuesta JSON:", evento);
+                                                    document.getElementById('Titulo').value = evento.titulo;
+                                                    document.getElementById('Descripcion').value = evento.descripcion;
+                                                    document.getElementById('Fecha_inicio').value = evento.fecha_inicio;
+                                                    document.getElementById('Fecha_fin').value = evento.fecha_fin;
+                                                    document.getElementById('boton').innerText = "Actualizar";
+                                                }
+                                            })
+                                        .catch(error => {
+                                            console.error("Error en la solicitud AJAX:", error);
+                                        });
+                                    }else{
+
+                                    }
+                                      
+                         });
                     });
- 
-
-
-
-
-
-
-               
-                   
-            
-
-
-
                 });
             })
             .catch(error => {
@@ -111,19 +117,30 @@
 
 
 
-            function MandarGet(pkEventos,accion){
-                fetch("../Controllers/panelController.php?accion=${accion}$pkEvento=${pkEventos}")
+            function MandarGet(pkEventos, accion) {
+                const url = `../Controllers/panelController.php?accion=${accion}&pkEvento=${pkEventos}`;
+                return fetch(url)
                     .then(response => {
                         if (!response.ok) {
                             throw new Error("Error en la solicitud AJAX");
                         }
-                        return response.text();
-                    })
-                    .catch(error => {
-                        // Maneja errores en la solicitud AJAX
-                        console.error("Error en la solicitud AJAX:", error);
+                        return response.json();
                     });
             }
+
+            // function ActualizarEvento(pkEventos, accion) {
+            //     const url = `../Controllers/panelController.php?accion=${accion}&pkEvento=${pkEventos}`;
+            //     return fetch(url)
+            //         .then(response => {
+            //             if (!response.ok) {
+            //                 throw new Error("Error en la solicitud AJAX");
+            //             }
+            //             return response.json();
+            //         });
+            // }
+
+            
+
 
 
 

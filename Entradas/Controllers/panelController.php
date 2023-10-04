@@ -1,6 +1,12 @@
 <?php
+require '../vendor/autoload.php'; // Carga la biblioteca Spout
+use Box\Spout\Common\Entity\Row;
+use Box\Spout\Common\Entity\Cell;
+use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
 include '../Models/EventosModel.php';
 include '../Models/ActoresModel.php';
+ 
+
 $db = new conexion();
 $instancia = new EventosModel($db);
 $instancia2 = new ActoresModel($db);
@@ -82,20 +88,67 @@ $instancia2 = new ActoresModel($db);
         }
      }
 
-
     if($_SERVER["REQUEST_METHOD"] == "GET"){
-        if($_GET["TraerEventos"]=="true"){
+        if(isset($_GET["TraerEventos"]) &&$_GET["TraerEventos"]=="true"){
             $instancia->ObtenerEventos();
-            if(isset($_GET["accion"]) && $_GET["accion"]=="modificar"){
-                $pkevento = $_GET["pkEvento"];
-                //hago un update 
-            }
-            else if(isset($_GET["accion"]) && $_GET["accion"]=="eliminar"){
-                $pkevento = $_GET["pkEvento"];
-                //elimino el evento y los actores de ese evento.
-            }
+        }
+        if(isset($_GET["Listado"]) && $_GET["Listado"]=="true" && isset($_GET["pkEvento"])){
+            $resultado = $instancia2->ObtenerActoresPorId($_GET["pkEvento"]);
+            generarArchivoXLSX($resultado);
+
+             
+        }
+        if(isset($_GET["accion"]) && $_GET["accion"]=="modificar"&& isset($_GET["pkEvento"])){
+            $instancia->ObtenerEventosPorId($_GET["pkEvento"]);
+        }
+        else if(isset($_GET["accion"]) && $_GET["accion"]=="eliminar"){
+            $pkevento = $_GET["pkEvento"];
+            //elimino el evento y los actores de ese evento.
         }
     }
+    
+
+
+ 
+    function generarArchivoXLSX($jsonData) {
+        $data = json_decode($jsonData, true);
+    
+        // Nombre del archivo de salida
+        $nombreArchivo = "datos.xlsx";
+    
+        // Crea un escritor (Writer) para el archivo Excel
+        $writer = WriterEntityFactory::createXLSXWriter();
+    
+        // Abre el archivo Excel para escritura
+        $writer->openToFile($nombreArchivo);
+    
+        // Escribe encabezados
+        $headerRow = WriterEntityFactory::createRowFromArray(['Nombre', 'Apellido', 'DNI']);
+        $writer->addRow($headerRow);
+    
+        // Llena la hoja de cálculo con los datos
+        foreach ($data as $row) {
+            $rowData = WriterEntityFactory::createRow();
+            foreach ($row as $value) {
+                $cell = WriterEntityFactory::createCell($value);
+                $rowData->addCell($cell);
+            }
+            $writer->addRow($rowData);
+        }
+    
+        // Cierra el archivo Excel
+        $writer->close();
+    
+        // Descargar el archivo XLSX
+        header("Content-Type: application/octet-stream");
+        header("Content-Disposition: attachment; filename=$nombreArchivo");
+        readfile($nombreArchivo);
+    
+        // Elimina el archivo temporal después de enviarlo al cliente (opcional)
+        unlink($nombreArchivo);
+        exit;
+    }
+    
 
     
 unset($db);

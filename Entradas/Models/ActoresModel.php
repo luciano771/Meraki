@@ -73,6 +73,23 @@ class ActoresModel {
         }
     }
 
+    public function ObtenerActoresPorId($pkevento){
+
+        try{
+        $consulta = "SELECT nombre,apellido,dni FROM actores where fk_eventos= :pkevento";
+        $stmt = $this->db->prepare($consulta);
+        $stmt->bindParam(':pkevento', $pkevento, PDO::PARAM_INT); 
+        $stmt->execute();
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if($resultados==null){
+            $resultados=null;
+        }
+        header('Content-Type: application/json');
+        return json_encode($resultados);
+        } catch (PDOException $e) {
+        return 'Error: ' . $e->getMessage();
+        }
+    }   
 
 }
 
