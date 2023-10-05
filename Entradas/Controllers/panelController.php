@@ -1,8 +1,9 @@
 <?php
 require '../vendor/autoload.php'; // Carga la biblioteca Spout
-use Box\Spout\Common\Entity\Row;
-use Box\Spout\Common\Entity\Cell;
-use Box\Spout\Writer\Common\Creator\WriterEntityFactory;
+ 
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 include '../Models/EventosModel.php';
 include '../Models/ActoresModel.php';
  
@@ -94,9 +95,30 @@ $instancia2 = new ActoresModel($db);
         }
         if(isset($_GET["Listado"]) && $_GET["Listado"]=="true" && isset($_GET["pkEvento"])){
             $resultado = $instancia2->ObtenerActoresPorId($_GET["pkEvento"]);
-            generarArchivoXLSX($resultado);
+            $bool = $instancia2->ConsultarListado($_GET["pkEvento"]);
+            if($bool!=null){
+                $jsonData = json_encode($resultado);
+                generarExcelActores($jsonData);
+            }
+            else{
+                echo '
+                <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Página Actual</title>
+                        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+                    </head>
+                    <body>
+                        <h4>No hay un listado de actores asociado al evento seleccionado</h4>
+                        <!-- Tu contenido de página actual aquí -->
 
-             
+                        <!-- Botón "Volver" que redirige al usuario a la página anterior -->
+                        &nbsp; <a href="javascript:history.back()" class="btn btn-primary">Volver</a>
+                    </body>
+                </html>';
+            }
+            
+            
         }
         if(isset($_GET["accion"]) && $_GET["accion"]=="modificar"&& isset($_GET["pkEvento"])){
             $instancia->ObtenerEventosPorId($_GET["pkEvento"]);
@@ -108,48 +130,39 @@ $instancia2 = new ActoresModel($db);
     }
     
 
+    function generarExcelActores($jsonData) {
+    // Decodifica el JSON en un array asociativo
+    $datos = json_decode($jsonData, true);
 
- 
-    function generarArchivoXLSX($jsonData) {
-        $data = json_decode($jsonData, true);
-    
-        // Nombre del archivo de salida
-        $nombreArchivo = "datos.xlsx";
-    
-        // Crea un escritor (Writer) para el archivo Excel
-        $writer = WriterEntityFactory::createXLSXWriter();
-    
-        // Abre el archivo Excel para escritura
-        $writer->openToFile($nombreArchivo);
-    
-        // Escribe encabezados
-        $headerRow = WriterEntityFactory::createRowFromArray(['Nombre', 'Apellido', 'DNI']);
-        $writer->addRow($headerRow);
-    
-        // Llena la hoja de cálculo con los datos
-        foreach ($data as $row) {
-            $rowData = WriterEntityFactory::createRow();
-            foreach ($row as $value) {
-                $cell = WriterEntityFactory::createCell($value);
-                $rowData->addCell($cell);
-            }
-            $writer->addRow($rowData);
+    // Abre el archivo CSV para escritura
+    $nombreArchivo = "datos.csv";
+    $archivo = fopen($nombreArchivo, "w");
+
+    if ($archivo) {
+         
+        fputcsv($archivo,[],' '); // Usar un espacio como separador, SEGUNDO ARGUMENTO SON LOS ENCABEZADOS.
+
+        // Escribe los datos en el archivo CSV
+        foreach ($datos as $dato) {
+            fputcsv($archivo, $dato, ' '); // Usar un espacio como separador
         }
-    
-        // Cierra el archivo Excel
-        $writer->close();
-    
-        // Descargar el archivo XLSX
-        header("Content-Type: application/octet-stream");
-        header("Content-Disposition: attachment; filename=$nombreArchivo");
+
+        fclose($archivo);
+
+        // Configura la respuesta HTTP para descargar el archivo
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename=datos.csv');
         readfile($nombreArchivo);
-    
-        // Elimina el archivo temporal después de enviarlo al cliente (opcional)
+
+        // Elimina el archivo después de enviarlo al cliente (opcional)
         unlink($nombreArchivo);
         exit;
+    } else {
+        echo "No se pudo abrir el archivo temporal para escritura.";
     }
-    
+}
 
+    
     
 unset($db);
 unset($instancia);

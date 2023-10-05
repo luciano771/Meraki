@@ -29,7 +29,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //$instancia->ConsultarToken();
     $id = $_POST['pk_eventos'];
     $instancia ->setFk_eventos($id);
-    $instancia->insertarComprador();
+    if($instancia->insertarComprador()){
+        $instancia2->BorrarSession();
+        session_destroy();
+        header('Location: ../Views/Sala.php?pk_evento='.$_GET["pk_eventos"].'');
+    }
 
     if (isset($_POST['activo']) && $_POST['activo'] === 'no') {
  
@@ -37,9 +41,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         session_destroy();
     
     } 
+
     
    
 }
+ 
+
  
 
 

@@ -31,8 +31,9 @@ section {
 
 .principal p {
     padding: 9px;
-    color: rgb(4, 62, 88);;
+    color: rgb(4, 62, 88);
 }
+ 
 
 #contenedor{ 
     display: grid;
@@ -40,7 +41,7 @@ section {
     place-content: center;
     height: 200px;
     color: #000;
-  }
+}
  
   .cargando{ 
     position: relative; 

@@ -92,9 +92,8 @@ class CompradoresModel {
                 $stmt->bindParam(':fk_eventos', $this->fk_eventos, PDO::PARAM_INT); // Agregamos esto
                 $this->db->commit();
                 $stmt->execute();
-                echo "Campo compra actualizado con éxito.";
-
                 $this->enviarMail();
+                $bool = true;
             }
     
             // Confirmar la transacción
@@ -102,8 +101,12 @@ class CompradoresModel {
             // Si hay un error, deshacer la transacción
             $this->db->rollBack();
             // Manejar el error de alguna manera adecuada, por ejemplo, lanzando una excepción
+            $bool = false;
             throw new Exception('Error al verificar la compra: ' . $e->getMessage());
+ 
         }
+
+        return $bool;
     }
     
    

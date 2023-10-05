@@ -83,7 +83,56 @@ class EventosModel
         }
     }   
 
+    public function Obtenerfecha($pkevento){
+
+        try{
+        $consulta = "SELECT fecha_inicio,fecha_fin FROM eventos where pk_eventos= :pkevento";
+        $stmt = $this->db->prepare($consulta);
+        $stmt->bindParam(':pkevento', $pkevento, PDO::PARAM_INT); 
+        $stmt->execute();
+        $resultados = $stmt->fetch();
+        return $resultados;
+        } catch (PDOException $e) {
+        echo 'Error: ' . $e->getMessage();
+        return null;
+        }
+    }  
+
+    public function ActualizarEvento($pkevento){
+
+        try{
+        $consulta =  "UPDATE eventos 
+        SET 
+            titulo = :titulo, 
+            descripcion = :descripcion, 
+            fecha_inicio = :fecha_inicio, 
+            fecha_fin = :fecha_fin,
+            img = :img
+        WHERE 
+            pk_eventos = :pkevento";
+        $stmt = $this->db->prepare($consulta);
+        $stmt->bindParam(':pkevento', $pkevento, PDO::PARAM_INT); 
+        $stmt->bindParam(':titulo', $pkevento, PDO::PARAM_INT);
+        $stmt->bindParam(':descripcion', $pkevento, PDO::PARAM_INT);
+        $stmt->bindParam(':fecha_inicio', $pkevento, PDO::PARAM_INT);
+        $stmt->bindParam(':fecha_fin', $pkevento, PDO::PARAM_INT);
+        $stmt->bindParam(':img', $pkevento, PDO::PARAM_INT);
+        if ($stmt->execute()) {
+            echo "Evento actualizado correctamente";
+        } else {
+            echo "Error al actualizar el evento: " . $stmt->errorInfo()[2];
+        }
+        } catch (PDOException $e) {
+        echo 'Error: ' . $e->getMessage();
+        }
+    }   
+    
+    public function borrarEvento($pkevento){
+        //borro el listdo de alumnos y despues el evento
+    }   
      
+
+
 
 }
 
