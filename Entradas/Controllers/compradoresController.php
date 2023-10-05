@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if($instancia->insertarComprador()){
         $instancia2->BorrarSession();
         session_destroy();
-        header('Location: ../Views/Sala.php?pk_evento='.$_GET["pk_eventos"].'');
+        header('Location: salaController.php?pk_evento='.$_GET["pk_eventos"].'&ingreso=true');
     }
 
     if (isset($_POST['activo']) && $_POST['activo'] === 'no') {

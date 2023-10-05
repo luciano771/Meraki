@@ -57,7 +57,7 @@
 
                         if (fechaActual > fechaInicioEvento && fechaActual<fechaFinEvento) {
                             divEvento.innerHTML += `
-                            <a href="../Controllers/salaController.php?pk_evento=${evento.pk_eventos}"><br><br><button type="button" class="btn btn-outline-info reservar-btn" data-pk-eventos="${evento.pk_eventos}">Reservar</button></a>`;                        
+                            <a href="../Controllers/salaController.php?pk_eventos=${evento.pk_eventos}&ingreso=true"><br><br><button type="button" class="btn btn-outline-info reservar-btn" data-pk-eventos="${evento.pk_eventos}">Reservar</button></a>`;                        
                         }else {
                             divEvento.innerHTML += `
                             <br><br><button type="button" class="btn btn-outline-secondary reservar-btn" data-pk-eventos="${evento.pk_eventos}">Reservar</button>`;     
