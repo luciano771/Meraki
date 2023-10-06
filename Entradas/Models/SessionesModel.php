@@ -1,4 +1,5 @@
 <?php
+session_start(); 
 require_once 'Conexion.php';
 class SessionesModel  
 {   
@@ -11,7 +12,9 @@ class SessionesModel
         $this->db = $db;
     }
     public function setSession(){
+         
         $this->session = $this->session_usuarios();
+        $_SESSION['estado']='true';
     }
   
     public function setListadoSessiones(){
@@ -31,6 +34,15 @@ class SessionesModel
         }
         return session_id();
     }
+
+    public function boolsession(){
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            return true; // La sesión está activa
+        } else {
+            return false; // La sesión no está activa
+        }
+    }
+
     public function InsertarSession(){
         $this->setSession();
         if(!$this->SessionBool()){
@@ -43,7 +55,8 @@ class SessionesModel
                 $stmt->bindParam(':sessiones', $this->session, PDO::PARAM_STR);
                 $stmt->execute();
                 $this->db->commit();
-                echo "session insertada con éxito. <br>";       
+                echo "session insertada con éxito. <br>";
+                $_SESSION["estado"] = 'true';       
             }
             catch(PDOException $e){
                 $this->db->rollBack();
@@ -64,7 +77,9 @@ class SessionesModel
                 $stmt->bindParam(':sessiones', $this->session, PDO::PARAM_STR);
                 $stmt->execute();
                 $this->db->commit();
-                echo "session borrada con éxito. <br>";       
+                echo "session borrada con éxito. <br>";  
+                $this->session = null;
+                $_SESSION["estado"] = 'false';     
             }
             catch(PDOException $e){
                 $this->db->rollBack();

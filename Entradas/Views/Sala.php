@@ -29,6 +29,11 @@
     <script>
 
 
+        var url = new URL(window.location.href);
+
+ 
+        let pk_eventos = url.searchParams.get('pk_eventos');
+
         const sessionesContainer = document.getElementById("sessiones-listado")
          
         fetch('../Controllers/sessionesController.php')
@@ -45,21 +50,17 @@
             `;
             sessionesContainer.appendChild(divSessiones);
             }
-            VerificarOrden(data.pk_eventos);   
+
          })
         .catch(error => {
             console.error('Error al obtener los usuarios en espera:', error);
         });
 
-            
-
-
-
-
+ 
+ 
 
         window.addEventListener("beforeunload", function (e) {
             console.log("Evento beforeunload disparado"); // Agrega un mensaje de depuración en la consola
-
             enviarSolicitudPOSTParaCerrarSesion();
         });
 
@@ -81,8 +82,8 @@
 
         //    Obtén el estado de sesión del servidor y configúralo en estadoSession
 
-        function enviarHeartbeat() {
-            fetch("../Controllers/salaController.php?ESTADOSESSION=ESTADO")
+        function enviarHeartbeat(pk_eventos) {
+            fetch("../Controllers/salaController.php?ESTADOSESSION=ESTADO&pk_eventos="+pk_eventos)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error("Error en la solicitud AJAX");
@@ -96,11 +97,10 @@
                 });
         }
 
-        //setInterval(enviarHeartbeat, 1000); // por seg
+ 
 
-
-        function VerificarOrden(pkEventos) {
-            fetch("../Controllers/salaController.php?VerificarOrden=true&pk_eventos="+pkEventos)
+        function VerificarOrden(pk_eventos) {
+            fetch("../Controllers/salaController.php?VerificarOrden=true&pk_eventos="+pk_eventos)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error("Error en la solicitud AJAX");
@@ -113,7 +113,8 @@
                     console.error("Error en la solicitud AJAX:", error);
                 });
         }
-    
+        
+        setInterval(VerificarOrden(pk_eventos),60000);
 
     
 

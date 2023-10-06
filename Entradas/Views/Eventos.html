@@ -74,7 +74,7 @@
                         // Ahora puedes utilizar pkEventos en tu aplicación, por ejemplo, enviarlo al servidor o realizar alguna otra acción específica
                         console.log('pk_eventos al hacer clic en Reservar:', pkEventos);
                         
-                        if (fechaActual > fechaInicioEvento && fechaActual<fechaFinEvento) {
+                        if (fechaActual >= fechaInicioEvento && fechaActual<=fechaFinEvento) {
                             //VerificarOrden(pkEventos);                      
                         } else {
                             alert("La sala de espera iniciara el "+convertirFechaAFormatoDMY(evento.fecha_inicio)); 
