@@ -75,7 +75,7 @@
                         console.log('pk_eventos al hacer clic en Reservar:', pkEventos);
                         
                         if (fechaActual >= fechaInicioEvento && fechaActual<=fechaFinEvento) {
-                            //VerificarOrden(pkEventos);                      
+                            VerificarOrden(pkEventos);                      
                         } else {
                             alert("La sala de espera iniciara el "+convertirFechaAFormatoDMY(evento.fecha_inicio)); 
                         }

@@ -31,15 +31,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $instancia ->setFk_eventos($id);
     if($instancia->insertarComprador()){
         $instancia2->BorrarSession();
-        session_destroy();
-        header('Location: salaController.php?pk_eventos='.$_GET["pk_eventos"].'&ingreso=true');
+        //header('Location: salaController.php?VerificarOrden=true&pk_eventos='.$_GET["pk_eventos"]);
     }
 
-    if (isset($_POST['activo']) && $_POST['activo'] === 'no') {
+    if (isset($_POST['activo']) && $_POST['activo'] == 'no') {
  
         $instancia2->BorrarSession();
-        session_destroy();
-    
+
     } 
 
     

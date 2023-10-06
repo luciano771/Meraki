@@ -26,7 +26,10 @@ if(isset($_GET['ESTADOSESSION']) && $_GET['ESTADOSESSION'] == 'ESTADO') {
     $fecha_fin = $fecha["fecha_fin"];
     if ($fechaActual >=$fecha_inicio && $fechaActual<=$fecha_fin) {
         $instancia2->InsertarSession();
-        header('Location: ../Views/Sala.php?VerificarOrden=true&pk_eventos='.$_GET["pk_eventos"]);
+        $sessionOrden = $instancia2->SessionFilas();
+        if($sessionOrden) {
+            header('Location: ../Views/reservar.php?pk_eventos=' . $_GET["pk_eventos"] . '&ingreso=true');
+        }
     } else {
         // Haz algo si la fecha de inicio no es posterior a la fecha actual
         echo '
