@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $instancia ->setFk_eventos($id);
     if($instancia->insertarComprador()){
         $instancia2->BorrarSession();
-        //header('Location: salaController.php?VerificarOrden=true&pk_eventos='.$_GET["pk_eventos"]);
+        //verificar orden y dejar ingresar al siguiente
     }
 
     if (isset($_POST['activo']) && $_POST['activo'] == 'no') {

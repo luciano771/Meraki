@@ -14,7 +14,6 @@ if(isset($_GET['ESTADOSESSION']) && $_GET['ESTADOSESSION'] == 'ESTADO') {
     
     if(!isset($_SESSION['estado']) || $_SESSION['estado']=='false') {
         $instancia2->InsertarSession();
-        header('Location: ../Views/Sala.php?VerificarOrden=true&pk_eventos='.$_GET["pk_eventos"]);
     }else{echo 'ya posee una session activa';} 
 
 }     
