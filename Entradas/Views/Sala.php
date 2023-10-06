@@ -114,7 +114,7 @@
                 });
         }
         
-        setInterval(VerificarOrden(pk_eventos),60000);
+        //setInterval(VerificarOrden(pk_eventos),60000);
 
     
 
