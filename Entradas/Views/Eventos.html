@@ -23,16 +23,47 @@
     </section>
 
     <script>
-        function convertirFechaAFormatoDMY(fecha) {
-            var partes = fecha.split("-");
-            if (partes.length === 3) {
-                var anio = partes[0];
-                var mes = partes[1];
-                var dia = partes[2];
-                return dia + "/" + mes + "/" + anio;
-            }
-            return fecha;
+       function convertirFechaAFormatoDMY(fecha) {
+    var partes = fecha.split(" ");
+    if (partes.length === 2) {
+        var fechaPartes = partes[0].split("-");
+        var horaPartes = partes[1].split(":");
+        
+        if (fechaPartes.length === 3 && horaPartes.length === 3) {
+            var anio = fechaPartes[0];
+            var mes = fechaPartes[1];
+            var dia = fechaPartes[2];
+            var hora = horaPartes[0];
+            var minutos = horaPartes[1];
+            var segundos = horaPartes[2];
+            
+            return dia + "/" + mes + "/" + anio + " ";
         }
+    }
+    return fecha;
+}
+    
+
+    function convertirFechaAFormatoHHmm(fecha) {
+    var partes = fecha.split(" ");
+    if (partes.length === 2) {
+        var fechaPartes = partes[0].split("-");
+        var horaPartes = partes[1].split(":");
+        
+        if (fechaPartes.length === 3 && horaPartes.length === 3) {
+            var anio = fechaPartes[0];
+            var mes = fechaPartes[1];
+            var dia = fechaPartes[2];
+            var hora = horaPartes[0];
+            var minutos = horaPartes[1];
+            var segundos = horaPartes[2];
+            
+            return  hora + ":" + minutos;
+        }
+    }
+    return fecha;
+}
+
     
         // Hacer una solicitud AJAX para obtener los datos de la tabla eventos
         fetch('../Controllers/eventosControlador.php?consultarEventos=true')
@@ -47,6 +78,7 @@
                         <h2>${evento.titulo}</h2>
                         <p>${evento.descripcion}</p>
                         <p>Fecha de Inicio: ${convertirFechaAFormatoDMY(evento.fecha_inicio)}</p>   
+                        <p>Hora de Inicio: ${convertirFechaAFormatoHHmm(evento.fecha_inicio)}</p>  
                         <img src="${evento.img}" alt="Imagen del evento" class="img">
                         `;
                         const fechaActual = new Date();
@@ -77,7 +109,7 @@
                         if (fechaActual >= fechaInicioEvento && fechaActual<=fechaFinEvento) {
                             VerificarOrden(pkEventos);                      
                         } else {
-                            alert("La sala de espera iniciara el "+convertirFechaAFormatoDMY(evento.fecha_inicio)); 
+                            alert("Las reservas para este evento cerraron el "+convertirFechaAFormatoDMY(evento.fecha_inicio)); 
                         }
                         
                     });

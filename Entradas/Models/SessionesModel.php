@@ -100,7 +100,7 @@ class SessionesModel
         }
         catch(PDOException $e){
             $id_sessiones = null;
-            echo $e;
+            return null;
         }
         return $id_sessiones;
     }

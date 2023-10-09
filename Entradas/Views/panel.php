@@ -2,9 +2,22 @@
 <html>
 <head>
     <title>Panel de Administración</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Incluye jQuery primero -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- A continuación, incluye Moment.js en español antes de Tempus Dominus Bootstrap 4 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/es.js"></script>
+
+    <!-- A continuación, incluye Bootstrap 4 CSS y JavaScript -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+
+    <!-- A continuación, incluye Tempus Dominus Bootstrap 4 CSS y JavaScript -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
+
     <link rel="stylesheet" href="Estilos/panel.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
 </head>
 <body>
 <?php
@@ -36,11 +49,21 @@
                     </div>
                     <div class="mb-3">
                         <label for="Fecha_inicio" class="form-label">Fecha inicio:</label>
-                        <input type="text" class="form-control" id="Fecha_inicio" name="Fecha_inicio" required>
+                        <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                            <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" name="Fecha_inicio" id="Fecha_inicio" required/>
+                            <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label for="Fecha_fin" class="form-label">Fecha fin:</label>
-                        <input type="text" class="form-control" id="Fecha_fin" name="Fecha_fin" required>
+                            <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" name="Fecha_fin" id="Fecha_fin" required/>
+                                <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
+                            </div>
                     </div>
                     <div class="form-group">
                         <label for="file">Imagen:</label>
@@ -55,6 +78,8 @@
                     <a href="../Models/Modelo.xlsx">Descarge archivo de modelo</a>
                     </div>
                     <br>
+                    <input type="hidden" name="accion" id="accion" value="agregar">
+                    <input type="hidden" name="pk_eventos" id="pk_eventos" value="">
                     <button type="submit" id ="boton" class="btn btn-primary">Cargar evento</button>
                 </div>
             </form>
@@ -62,10 +87,23 @@
     </div>
 
 
-
-
-
+ 
+        
         <script>
+
+
+            $(document).ready(function () {
+                $('#datetimepicker1').datetimepicker({
+                    format: 'YYYY-MM-DD HH:mm:ss',
+                    locale: 'es'
+                });
+                $('#datetimepicker2').datetimepicker({
+                    format: 'YYYY-MM-DD HH:mm:ss',
+                    locale: 'es'
+                });
+            });
+
+            let Modificar = false;
 
             fetch('../Controllers/panelController.php?TraerEventos=true')
             .then(response => response.json())
@@ -103,27 +141,42 @@
                                                     var fecha_inicio = evento.fecha_inicio;
                                                     var fecha_fin = evento.fecha_fin;
                                                     var img = evento.img;
-                                                    agregarbtnActualizar(titulo,descripcion,fecha_inicio,fecha_fin,img);
+                                                    if(!Modificar){
+                                                        agregarbtnVer(pkEventos);
+                                                    }
+                                                    Cargar_A_Actualizar(pkEventos);
+                                                    Modificar = true;
                                                 }
                                             })
+
                                         .catch(error => {
                                             console.error("Error en la solicitud AJAX:", error);
                                         });
-                                        //descargar csv listado
-                                        agregarbtnVer(pkEventos);
+                                       
                                                                                                    
                                     }else{
-                                        const divContenedor = document.getElementById("contenedor");
-                                        const btnListado = document.getElementById("VerListado");
-                                        divContenedor.removeChild(btnListado);
+                                        // const divContenedor = document.getElementById("contenedor");
+                                        // const btnListado = document.getElementById("VerListado");
+                                        // divContenedor.removeChild(btnListado);
 
-                                        const btnActualizar = document.getElementById("Actualizar");
-                                        divContenedor.removeChild(btnActualizar);
+                                        var boton = document.getElementById("boton").innerText = "Cargar Evento";
+                                        var accionpost = document.getElementById('accion').value = "agregar";
 
-                                        document.getElementById('Titulo').value = "";
-                                        document.getElementById('Descripcion').value = "";
-                                        document.getElementById('Fecha_inicio').value = "";
-                                        document.getElementById('Fecha_fin').value = "";
+                                        console.log(boton,accionpost);
+
+                                        
+                                        // document.getElementById('Titulo').value = "";
+                                        // document.getElementById('Descripcion').value = "";
+                                        // document.getElementById('Fecha_inicio').value = "";
+                                        // document.getElementById('Fecha_fin').value = "";
+                                        Modificar = false;
+
+                                        EliminarEvento(pkEventos);
+                                        alert("Se elimino el evento: "+pkEventos);
+
+                                        // Recargar la página actual
+                                        location.reload();
+
                                     }
                                       
                          });
@@ -140,28 +193,47 @@
             function MandarGet(pkEventos, accion) {
                 const url = `../Controllers/panelController.php?accion=${accion}&pkEvento=${pkEventos}`;
                 return fetch(url)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error("Error en la solicitud AJAX");
-                        }
-                        return response.json();
-                    });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error en la solicitud AJAX");
+                    }
+                    return response.json();
+                });
             }
 
- 
-
-
-            function ActualizarEvento(pkEventos, accion) {
-                const url = `../Controllers/panelController.php?accion=${accion}&pkEvento=${pkEventos}`;
+            function MandarGetImg(pkEventos) {
+                const url = `../Controllers/panelController.php?VerImagen=true&pkEvento=${pkEventos}`;
                 return fetch(url)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error("Error en la solicitud AJAX");
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error en la solicitud AJAX");
+                    }
+                    return response.json();
+                });
+            }
+ 
+         
+ 
+            function EliminarEvento(pkEvento) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "../Controllers/panelController.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 200) {
+                            // La solicitud POST se ha completado con éxito
+                            // Puedes mostrar un mensaje o realizar otras acciones aquí
+                            console.log(xhr.responseText);
+                        } else {
+                            // Manejar errores aquí
+                            console.error("Error en la solicitud AJAX");
                         }
-                        return response.json();
-                    });
-                }
-            
+                    }
+                };
+                xhr.send("EliminarEvento=true&pkEvento=" + pkEvento);
+            }
+
+  
 
             function agregarbtnVer(pkeventos) {
                 
@@ -172,7 +244,6 @@
                 miBoton.className = "btn btn-primary boton";
                 miBoton.addEventListener("click", function () {
                     console.log("Botón ver listado");
-                    ActualizarEvento();
                     var urlCompleta = window.location.href;
                     // Separar la URL en partes (dominio y resto)
                     var partesURL = urlCompleta.split('/');
@@ -196,27 +267,15 @@
 
             
 
-            function agregarbtnActualizar(titulo,descripcion,fecha_inicio,fecha_fin,img) {
-                
+            function Cargar_A_Actualizar(pkevento) {
+                var accion = document.getElementById('accion');
+                accion.value = "actualizar";
+                var boton = document.getElementById('boton'); 
+                boton.innerText = "Actualizar";   
+                var pk_eventos = document.getElementById('pk_eventos'); 
+                pk_eventos.value = pkevento;    
 
-                var Titulo = document.getElementById('Titulo');
-                var Descripcion = document.getElementById('Descripcion');
-                var Fecha_inicio = document.getElementById('Fecha_inicio');
-                var Fecha_fin = document.getElementById('Fecha_fin');
-
-                
-
-                var miBoton = document.createElement("button");
-                miBoton.textContent = "Actualizar";
-                miBoton.type = "button";
-                miBoton.id="Actualizar";
-                miBoton.className = "btn btn-primary boton";
-                miBoton.addEventListener("click", function () {
-                    console.log("Botón ver Actualizar");
-                });
-                // Agregar el botón al contenedor
-                var contenedor = document.getElementById("contenedor");
-                contenedor.appendChild(miBoton);
+                console.log(accion,boton,pk_eventos);
             }
 
 
@@ -242,8 +301,6 @@
 
 
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ 
 </body>
 </html>

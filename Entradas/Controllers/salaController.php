@@ -14,7 +14,10 @@ if(isset($_GET['ESTADOSESSION']) && $_GET['ESTADOSESSION'] == 'ESTADO') {
     
     if(!isset($_SESSION['estado']) || $_SESSION['estado']=='false') {
         $instancia2->InsertarSession();
-    }else{echo 'ya posee una session activa';} 
+    }else{
+        $estado ='activa';
+        echo trim($estado);
+    } 
 
 }     
 
@@ -23,12 +26,15 @@ if(isset($_GET['ESTADOSESSION']) && $_GET['ESTADOSESSION'] == 'ESTADO') {
     $fecha = $instancia->Obtenerfecha($_GET["pk_eventos"]);
     $fecha_inicio = $fecha["fecha_inicio"];
     $fecha_fin = $fecha["fecha_fin"];
-    if ($fechaActual >=$fecha_inicio && $fechaActual<=$fecha_fin) {
+    if ($fechaActual>=$fecha_inicio && $fechaActual<=$fecha_fin) {
         $instancia2->InsertarSession();
         $sessionOrden = $instancia2->SessionFilas();
         if($sessionOrden) {
-            header('Location: ../Views/reservar.php?pk_eventos=' . $_GET["pk_eventos"] . '&ingreso=true');
+            header('Location: ../Views/reservar.php?pk_eventos=' . $_GET["pk_eventos"]);
         }
+        else{
+            header('Location: ../Views/sala.php?pk_eventos=' . $_GET["pk_eventos"]); // en salas verifico el orden de las sessiones
+        }   //o una vez el comprador halla efectuado su compra se llama d
     } else {
         // Haz algo si la fecha de inicio no es posterior a la fecha actual
         echo '
@@ -52,17 +58,18 @@ if(isset($_GET['ESTADOSESSION']) && $_GET['ESTADOSESSION'] == 'ESTADO') {
 if (isset($_GET['VerificarOrden']) && $_GET['VerificarOrden'] == 'true' && isset($_GET['pk_eventos'])) {
     $sessionOrden = $instancia2->SessionFilas();
     if($sessionOrden) {
-        header('Location: ../Views/reservar.php?pk_eventos=' . $_GET["pk_eventos"] . '&ingreso=true');
-    }
+        echo'true';
+    }else{echo'false';}
 } 
+
+ 
 
 
 
 
 if (isset($_POST['activo']) && $_POST['activo'] == 'no') {
     $instancia2->BorrarSession();
-    $_SESSION['estado'] = 'false';
-} 
+}
 
 
  

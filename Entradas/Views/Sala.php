@@ -31,7 +31,7 @@
 
         var url = new URL(window.location.href);
 
- 
+        let redijir  = false;
         let pk_eventos = url.searchParams.get('pk_eventos');
 
         const sessionesContainer = document.getElementById("sessiones-listado")
@@ -55,13 +55,43 @@
         .catch(error => {
             console.error('Error al obtener los usuarios en espera:', error);
         });
-
  
- 
+        //obtengo el orden por session para redijir por orden de llegada a reservar.php
+        //se manda cada 15 seg al servidor para verificar el orden. 
+         
+        function VerificarOrden() {
+        fetch("../Controllers/salaController.php?VerificarOrden=true&pk_eventos=" + pk_eventos)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error en la solicitud AJAX");
+                }
+                return response.text();
+            })
+            .then(data => {
+                if (data.trim() === 'true') {
+                    // No es necesario redirigir desde el cliente, ya que se hace desde el servidor
+                    console.log('Debería redirigirme: ' + data);
+                    redijir  = true;
+                    window.location.href = '../Views/reservar.php?pk_eventos=' + pk_eventos;
+                } else {
+                    console.log('No debería redirigirme: ' + data);
+                }
+            })
+            .catch(error => {
+                // Maneja errores en la solicitud AJAX
+                console.error("Error en la solicitud AJAX:", error);
+            });
+        }
 
-        window.addEventListener("beforeunload", function (e) {
-            console.log("Evento beforeunload disparado"); // Agrega un mensaje de depuración en la consola
-            enviarSolicitudPOSTParaCerrarSesion();
+
+        setInterval(function () {VerificarOrden(pk_eventos);}, 15000);
+        
+     
+        //evento befoureunload, donde cerramos session si recarga o cierra ventana/pestaña.
+        redireccion = false;
+        window.addEventListener("unload", function (e) {
+            console.log("Evento unload disparado"); // Agrega un mensaje de depuración en la consola
+            if(!redijir){enviarSolicitudPOSTParaCerrarSesion();} 
         });
 
 
@@ -79,28 +109,10 @@
         }
 
 
-
-        //    Obtén el estado de sesión del servidor y configúralo en estadoSession
-
-        function enviarHeartbeat(pk_eventos) {
-            fetch("../Controllers/salaController.php?ESTADOSESSION=ESTADO&pk_eventos="+pk_eventos)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Error en la solicitud AJAX");
-                    }
-                    return response.text();
-
-                })
-                .catch(error => {
-                    // Maneja errores en la solicitud AJAX
-                    console.error("Error en la solicitud AJAX:", error);
-                });
-        }
-
  
 
-        function VerificarOrden(pk_eventos) {
-            fetch("../Controllers/salaController.php?VerificarOrden=true&pk_eventos="+pk_eventos)
+        function enviarHeartbeat() {
+            fetch("../Controllers/salaController.php?ESTADOSESSION=ESTADO")
                 .then(response => {
                     if (!response.ok) {
                         throw new Error("Error en la solicitud AJAX");
@@ -113,11 +125,9 @@
                     console.error("Error en la solicitud AJAX:", error);
                 });
         }
-        
-        //setInterval(VerificarOrden(pk_eventos),60000);
 
-    
 
+        setInterval(function () {enviarHeartbeat();}, 15000);
 
     </script>
 

@@ -104,7 +104,6 @@ class CompradoresModel {
             // Manejar el error de alguna manera adecuada, por ejemplo, lanzando una excepción
             $bool = false;
             throw new Exception('Error al verificar la compra: ' . $e->getMessage());
- 
         }
 
         return $bool;
@@ -160,6 +159,23 @@ class CompradoresModel {
         return $token;
     }
 
+    public function BorrarCompradores($pkeventos){
+        $bool = true;
+        try {
+            $consulta = "DELETE FROM comprador where fk_eventos= :pkevento";
+            $stmt = $this->db->prepare($consulta);
+            $stmt->bindParam(':pkevento', $pkeventos, PDO::PARAM_INT); 
+            $stmt->execute();
+             
+            return $bool;
+        } catch (PDOException $e) {
+            // En caso de error en la conexión o consulta
+            echo 'Error: ' . $e->getMessage();
+            $bool = false;
+        }
+
+        return $bool;
+    }
 
 
 

@@ -48,9 +48,34 @@
 
     <script>
         
+        
+        
+        
+        var url = new URL(window.location.href);
 
-         
+        let pk_eventos = url.searchParams.get('pk_eventos');
 
+        function enviarSolicitudPOSTParaCerrarSesion() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "../Controllers/salaController.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // La solicitud POST se ha completado con éxito
+                    // Puedes mostrar un mensaje o realizar otras acciones aquí
+                }
+            };
+            xhr.send("activo=no");
+            alert("Se agoto su tiempo para realizar la compra, sera redirijido a la sala de espera.")
+            window.location.href = '../Controllers/salaController.php?pk_eventos=73&ingreso=true'
+        }
+
+
+        setInterval(function () {enviarSolicitudPOSTParaCerrarSesion(pk_eventos);}, 300000);
+
+        
+
+    
 
 
     </script>
