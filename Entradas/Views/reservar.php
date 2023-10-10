@@ -66,8 +66,8 @@
                 }
             };
             xhr.send("activo=no");
-            alert("Se agoto su tiempo para realizar la compra, sera redirijido a la sala de espera.")
-            window.location.href = '../Controllers/salaController.php?pk_eventos='+pk_eventos'&ingreso=true'
+            alert("Se agoto su tiempo para realizar la compra, sera redirijido a la sala de espera.");
+            window.location.href = '../Controllers/salaController.php?pk_eventos='+pk_eventos+'&ingreso=true';
         }
 
 
@@ -76,7 +76,7 @@
         
         function verificarEstadoSesion(pk_eventos) {
             // Hacer una solicitud AJAX al archivo PHP que obtiene el estado de la sesión
-            fetch('archivo.php?SESSION=ESTADO')
+            fetch('../Controllers/salaController.php?SESSION=ESTADO')
                 .then(response => response.text())
                 .then(data => {
                     // Verificar si el estado es "false"
@@ -90,9 +90,16 @@
                 });
         }
         
-        setInterval(function () {verificarEstadoSesion(pk_eventos);}, 1000);
+        setInterval(function () {verificarEstadoSesion(pk_eventos);}, 10000);
 
 
+        window.addEventListener("beforeunload", function (e) {
+            console.log("Evento unload disparado"); // Agrega un mensaje de depuración en la consola
+            enviarSolicitudPOSTParaCerrarSesion();
+        });
+
+
+     
 
     </script>
 </body>
