@@ -21,6 +21,14 @@ if(isset($_GET['ESTADOSESSION']) && $_GET['ESTADOSESSION'] == 'ESTADO') {
 
 }     
 
+if(isset($_GET['SESSION']) && $_GET['SESSION'] == 'ESTADO') {
+    $estado ='true';
+    if(!isset($_SESSION['estado']) || $_SESSION['estado']=='false') {
+        $estado ='false';
+    }
+    echo trim($estado);
+}     
+
     if(isset($_GET["pk_eventos"]) && isset($_GET['ingreso'])=='true'){
     $fechaActual = date("Y-m-d");
     $fecha = $instancia->Obtenerfecha($_GET["pk_eventos"]);

@@ -83,14 +83,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
 
-    } //else {
-        
-    //     echo '<script>alert("fila es nulo. Por favor, complete todos los campos antes de continuar.");</script>';
-    // }
+    } 
 
 
-
- 
 
     if(isset($_POST['Titulo']) && isset($_POST['Descripcion']) && isset($_POST['Fecha_inicio']) && isset($_POST['Fecha_fin']) && isset($_POST['pk_eventos']) && isset($_POST['accion']) && $_POST['accion'] === 'actualizar') {
         echo '<script>
@@ -181,81 +176,72 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
        
         if ($imagenCargada || $archivoListadoCargado) {
             // Al menos uno de los archivos está cargado
-
+        
             echo '<script>
-                alert("entro a condicional o.");
-                </script>';
-
-            if ($imagenCargada) {
-                // Código para procesar la imagen aquí
-                // ...
-                echo '<script>
-                alert("solo se cargo la imagen.");
-                </script>';
-                if (isset($_FILES["file"]) && $_FILES["file"]["error"] === 0) {
-                    $file = $_FILES["file"]["name"];
-                    $url_temp = $_FILES["file"]["tmp_name"];
-                    $url_insert = dirname(__FILE__) . "/../imagenes";
-                    $url_target = str_replace('\\', '/', $url_insert) . '/' . $file;
-            
-                    if (!file_exists($url_insert)) {
-                        mkdir($url_insert, 0777, true);
-                    };
-            
-                    if (move_uploaded_file($url_temp, $url_target)) {
-                        try {
-                            
-                            $instancia->setTitulo($TituloAc);
-                            $instancia->setDescripcion($DescripcionAc);
-                            $instancia->setFechaInicio($Fecha_inicio_GuardarbaseAc);
-                            $instancia->setFechaFin($Fecha_fin_GuardarbaseAc);
-                            $instancia->setUrlBase('../imagenes/' . $file);
-                            $instancia->ActualizarEvento($pk_eventos);
-            
-                            echo '<script>
-                                alert("Se ha cargado el evento con imagen y sin listado.");
-                                window.location.href = "../Views/panel.php"; // Redirige a panel.php
-                            </script>';
-                        } catch (PDOException $e) {
-                            echo "Error al actualizar el evento: " . $e->getMessage();
-                        }
-                    } else {
-                        echo "Error al cargar la imagen. Código de error: " . $_FILES["file"]['error'];
+                alert("Entro al bloque principal.");
+            </script>';
+        
+            // Procesar la imagen si está cargada
+            if (isset($_FILES["file"]) && $_FILES["file"]["error"] === 0) {
+                $file = $_FILES["file"]["name"];
+                $url_temp = $_FILES["file"]["tmp_name"];
+                $url_insert = dirname(__FILE__) . "/../imagenes";
+                $url_target = str_replace('\\', '/', $url_insert) . '/' . $file;
+        
+                if (!file_exists($url_insert)) {
+                    mkdir($url_insert, 0777, true);
+                };
+        
+                if (move_uploaded_file($url_temp, $url_target)) {
+                    try {
+                        $instancia->setTitulo($TituloAc);
+                        $instancia->setDescripcion($DescripcionAc);
+                        $instancia->setFechaInicio($Fecha_inicio_GuardarbaseAc);
+                        $instancia->setFechaFin($Fecha_fin_GuardarbaseAc);
+                        $instancia->setUrlBase('../imagenes/' . $file);
+                        $instancia->ActualizarEvento($pk_eventos);
+        
+                        echo '<script>
+                            alert("Se ha cargado el evento con imagen y sin listado.");
+                            window.location.href = "../Views/panel.php"; // Redirige a panel.php
+                        </script>';
+                    } catch (PDOException $e) {
+                        echo "Error al actualizar el evento: " . $e->getMessage();
                     }
+                } else {
+                    echo "Error al cargar la imagen. Código de error: " . $_FILES["file"]['error'];
+                }
             }
-
+        
+            // Procesar el archivo de listado si está cargado
             if ($archivoListadoCargado) {
                 // Código para procesar el archivo de listado aquí
                 // ...
-                echo '<script>
-                alert("solo se cargo el listado.");
-                </script>';
+                
                 try {
-                   
                     $instancia->setTitulo($TituloAc);
                     $instancia->setDescripcion($DescripcionAc);
                     $instancia->setFechaInicio($Fecha_inicio_GuardarbaseAc);
                     $instancia->setFechaFin($Fecha_fin_GuardarbaseAc);
                     $instancia->ActualizarEvento($pk_eventos);
-                    } catch (PDOException $e) {
-                        echo "Error al actualizar el evento: " . $e->getMessage();
-                    }
-                    $archivo = $_FILES["archivo"]["tmp_name"];
-                    try {
-                        $instancia2->setarchivo($archivo);
-                        $instancia2->BorrarListado($pk_eventos);
-                        $instancia2->insertarListadopk($pk_eventos);
-                        echo '<script>
-                            alert("Se ha cargado el evento sin imagen y con listado.");
-                            window.location.href = "../Views/panel.php"; // Redirige a panel.php
-                        </script>';
-                    } catch (PDOException $e) {
-                        echo "Error al insertar el evento: " . $e->getMessage();
-                    }
+                } catch (PDOException $e) {
+                    echo "Error al actualizar el evento: " . $e->getMessage();
                 }
-            
-            }
+                $archivo = $_FILES["archivo"]["tmp_name"];
+                try {
+                    $instancia2->setarchivo($archivo);
+                    $instancia2->BorrarListado($pk_eventos);
+                    $instancia2->insertarListadopk($pk_eventos);
+                    
+                } catch (PDOException $e) {
+                    echo "Error al insertar el evento: " . $e->getMessage();
+                }
 
+                echo '<script>
+                    alert("Se ha cargado el evento sin imagen y con listado.");
+                    window.location.href = "../Views/panel.php"; // Redirige a panel.php
+                    </script>';
+            }
         } else {
             // Ninguno de los dos archivos está cargado
             echo '<script>

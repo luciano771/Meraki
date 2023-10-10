@@ -149,7 +149,7 @@ class ActoresModel {
                     try {
                         $sql = "INSERT INTO actores (nombre,apellido,dni,fk_eventos) VALUES (?, ?, ?, ?)";
                         $stmt = $this->db->prepare($sql);
-                        $stmt->execute([$nombres, $apellido,$dni,$pkevento]);                        
+                        $stmt->execute([$nombres, $apellido,$dni,$pkevento]); 
                     } catch (PDOException $e) {
                         echo "Error al insertar el evento: " . $e->getMessage();
                     }                         

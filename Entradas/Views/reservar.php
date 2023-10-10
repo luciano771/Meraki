@@ -55,7 +55,7 @@
 
         let pk_eventos = url.searchParams.get('pk_eventos');
 
-        function enviarSolicitudPOSTParaCerrarSesion() {
+        function enviarSolicitudPOSTParaCerrarSesion(pk_eventos) {
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "../Controllers/salaController.php", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -67,15 +67,31 @@
             };
             xhr.send("activo=no");
             alert("Se agoto su tiempo para realizar la compra, sera redirijido a la sala de espera.")
-            window.location.href = '../Controllers/salaController.php?pk_eventos=73&ingreso=true'
+            window.location.href = '../Controllers/salaController.php?pk_eventos='+pk_eventos'&ingreso=true'
         }
 
 
         setInterval(function () {enviarSolicitudPOSTParaCerrarSesion(pk_eventos);}, 300000);
 
         
+        function verificarEstadoSesion(pk_eventos) {
+            // Hacer una solicitud AJAX al archivo PHP que obtiene el estado de la sesión
+            fetch('archivo.php?SESSION=ESTADO')
+                .then(response => response.text())
+                .then(data => {
+                    // Verificar si el estado es "false"
+                    if (data.trim() === 'false') {
+                        // Llamar a la función para cerrar la sesión
+                        enviarSolicitudPOSTParaCerrarSesion(pk_eventos);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al obtener el estado de la sesión:', error);
+                });
+        }
+        
+        setInterval(function () {verificarEstadoSesion(pk_eventos);}, 1000);
 
-    
 
 
     </script>
