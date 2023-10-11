@@ -248,7 +248,7 @@
                     // Separar la URL en partes (dominio y resto)
                     var partesURL = urlCompleta.split('/');
                     // Obtener la parte del dominio
-                    var dominio = partesURL.slice(0, 5).join('/'); // Esto captura "http://localhost/meraki/entradas"
+                    var dominio = partesURL.slice(0, 4).join('/'); // Esto captura "http://localhost/meraki/entradas"
                     // Concatenar el resto de la URL que desees
                     var restoDeLaURL = '/Controllers/panelController.php?Listado=true&pkEvento='+pkeventos;
                     // Construir la nueva URL
