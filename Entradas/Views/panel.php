@@ -83,7 +83,12 @@
                     <button type="submit" id ="boton" class="btn btn-primary">Cargar evento</button>
                 </div>
             </form>
-            <div id="administrador"></div>       
+            <div id="administrador"></div>
+            <br> 
+            <div class="paginacion">
+                <button id="btnAnterior" class="btn btn-primary boton">Anterior</button>
+                <button id="btnSiguiente" class="btn btn-primary boton">Siguiente</button>
+            </div>       
     </div>
 
 
