@@ -360,6 +360,31 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
                 </body>
             </html>';
         }
+    }
+    if(isset($_GET["ListadoReservas"]) && $_GET["ListadoReservas"]=="true" && isset($_GET["pkEvento"])){
+        $resultado = $instancia3->ObtenerReservasPorId($_GET["pkEvento"]);
+        $bool = $instancia3->ConsultarReservas($_GET["pkEvento"]);
+        if($bool!=null){
+            $jsonData = json_encode($resultado);
+            generarExcelReservas($jsonData);
+        }
+        else{
+            echo '
+            <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Página Actual</title>
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+                </head>
+                <body>
+                    <h4>No hay reservas asociadas a este evento.</h4>
+                    <!-- Tu contenido de página actual aquí -->
+
+                    <!-- Botón "Volver" que redirige al usuario a la página anterior -->
+                    &nbsp; <a href="javascript:history.back()" class="btn btn-primary">Volver</a>
+                </body>
+            </html>';
+        }
         
         
     }
@@ -380,13 +405,42 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
 
 
 
+function generarExcelReservas($jsonData) {
+    $datos = json_decode($jsonData, true);
 
+    $nombreArchivo = "datos.csv";
+    $archivo = fopen($nombreArchivo, "w");
 
+    if ($archivo) {
+        // Definir los encabezados
+        fputcsv($archivo, ["Nombre", "Apellido", "Email", "DNI", "Teléfono", "Cantidad de entradas", "Código de Entrada"], "\t");
 
+        foreach ($datos as $dato) {
+            $fila = array(
+                $dato['nombre'],
+                $dato['apellido'],
+                $dato['email'],
+                $dato['dni'],
+                $dato['telefono'],
+                $dato['cantidad_entradas'], // Agregar "Cantidad de entradas" a los datos
+                $dato['CodigoEntrada'],
+            );
+            fputcsv($archivo, $fila, "\t"); // Usar una tabulación como separador
+        }
 
+        fclose($archivo);
 
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename=datos.csv');
+        readfile($nombreArchivo);
 
-
+        // Elimina el archivo después de enviarlo al cliente (opcional)
+        unlink($nombreArchivo);
+        exit;
+    } else {
+        echo "No se pudo abrir el archivo temporal para escritura.";
+    }
+}
 
 
 

@@ -185,6 +185,50 @@ class CompradoresModel {
 
 
 
+    public function ObtenerReservasPorId($pkevento){
+
+        try{
+        $consulta = "SELECT email,nombre,apellido,telefono,dni,cantidad_entradas,CodigoEntrada FROM comprador where fk_eventos= :pkevento";
+        $stmt = $this->db->prepare($consulta);
+        $stmt->bindParam(':pkevento', $pkevento, PDO::PARAM_INT); 
+        $stmt->execute();
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if($resultados==null){
+            $resultados=null;
+        }
+        return $resultados;
+        } catch (PDOException $e) {
+        return 'Error: ' . $e->getMessage();
+        }
+    }   
+
+
+    public function ConsultarReservas($pkeventos){
+        try {
+            // Crear una instancia de la conexión a la base de datos
+             // Consulta SQL para obtener los valores de la columna "pk_eventos"
+            $consulta = "SELECT * FROM comprador where fk_eventos= :pkevento";
+            $stmt = $this->db->prepare($consulta);
+            $stmt->bindParam(':pkevento', $pkeventos, PDO::PARAM_INT); 
+            $stmt->execute();
+            $listado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            // Cerrar la conexión a la base de datos
+            $db = null;            
+            if($listado ==null || $listado==false){
+                $listado=null;
+            }
+            return $listado;
+        } catch (PDOException $e) {
+            // En caso de error en la conexión o consulta
+            echo 'Error: ' . $e->getMessage();
+            return null; // Puedes manejar el error de alguna manera adecuada
+        }
+    }
+    
+    
+
+
+
 
 
 

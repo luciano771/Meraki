@@ -156,6 +156,7 @@ function mostrarEventosEnPagina() {
                                         var img = evento.img;
                                         if(!Modificar){
                                             agregarbtnVer(pkEventos);
+                                            agregarbtnVerReservas(pkEventos);
                                         }
                                         Cargar_A_Actualizar(pkEventos);
                                         Modificar = true;
@@ -288,6 +289,36 @@ function mostrarEventosEnPagina() {
                     var dominio = partesURL.slice(0, 4).join('/'); // Esto captura "http://localhost/meraki/entradas con slice(0,5)"
                     // Concatenar el resto de la URL que desees
                     var restoDeLaURL = '/Controllers/panelController.php?Listado=true&pkEvento='+pkeventos;
+                    // Construir la nueva URL
+                    var nuevaURL = dominio + restoDeLaURL;
+                    // Imprimir la nueva URL en la consola (puedes usarla como desees)
+                    console.log(dominio);
+                    console.log(restoDeLaURL);
+                    console.log(nuevaURL);
+                    window.location.href = nuevaURL;
+                });
+
+                // Agregar el botón al contenedor
+                var contenedor = document.getElementById("contenedor");
+                contenedor.appendChild(miBoton);
+            }
+
+            function agregarbtnVerReservas(pkeventos) {
+                
+                var miBoton = document.createElement("button");
+                miBoton.textContent = "Reservas";
+                miBoton.type = "button";
+                miBoton.id="Reservas";
+                miBoton.className = "btn btn-primary boton";
+                miBoton.addEventListener("click", function () {
+                    console.log("Botón ver listado");
+                    var urlCompleta = window.location.href;
+                    // Separar la URL en partes (dominio y resto)
+                    var partesURL = urlCompleta.split('/');
+                    // Obtener la parte del dominio
+                    var dominio = partesURL.slice(0, 4).join('/'); // Esto captura "http://localhost/meraki/entradas con slice(0,5)"
+                    // Concatenar el resto de la URL que desees
+                    var restoDeLaURL = '/Controllers/panelController.php?ListadoReservas=true&pkEvento='+pkeventos;
                     // Construir la nueva URL
                     var nuevaURL = dominio + restoDeLaURL;
                     // Imprimir la nueva URL en la consola (puedes usarla como desees)
