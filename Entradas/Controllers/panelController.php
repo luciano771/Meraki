@@ -245,7 +245,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         } else {
             // Ninguno de los dos archivos está cargado
             echo '<script>
-                alert("No se ha cargado ni la imagen ni el archivo de listado.");
+                alert("No se ha actualizado el evento, no se actualizo imagen y listado.");
                 </script>';
                 try {
                     // Actualizar la información del evento en la base de datos
