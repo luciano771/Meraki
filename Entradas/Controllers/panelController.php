@@ -97,8 +97,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $DescripcionAc = $_POST['Descripcion'];
         $Fecha_inicioAc = $_POST['Fecha_inicio'];
         $Fecha_finAc = $_POST['Fecha_fin'];
-        $Fecha_inicio_GuardarbaseAc = date('Y-m-d', strtotime(str_replace('/', '-', $Fecha_inicioAc)));
-        $Fecha_fin_GuardarbaseAc = date('Y-m-d', strtotime(str_replace('/', '-', $Fecha_finAc)));
+        $Fecha_inicio_GuardarbaseAc = $Fecha_inicioAc;
+        $Fecha_fin_GuardarbaseAc = $Fecha_inicioAc;
      
     
      
