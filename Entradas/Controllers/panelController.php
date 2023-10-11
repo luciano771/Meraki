@@ -202,7 +202,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         $instancia->ActualizarEvento($pk_eventos);
         
                         echo '<script>
-                            alert("Se ha cargado el evento con imagen y sin listado.");
+                            alert("Se ha actualizado el evento con imagen actualizada y sin actualizar listado.");
                             window.location.href = "../Views/panel.php"; // Redirige a panel.php
                         </script>';
                     } catch (PDOException $e) {
@@ -238,14 +238,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 }
 
                 echo '<script>
-                    alert("Se ha cargado el evento sin imagen y con listado.");
+                    alert("Se ha actualizado el evento sin  actualizar imagen y con listado actualizado.");
                     window.location.href = "../Views/panel.php"; // Redirige a panel.php
                     </script>';
             }
         } else {
             // Ninguno de los dos archivos está cargado
             echo '<script>
-                alert("No se ha actualizado el evento, no se actualizo imagen y listado.");
+                alert("Se ha actualizado el evento, no se actualizo imagen y listado.");
                 </script>';
                 try {
                     // Actualizar la información del evento en la base de datos
