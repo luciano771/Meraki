@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="Estilos/reservar.css">
 </head>
 <body>
-    <header>
+    <header>    
         <div class="cabecera">
-            <h2>Comprar entradas</h2>
-            <h4>No actualizar la pagina mientras realiza la reserva.</h4>
+            <h2>Comprar entradas</h2>&nbsp;
+            <h3> (No actualizar la pagina mientras realiza la reserva).</h3>
         </div>
      </header>
 
@@ -95,7 +95,7 @@
                 });
         }
         
-        setInterval(function () {verificarEstadoSesion(pk_eventos);}, 10ñ000);
+        setInterval(function () {verificarEstadoSesion(pk_eventos);}, 10000);
 
 
         window.addEventListener("beforeunload", function (e) {
