@@ -30,7 +30,7 @@ if(isset($_GET['SESSION']) && $_GET['SESSION'] == 'ESTADO') {
 }     
 
     if(isset($_GET["pk_eventos"]) && isset($_GET['ingreso'])=='true'){
-    $fechaActual = date("Y-m-d");
+    $fechaActual = date("Y-m-d H:i:s");
     $fecha = $instancia->Obtenerfecha($_GET["pk_eventos"]);
     $fecha_inicio = $fecha["fecha_inicio"];
     $fecha_fin = $fecha["fecha_fin"];
@@ -41,7 +41,7 @@ if(isset($_GET['SESSION']) && $_GET['SESSION'] == 'ESTADO') {
             header('Location: ../Views/reservar.php?pk_eventos=' . $_GET["pk_eventos"]);
         }
         else{
-            header('Location: ../Views/Sala.php?pk_eventos=' . $_GET["pk_eventos"]); // en salas verifico el orden de las sessiones
+            header('Location: ../Views/Sala.php?pk_eventos=' . $_GET["pk_eventos"] .'ingreso=true'); // en salas verifico el orden de las sessiones
         }   //o una vez el comprador halla efectuado su compra se llama d
     } else {
         // Haz algo si la fecha de inicio no es posterior a la fecha actual

@@ -109,7 +109,7 @@
             });
 
             let Modificar = false;
-            const eventosPorPagina = 4; // Número de eventos por página
+            const eventosPorPagina = 8; // Número de eventos por página
             let paginaActual = 1;
             let eventos;
 
