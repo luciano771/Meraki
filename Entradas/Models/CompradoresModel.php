@@ -6,11 +6,13 @@ class CompradoresModel {
     private $email;
     private $nombre;
     private $apellido;
+    private $telefono;
     private $dni;
     private $dni_actor;
     private $cantidad_entradas;
     private $fk_eventos;
     private $TokenEntrada;
+
     public function __construct($db) {
         $this->db = $db;
     }
@@ -25,6 +27,9 @@ class CompradoresModel {
     }
     public function setDni($dni) {
         $this->dni = $dni;
+    }
+    public function setTelefono($telefono) {
+        $this->telefono = $telefono;
     }
     public function setDni_actor($dni_actor) {
         $this->dni_actor = $dni_actor;
@@ -70,12 +75,13 @@ class CompradoresModel {
                 $this->db->exec("SET TRANSACTION ISOLATION LEVEL READ COMMITTED");
                 $this->db->beginTransaction();
                 // No se ha realizado una compra, proceder con la inserción y actualización
-                $sql = "INSERT INTO comprador (email, nombre, apellido, dni, cantidad_entradas, CodigoEntrada, fk_eventos) VALUES (:email, :nombre, :apellido, :dni, :cantidad_entradas, :TokenEntrada, :fk_eventos)";
+                $sql = "INSERT INTO comprador (email, nombre, apellido, dni, telefono,  cantidad_entradas, CodigoEntrada, fk_eventos) VALUES (:email, :nombre, :apellido, :dni, :telefono, :cantidad_entradas, :TokenEntrada, :fk_eventos)";
                 $stmt = $this->db->prepare($sql);
                 $stmt->bindParam(':email', $this->email, PDO::PARAM_STR);
                 $stmt->bindParam(':nombre', $this->nombre, PDO::PARAM_STR);
                 $stmt->bindParam(':apellido', $this->apellido, PDO::PARAM_STR);
                 $stmt->bindParam(':dni', $this->dni, PDO::PARAM_STR);
+                $stmt->bindParam(':telefono', $this->telefono, PDO::PARAM_STR);
                 $stmt->bindParam(':cantidad_entradas', $this->cantidad_entradas, PDO::PARAM_INT);
                 $stmt->bindParam(':TokenEntrada', $this->TokenEntrada, PDO::PARAM_STR);
                 $stmt->bindParam(':fk_eventos', $this->fk_eventos, PDO::PARAM_INT);

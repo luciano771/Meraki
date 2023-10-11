@@ -89,7 +89,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     if(isset($_POST['Titulo']) && isset($_POST['Descripcion']) && isset($_POST['Fecha_inicio']) && isset($_POST['Fecha_fin']) && isset($_POST['pk_eventos']) && isset($_POST['accion']) && $_POST['accion'] === 'actualizar') {
         echo '<script>
-            alert("entro.");
+            alert("ingreso.");
             </script>';
         
         $pk_eventos = $_POST['pk_eventos'];
