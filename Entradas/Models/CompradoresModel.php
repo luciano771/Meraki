@@ -81,7 +81,7 @@ class CompradoresModel {
                 $stmt->bindParam(':nombre', $this->nombre, PDO::PARAM_STR);
                 $stmt->bindParam(':apellido', $this->apellido, PDO::PARAM_STR);
                 $stmt->bindParam(':dni', $this->dni, PDO::PARAM_STR);
-                $stmt->bindParam(':telefono', $this->telefono, PDO::PARAM_STR);
+                $stmt->bindParam(':telefono', $this->dni, PDO::PARAM_STR);
                 $stmt->bindParam(':cantidad_entradas', $this->cantidad_entradas, PDO::PARAM_INT);
                 $stmt->bindParam(':TokenEntrada', $this->TokenEntrada, PDO::PARAM_STR);
                 $stmt->bindParam(':fk_eventos', $this->fk_eventos, PDO::PARAM_INT);

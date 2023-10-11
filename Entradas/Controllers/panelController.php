@@ -98,7 +98,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $Fecha_inicioAc = $_POST['Fecha_inicio'];
         $Fecha_finAc = $_POST['Fecha_fin'];
         $Fecha_inicio_GuardarbaseAc = $Fecha_inicioAc;
-        $Fecha_fin_GuardarbaseAc = $Fecha_inicioAc;
+        $Fecha_fin_GuardarbaseAc = $Fecha_finAc;
      
     
      
