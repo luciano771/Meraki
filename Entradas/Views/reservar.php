@@ -27,7 +27,7 @@
             <div class="mb-3">
                 <label for="apellido" class="form-label">Apellido</label>
                 <input type="text" class="form-control" id="apellido" name="apellido" required>
-            </div>
+             </div>
             <div class="mb-3">
                 <label for="dni" class="form-label">DNI</label>
                 <input type="text" class="form-control" id="dni" name="dni" required>
