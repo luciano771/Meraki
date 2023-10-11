@@ -94,16 +94,13 @@
                 });
         }
         
-        setInterval(function () {verificarEstadoSesion(pk_eventos);}, 10000);
+        setInterval(function () {verificarEstadoSesion(pk_eventos);}, 10ñ000);
 
 
         window.addEventListener("beforeunload", function (e) {
             console.log("Evento unload disparado"); // Agrega un mensaje de depuración en la consola
-            enviarSolicitudPOSTParaCerrarSesion();
+            enviarSolicitudPOSTParaCerrarSesion(); //
         });
-
-
-     
 
     </script>
 </body>
