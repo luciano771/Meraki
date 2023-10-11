@@ -11,6 +11,7 @@
     <header>
         <div class="cabecera">
             <h2>Comprar entradas</h2>
+            <h4>No actualizar la pagina mientras realiza la reserva.</h4>
         </div>
      </header>
 

@@ -333,7 +333,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
 if($_SERVER["REQUEST_METHOD"] == "GET"){
-    if(isset($_GET["TraerEventos"]) &&$_GET["TraerEventos"]=="true"){
+    if(isset($_GET["TraerEventos"]) && $_GET["TraerEventos"]=="true"){
         $instancia->ObtenerEventos();
     }
     if(isset($_GET["Listado"]) && $_GET["Listado"]=="true" && isset($_GET["pkEvento"])){

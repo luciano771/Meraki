@@ -83,7 +83,12 @@
                     <button type="submit" id ="boton" class="btn btn-primary">Cargar evento</button>
                 </div>
             </form>
-            <div id="administrador"></div>       
+            <div id="administrador"></div>     
+            <br> 
+            <div class="paginacion">
+                <button id="btnAnterior" class="btn btn-primary boton">Anterior</button>
+                <button id="btnSiguiente" class="btn btn-primary boton">Siguiente</button>
+            </div>  
     </div>
 
 
@@ -105,89 +110,122 @@
 
             let Modificar = false;
 
+            const eventosPorPagina = 4; // Número de eventos por página
+            let paginaActual = 1;
+            let eventos;
+
+// Función para mostrar eventos en la página actual
+function mostrarEventosEnPagina() {
+  const eventosContainer = document.getElementById('administrador');
+  eventosContainer.innerHTML = ''; // Borra los eventos anteriores
+
+  const inicio = (paginaActual - 1) * eventosPorPagina;
+  const fin = inicio + eventosPorPagina;
+
+  for (let i = inicio; i < fin; i++) {
+    if (eventos[i]) {
+      const evento = eventos[i];
+      const divEvento = document.createElement('div');
+      divEvento.className = 'eventoPanel';
+        divEvento.innerHTML = `
+            <p>${evento.pk_eventos}: ${evento.titulo} 
+            <button class="btn btn-primary boton" accion="modificar" pkeventos="${evento.pk_eventos}">Modificar</button>
+            <button class="btn btn-primary boton" accion="eliminar" pkeventos="${evento.pk_eventos}">Eliminar</button></p>
+            `;
+        eventosContainer.appendChild(divEvento);
+        const Btns = divEvento.querySelectorAll('.boton');
+            Btns.forEach(Btn => {
+                    Btn.addEventListener("click", function() {
+                        const pkEventos = this.getAttribute('pkeventos');
+                        const accion = this.getAttribute('accion');
+                        console.log('pkeventos es:', pkEventos," y la accion es: ",accion);
+                        //cargar popup del admin
+                        if(accion=='modificar'){
+                                MandarGet(pkEventos, accion)
+                                .then(data => {
+                                    if(data.length>0){
+                                        const evento = data[0];
+                                        console.log("Respuesta JSON:", evento);
+                                        document.getElementById('Titulo').value = evento.titulo;
+                                        document.getElementById('Descripcion').value = evento.descripcion;
+                                        document.getElementById('Fecha_inicio').value = evento.fecha_inicio;
+                                        document.getElementById('Fecha_fin').value = evento.fecha_fin;
+                                        var titulo = evento.titulo;
+                                        var descripcion = evento.descripcion;
+                                        var fecha_inicio = evento.fecha_inicio;
+                                        var fecha_fin = evento.fecha_fin;
+                                        var img = evento.img;
+                                        if(!Modificar){
+                                            agregarbtnVer(pkEventos);
+                                        }
+                                        Cargar_A_Actualizar(pkEventos);
+                                        Modificar = true;
+                                    }
+                                })
+
+                            .catch(error => {
+                                console.error("Error en la solicitud AJAX:", error);
+                            });
+                           
+                                                                                       
+                        }else{
+
+
+                            var boton = document.getElementById("boton").innerText = "Cargar Evento";
+                            var accionpost = document.getElementById('accion').value = "agregar";
+                            console.log(boton,accionpost);
+                            Modificar = false;
+                            EliminarEvento(pkEventos);
+                            alert("Se elimino el evento: "+pkEventos);
+                            location.reload();
+
+                        }
+                          
+             });
+        });
+    }
+  }
+}
+
+            // Función para cambiar a la página anterior
+            function paginaAnterior() {
+            if (paginaActual > 1) {
+                paginaActual--;
+                mostrarEventosEnPagina();
+            }
+            }
+
+            // Función para cambiar a la página siguiente
+            function paginaSiguiente() {
+            if (paginaActual < Math.ceil(eventos.length / eventosPorPagina)) {
+                paginaActual++;
+                mostrarEventosEnPagina();
+            }
+            }
+
+            // Event listeners para los botones de paginación
+            const btnAnterior = document.getElementById('btnAnterior');
+            const btnSiguiente = document.getElementById('btnSiguiente');
+
+            btnAnterior.addEventListener('click', paginaAnterior);
+            btnSiguiente.addEventListener('click', paginaSiguiente);
+
+
+
+
             fetch('../Controllers/panelController.php?TraerEventos=true')
             .then(response => response.json())
             .then(data => {
                 // Iterar sobre los datos y generar divs para cada evento
                 const eventosContainer = document.getElementById('administrador');
-                data.forEach(evento => {
-                    const divEvento = document.createElement('div');
-                    divEvento.className = 'eventoPanel';
-                    divEvento.innerHTML = `
-                        <p>${evento.pk_eventos}: ${evento.titulo} 
-                        <button class="btn btn-primary boton" accion="modificar" pkeventos="${evento.pk_eventos}">Modificar</button>
-                        <button class="btn btn-primary boton" accion="eliminar" pkeventos="${evento.pk_eventos}">Eliminar</button></p>
-                        `;
-                    eventosContainer.appendChild(divEvento);
-                    const Btns = divEvento.querySelectorAll('.boton');
-                        Btns.forEach(Btn => {
-                                Btn.addEventListener("click", function() {
-                                    const pkEventos = this.getAttribute('pkeventos');
-                                    const accion = this.getAttribute('accion');
-                                    console.log('pkeventos es:', pkEventos," y la accion es: ",accion);
-                                    //cargar popup del admin
-                                    if(accion=='modificar'){
-                                            MandarGet(pkEventos, accion)
-                                            .then(data => {
-                                                if(data.length>0){
-                                                    const evento = data[0];
-                                                    console.log("Respuesta JSON:", evento);
-                                                    document.getElementById('Titulo').value = evento.titulo;
-                                                    document.getElementById('Descripcion').value = evento.descripcion;
-                                                    document.getElementById('Fecha_inicio').value = evento.fecha_inicio;
-                                                    document.getElementById('Fecha_fin').value = evento.fecha_fin;
-                                                    var titulo = evento.titulo;
-                                                    var descripcion = evento.descripcion;
-                                                    var fecha_inicio = evento.fecha_inicio;
-                                                    var fecha_fin = evento.fecha_fin;
-                                                    var img = evento.img;
-                                                    if(!Modificar){
-                                                        agregarbtnVer(pkEventos);
-                                                    }
-                                                    Cargar_A_Actualizar(pkEventos);
-                                                    Modificar = true;
-                                                }
-                                            })
-
-                                        .catch(error => {
-                                            console.error("Error en la solicitud AJAX:", error);
-                                        });
-                                       
-                                                                                                   
-                                    }else{
-                                        // const divContenedor = document.getElementById("contenedor");
-                                        // const btnListado = document.getElementById("VerListado");
-                                        // divContenedor.removeChild(btnListado);
-
-                                        var boton = document.getElementById("boton").innerText = "Cargar Evento";
-                                        var accionpost = document.getElementById('accion').value = "agregar";
-
-                                        console.log(boton,accionpost);
-
-                                        
-                                        // document.getElementById('Titulo').value = "";
-                                        // document.getElementById('Descripcion').value = "";
-                                        // document.getElementById('Fecha_inicio').value = "";
-                                        // document.getElementById('Fecha_fin').value = "";
-                                        Modificar = false;
-
-                                        EliminarEvento(pkEventos);
-                                        alert("Se elimino el evento: "+pkEventos);
-
-                                        // Recargar la página actual
-                                        location.reload();
-
-                                    }
-                                      
-                         });
-                    });
-                });
+                eventos = data; 
+                mostrarEventosEnPagina();
+                    
+                
             })
             .catch(error => {
                 console.error('Error al obtener los datos de eventos:', error);
             });
-
-
 
 
             function MandarGet(pkEventos, accion) {
