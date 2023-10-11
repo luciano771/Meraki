@@ -41,7 +41,7 @@ if(isset($_GET['SESSION']) && $_GET['SESSION'] == 'ESTADO') {
             header('Location: ../Views/reservar.php?pk_eventos=' . $_GET["pk_eventos"]);
         }
         else{
-            header('Location: ../Views/sala.php?pk_eventos=' . $_GET["pk_eventos"]); // en salas verifico el orden de las sessiones
+            header('Location: ../Views/Sala.php?pk_eventos=' . $_GET["pk_eventos"]); // en salas verifico el orden de las sessiones
         }   //o una vez el comprador halla efectuado su compra se llama d
     } else {
         // Haz algo si la fecha de inicio no es posterior a la fecha actual
