@@ -77,7 +77,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
 
         echo '<script>
-        alert("Se ha cargado el evento con éxito.");
+        //alert("Se ha cargado el evento con éxito.");
         window.location.href = "../Views/panel.php"; // Redirige a panel.php
         </script>';
 
@@ -88,9 +88,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
     if(isset($_POST['Titulo']) && isset($_POST['Descripcion']) && isset($_POST['Fecha_inicio']) && isset($_POST['Fecha_fin']) && isset($_POST['pk_eventos']) && isset($_POST['accion']) && $_POST['accion'] === 'actualizar') {
-        echo '<script>
-            alert("ingreso.");
-            </script>';
+        // echo '<script>
+        //     alert("ingreso.");
+        //     </script>';
         
         $pk_eventos = $_POST['pk_eventos'];
         $TituloAc = $_POST['Titulo'];
@@ -110,9 +110,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
        
         if ($imagenCargada && $archivoListadoCargado) {
 
-            echo '<script>
-            alert("Se quiere actualizar con imagen y listado.");
-            </script>';
+            // echo '<script>
+            // alert("Se quiere actualizar con imagen y listado.");
+            // </script>';
             
         if ($_FILES["file"]["error"] === 0) {
             $file = $_FILES["file"]["name"];
@@ -166,7 +166,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
 
         echo '<script>
-        alert("Se ha actualizado el evento con éxito.");
+        //alert("Se ha actualizado el evento con éxito.");
         window.location.href = "../Views/panel.php"; // Redirige a panel.php
         </script>';
 
@@ -177,9 +177,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         if ($imagenCargada || $archivoListadoCargado) {
             // Al menos uno de los archivos está cargado
         
-            echo '<script>
-                alert("Entro al bloque principal.");
-            </script>';
+            // echo '<script>
+            //     alert("Entro al bloque principal.");
+            // </script>';
         
             // Procesar la imagen si está cargada
             if (isset($_FILES["file"]) && $_FILES["file"]["error"] === 0) {
@@ -202,7 +202,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         $instancia->ActualizarEvento($pk_eventos);
         
                         echo '<script>
-                            alert("Se ha actualizado el evento con imagen actualizada y sin actualizar listado.");
+                            //alert("Se ha actualizado el evento con imagen actualizada y sin actualizar listado.");
                             window.location.href = "../Views/panel.php"; // Redirige a panel.php
                         </script>';
                     } catch (PDOException $e) {
@@ -238,15 +238,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 }
 
                 echo '<script>
-                    alert("Se ha actualizado el evento sin  actualizar imagen y con listado actualizado.");
+                    //alert("Se ha actualizado el evento sin  actualizar imagen y con listado actualizado.");
                     window.location.href = "../Views/panel.php"; // Redirige a panel.php
                     </script>';
             }
         } else {
             // Ninguno de los dos archivos está cargado
-            echo '<script>
-                alert("Se ha actualizado el evento, no se actualizo imagen y listado.");
-                </script>';
+            // echo '<script>
+            //     alert("Se ha actualizado el evento, no se actualizo imagen y listado.");
+            //     </script>';
                 try {
                     // Actualizar la información del evento en la base de datos
                  
@@ -258,7 +258,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $instancia->ActualizarEvento($pk_eventos);
         
                     echo '<script>
-                    alert("Se ha cargado el evento con éxito.");
+                    //alert("Se ha cargado el evento con éxito.");
                     window.location.href = "../Views/panel.php"; // Redirige a panel.php
                     </script>';
                 } catch (PDOException $e) {
