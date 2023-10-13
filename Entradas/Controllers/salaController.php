@@ -11,9 +11,10 @@ $instancia2 = new SessionesModel($db);
 date_default_timezone_set("America/Argentina/Buenos_Aires");
 
 
-if(isset($_GET['ESTADOSESSION']) && $_GET['ESTADOSESSION'] == 'ESTADO') {
+if(isset($_GET['ESTADOSESSION']) && $_GET['ESTADOSESSION'] == 'ESTADO' && isset($_GET['pkeventos'])) {
     
     if(!isset($_SESSION['estado']) || $_SESSION['estado']=='false') {
+        $instancia2->setPkevento($_GET['pkeventos']);
         $instancia2->InsertarSession();
     }else{
         $estado ='activa';
@@ -36,13 +37,14 @@ if(isset($_GET['SESSION']) && $_GET['SESSION'] == 'ESTADO') {
     $fecha_inicio = $fecha["fecha_inicio"];
     $fecha_fin = $fecha["fecha_fin"];
     if ($fechaActual>=$fecha_inicio && $fechaActual<=$fecha_fin) {
+        $instancia2->setPkevento($_GET["pk_eventos"]);
         $instancia2->InsertarSession();
         $sessionOrden = $instancia2->SessionFilas();
         if($sessionOrden) {
             header('Location: ../Views/reservar.php?pk_eventos=' . $_GET["pk_eventos"]);
         }
         else{
-            header('Location: ../Views/Sala.php?pk_eventos=' . $_GET["pk_eventos"] .'ingreso=true'); // en salas verifico el orden de las sessiones
+            header('Location: ../Views/Sala.php?pk_eventos=' . $_GET["pk_eventos"]); // en salas verifico el orden de las sessiones
         }   //o una vez el comprador halla efectuado su compra se llama d
     } else {
         // Haz algo si la fecha de inicio no es posterior a la fecha actual
@@ -65,6 +67,7 @@ if(isset($_GET['SESSION']) && $_GET['SESSION'] == 'ESTADO') {
 }
 
 if (isset($_GET['VerificarOrden']) && $_GET['VerificarOrden'] == 'true' && isset($_GET['pk_eventos'])) {
+    $instancia2->setPkevento($_GET["pk_eventos"]);
     $sessionOrden = $instancia2->SessionFilas();
     if($sessionOrden) {
         echo'true';

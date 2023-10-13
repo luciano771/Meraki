@@ -60,6 +60,24 @@
 
         let pk_eventos = url.searchParams.get('pk_eventos');
 
+
+        function enviarHeartbeat(pk_eventos) {
+            fetch("../Controllers/salaController.php?ESTADOSESSION=ESTADO&pkeventos="+pk_eventos)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error en la solicitud AJAX");
+                    }
+                    return response.text();
+                    console.log("heartbeat enviado");
+                })
+                .catch(error => {
+                    // Maneja errores en la solicitud AJAX
+                    console.error("Error en la solicitud AJAX:", error);
+                });
+        }
+
+
+
         function enviarSolicitudPOSTParaCerrarSesion(pk_eventos) {
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "../Controllers/salaController.php", true);
@@ -78,6 +96,8 @@
 
         setInterval(function () {enviarSolicitudPOSTParaCerrarSesion(pk_eventos);}, 300000);
 
+      
+
         
         function verificarEstadoSesion(pk_eventos) {
             // Hacer una solicitud AJAX al archivo PHP que obtiene el estado de la sesión
@@ -88,6 +108,7 @@
                     if (data.trim() === 'false') {
                         // Llamar a la función para cerrar la sesión
                         enviarSolicitudPOSTParaCerrarSesion(pk_eventos);
+                        enviarHeartbeat(pk_eventos);
                     }
                 })
                 .catch(error => {

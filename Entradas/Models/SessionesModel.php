@@ -7,6 +7,7 @@ class SessionesModel
     private $session;
     private $PrimerasSessiones;
     private $ListadoSessiones;
+    private $pkevento;
 
     public function __construct($db) {
         $this->db = $db;
@@ -20,7 +21,9 @@ class SessionesModel
     public function setListadoSessiones(){
         $this->ListadoSessiones = $this->SessionListado();
     }
-    
+    public function setPkevento($pkevento){
+        $this->pkevento = $pkevento;
+    }
     public function getSession() {
         return $this->session;
     }
@@ -50,9 +53,10 @@ class SessionesModel
                 $this->session = session_id();
                 $this->db->exec("SET TRANSACTION ISOLATION LEVEL READ COMMITTED");
                 $this->db->beginTransaction();
-                $sql = "INSERT INTO sessiones (sessiones) VALUES (:sessiones)";
+                $sql = "INSERT INTO sessiones (sessiones, fk_eventos) VALUES (:sessiones, :fk_eventos)";
                 $stmt = $this->db->prepare($sql);
                 $stmt->bindParam(':sessiones', $this->session, PDO::PARAM_STR);
+                $stmt->bindParam(':fk_eventos', $this->pkevento, PDO::PARAM_STR);
                 $stmt->execute();
                 $this->db->commit();
                 echo "session insertada con éxito. <br>";
@@ -89,21 +93,27 @@ class SessionesModel
 
     
 
-    public function ConsultaSessionesMin(){
+    public function ConsultaSessionesMin() {
         $this->setSession();
-        try{
-            $sql = "SELECT sessiones FROM sessiones where id_sessiones =  (SELECT MIN(id_sessiones) FROM sessiones);";
+    
+        try {
+            $sql = "SELECT sessiones 
+                    FROM sessiones 
+                    WHERE id_sessiones = (SELECT MIN(id_sessiones) FROM sessiones WHERE fk_eventos = :fk_eventos)";
             $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':fk_eventos', $this->pkevento, PDO::PARAM_INT);
             $stmt->execute();
+    
             $id_sessiones = $stmt->fetchColumn();
-                 
-        }
-        catch(PDOException $e){
+        } catch (PDOException $e) {
+            // Manejar el error apropiadamente (por ejemplo, registrar o lanzar una excepción)
+            error_log('Error en ConsultaSessionesMin: ' . $e->getMessage());
             $id_sessiones = null;
-            return null;
         }
+    
         return $id_sessiones;
     }
+    
 
     public function SessionListado(){
         $this->setSession();

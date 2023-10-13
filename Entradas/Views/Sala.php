@@ -111,14 +111,14 @@
 
  
 
-        function enviarHeartbeat() {
-            fetch("../Controllers/salaController.php?ESTADOSESSION=ESTADO")
+        function enviarHeartbeat(pk_eventos) {
+            fetch("../Controllers/salaController.php?ESTADOSESSION=ESTADO&pkeventos="+pk_eventos)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error("Error en la solicitud AJAX");
                     }
                     return response.text();
-
+                    console.log("heartbeat enviado");
                 })
                 .catch(error => {
                     // Maneja errores en la solicitud AJAX
@@ -127,7 +127,7 @@
         }
 
 
-        setInterval(function () {enviarHeartbeat();}, 15000);
+        setInterval(function () {enviarHeartbeat(pk_eventos);}, 5000);
 
     </script>
 
