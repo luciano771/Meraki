@@ -8,6 +8,7 @@ $db = new conexion();
 $instancia = new EventosModel($db);
 $instancia2 = new SessionesModel($db);
 
+date_default_timezone_set("America/Argentina/Buenos_Aires");
 
 
 if(isset($_GET['ESTADOSESSION']) && $_GET['ESTADOSESSION'] == 'ESTADO') {
