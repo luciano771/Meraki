@@ -180,11 +180,12 @@
                         // Envia una solicitud para cerrar la sesión
                         enviarSolicitudPOSTParaCerrarSesion(pk_eventos);
                     }, tiempoExpiracion);
+                }
                 else if (resultado) {
                     tiempoExpiracionSession+=30000;
                 }
-            }
         }
+        
 
         // Ejecuta la función para extender la sesión cada 2 minutos (120,000 milisegundos)
         setInterval(() => extenderSession(pk_eventos), tiempoExpiracion);
