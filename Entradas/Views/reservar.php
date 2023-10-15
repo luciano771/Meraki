@@ -148,7 +148,7 @@
         });
 
 
-        let tiempoExpiracion = 15000; // 15 segundos
+        let tiempoExpiracion = 8000; // 15 segundos
         let timerId = null;
 
             function extenderSession(pk_eventos) {
@@ -174,7 +174,7 @@
             }
 
             // Ejecuta la función para extender la sesión cada 2 minutos (120,000 milisegundos)
-            setInterval(() => extenderSession(pk_eventos), 120000);
+            setInterval(() => extenderSession(pk_eventos), 30000);
 
 
 
