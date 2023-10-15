@@ -157,7 +157,7 @@
 
 
 
-        let tiempoExpiracion = 120000; // 2 minutos
+        let tiempoExpiracion = 30000; // 2 minutos
         let timerId = null;
 
         function extenderSession(pk_eventos) {
@@ -165,7 +165,7 @@
                 // Si el temporizador está en funcionamiento, el usuario ya respondió "extender la sesión"
                 clearTimeout(timerId); // Cancela el temporizador actual
                 timerId = null;
-                tiempoExpiracion += 120000; // Agrega 2 minutos más al tiempo de expiración
+                tiempoExpiracion += 30000; // Agrega 2 minutos más al tiempo de expiración
             }
 
             // Muestra la alerta
