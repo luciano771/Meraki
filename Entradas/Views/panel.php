@@ -134,7 +134,7 @@ function mostrarEventosEnPagina() {
          
 
       const evento = eventos[i];
-      var restoDeLaURL = '/Controllers/panelController.php?Listado=true&pkEvento='+evento.pk_eventos;
+      var restoDeLaURL = '/Controllers/panelController.php?ListadoReservas=true&pkEvento='+evento.pk_eventos;
         // Construir la nueva URL
         var nuevaURL = dominio + restoDeLaURL;
       const divEvento = document.createElement('div');
