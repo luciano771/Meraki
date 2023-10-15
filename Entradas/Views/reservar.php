@@ -150,22 +150,23 @@
 
 
         function extenderSession(pk_eventos) {
-            const resultado = window.confirm("Esta alerta se cerrará automáticamente después de 10 segundos. ¿Desea extender la sesión?");
-            tiempo = 15000;
-            if (!resultado) {
-                // Programa el cierre automático después de 10 segundos
-                setTimeout(() => {
-                    // Cierra la alerta
-                    alert("Sera redirigido a la pagina principal.");
-                    // Envia una solicitud para cerrar la sesión
-                    enviarSolicitudPOSTParaCerrarSesion(pk_eventos);
-                }, tiempo);
-            }  
+        const tiempoEspera = 15000; // 15 segundos
+
+        // Muestra la alerta
+        const resultado = window.confirm("Esta alerta se cerrará automáticamente después de 15 segundos. ¿Desea extender la sesión?");
+
+        if (!resultado) {
+            // Si el usuario no hace clic en "extender la sesión", ejecuta el cierre de sesión después de 15 segundos
+            setTimeout(() => {
+                alert("Sera redirigido a la pagina principal.");
+                enviarSolicitudPOSTParaCerrarSesion(pk_eventos);
+            }, tiempoEspera);
         }
+    }
 
+    // Ejecuta la función para extender la sesión cada 2 minutos (120,000 milisegundos)
+    setInterval(() => extenderSession(pk_eventos), 60000);
 
-        // Ejecuta la función para extender la sesión cada 10 segundos
-        setInterval(() => extenderSession(pk_eventos), 120000);
 
 
     </script>
