@@ -163,23 +163,26 @@
         var timerId = null;
 
         function extenderSession(pk_eventos) {
-            if (timerId) {
-                // Si el temporizador está en funcionamiento, el usuario ya respondió "extender la sesión"
-                clearTimeout(timerId); // Cancela el temporizador actual
-                timerId = null;
-                tiempoExpiracionSession += 30000; // Agrega 2 minutos más al tiempo de expiración
-            }
+                if (timerId) {
+                    // Si el temporizador está en funcionamiento, el usuario ya respondió "extender la sesión"
+                    clearTimeout(timerId); // Cancela el temporizador actual
+                    timerId = null;
+                    // Agrega 2 minutos más al tiempo de expiración
+                }
 
-            // Muestra la alerta
-            const resultado = window.confirm("Esta alerta se cerrará automáticamente después de 2 minutos. ¿Desea extender la sesión?");
-            if (!resultado) {
-                // Si el usuario no hizo clic en "Cancelar," programa el cierre automático después de 2 minutos
-                timerId = setTimeout(() => {
-                    // Cierra la alerta
-                    alert("Será redirigido a la página principal.");
-                    // Envia una solicitud para cerrar la sesión
-                    enviarSolicitudPOSTParaCerrarSesion(pk_eventos);
-                }, tiempoExpiracion);
+                // Muestra la alerta
+                const resultado = window.confirm("Esta alerta se cerrará automáticamente después de 2 minutos. ¿Desea extender la sesión?");
+                if (!resultado) {
+                    // Si el usuario no hizo clic en "Cancelar," programa el cierre automático después de 2 minutos
+                    timerId = setTimeout(() => {
+                        // Cierra la alerta
+                        alert("Será redirigido a la página principal.");
+                        // Envia una solicitud para cerrar la sesión
+                        enviarSolicitudPOSTParaCerrarSesion(pk_eventos);
+                    }, tiempoExpiracion);
+                else if (resultado) {
+                    tiempoExpiracionSession+=30000;
+                }
             }
         }
 
