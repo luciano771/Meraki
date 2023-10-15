@@ -173,7 +173,9 @@
                 // El usuario eligió extender la sesión, cancela el temporizador
                 clearTimeout(timerId);
                 timerId = null;
-            }
+            }else{alert("Sera redirigido a la pagina principal.");
+                // Envia una solicitud para cerrar la sesión
+                enviarSolicitudPOSTParaCerrarSesion(pk_eventos);}
         }
 
         // Ejecuta la función para extender la sesión cada 2 minutos (120,000 milisegundos)
