@@ -67,11 +67,19 @@
         </div>
     </form>
     <br>
+ 
+
+
+
+
+
+
+
 
     <script>
         
         
-        
+        TiempodeExpiracion= 20000;
         
         var url = new URL(window.location.href);
 
@@ -107,11 +115,11 @@
             };
             xhr.send("activo=no");
             alert("Se agoto su tiempo para realizar la compra, sera redirijido a la sala de espera.");
-            window.location.href = '../Controllers/salaController.php?pk_eventos='+pk_eventos+'&ingreso=true';
+            window.location.href = 'Eventos.html';
         }
 
 
-        setInterval(function () {enviarSolicitudPOSTParaCerrarSesion(pk_eventos);}, 300000);
+        //setInterval(function () {enviarSolicitudPOSTParaCerrarSesion(pk_eventos);}, TiempodeExpiracion);
 
       
 
@@ -122,7 +130,7 @@
                 .then(response => response.text())
                 .then(data => {
                     // Verificar si el estado es "false"
-                    if (data.trim() === 'false') {
+                    if (data.trim() == 'false') {
                         // Llamar a la función para cerrar la sesión
                         enviarSolicitudPOSTParaCerrarSesion(pk_eventos);
                         enviarHeartbeat(pk_eventos);
@@ -133,13 +141,34 @@
                 });
         }
         
-        setInterval(function () {verificarEstadoSesion(pk_eventos);}, 10000);
+        setInterval(function () {verificarEstadoSesion(pk_eventos);}, 30000);
 
 
         window.addEventListener("beforeunload", function (e) {
             console.log("Evento unload disparado"); // Agrega un mensaje de depuración en la consola
-            enviarSolicitudPOSTParaCerrarSesion(); //
+            enviarSolicitudPOSTParaCerrarSesion(pk_eventos); //
         });
+
+
+
+        function extenderSession(pk_eventos) {
+            const resultado = window.confirm("Esta alerta se cerrará automáticamente después de 10 segundos. ¿Desea extender la sesión?");
+            tiempo = 5000;
+            if (!resultado) {
+                // Programa el cierre automático después de 10 segundos
+                setTimeout(() => {
+                    // Cierra la alerta
+                    alert("Sera redirigido a la pagina principal.");
+                    // Envia una solicitud para cerrar la sesión
+                    enviarSolicitudPOSTParaCerrarSesion(pk_eventos);
+                }, tiempo);
+            }  
+        }
+
+
+        // Ejecuta la función para extender la sesión cada 10 segundos
+        setInterval(() => extenderSession(pk_eventos), 10000);
+
 
     </script>
 </body>

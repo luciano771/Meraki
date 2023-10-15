@@ -95,7 +95,7 @@ class ActoresModel {
         try {
             // Crear una instancia de la conexión a la base de datos
              // Consulta SQL para obtener los valores de la columna "pk_eventos"
-            $consulta = "SELECT * FROM actores where fk_eventos= :pkevento";
+            $consulta = "SELECT * FROM comprador where fk_eventos= :pkevento";
             $stmt = $this->db->prepare($consulta);
             $stmt->bindParam(':pkevento', $pkeventos, PDO::PARAM_INT); 
             $stmt->execute();

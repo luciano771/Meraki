@@ -5,12 +5,15 @@ require '../vendor/autoload.php'; // Carga la biblioteca Spout
 include '../Models/EventosModel.php';
 include '../Models/ActoresModel.php';
 include '../Models/CompradoresModel.php';
+include '../Models/SessionesModel.php';
 
 
 $db = new conexion();
 $instancia = new EventosModel($db);
 $instancia2 = new ActoresModel($db);
 $instancia3 = new CompradoresModel($db);
+$instancia4 = new SessionesModel($db);
+
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
@@ -406,7 +409,26 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
 }
 
 
+if (isset($_GET['FilaBool']) && $_GET['FilaBool'] == 'true' && isset($_GET['pkEvento'])) {
+    
+    $sessionBool = $instancia4->FilaBool($_GET['pkEvento']);
+    $bool='false';
+    if($sessionBool){
+        $bool='true';
+            
+    }
+    echo trim($bool);   
+} 
 
+if (isset($_GET['ReservasBool']) && $_GET['ReservasBool'] == 'true' && isset($_GET['pkEvento'])) {
+    
+    $sessionBool = $instancia2->ConsultarListado($_GET['pkEvento']);
+    $bool='false';
+    if($sessionBool){
+        $bool='true';
+    }
+    echo trim($bool);   
+} 
 
 function generarExcelReservas($jsonData) {
     $datos = json_decode($jsonData, true);
@@ -483,6 +505,9 @@ function generarExcelActores($jsonData) {
 unset($db);
 unset($instancia);
 unset($instancia2);
+unset($instancia3);
+unset($instancia4);
+
    
  
      

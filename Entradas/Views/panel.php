@@ -114,7 +114,7 @@
             let eventos;
 
 // Función para mostrar eventos en la página actual
-function mostrarEventosEnPagina() {
+async function mostrarEventosEnPagina() {
   const eventosContainer = document.getElementById('administrador');
   eventosContainer.innerHTML = ''; // Borra los eventos anteriores
 
@@ -141,49 +141,56 @@ function mostrarEventosEnPagina() {
       divEvento.className = 'eventoPanel';
         divEvento.innerHTML = `
             <p>${evento.pk_eventos}: ${evento.titulo} 
-            <button class="btn btn-primary boton" accion="modificar" pkeventos="${evento.pk_eventos}">Modificar</button>
-            <button class="btn btn-primary boton" accion="eliminar" pkeventos="${evento.pk_eventos}">Eliminar</button>
+            <button class="btn btn-primary boton" accion="modificar" id="modificar" pkeventos="${evento.pk_eventos}">Modificar</button>
+            <button class="btn btn-primary boton" accion="eliminar" id="eliminar" pkeventos="${evento.pk_eventos}">Eliminar</button>
             <a href="${nuevaURL}"><button class="btn btn-primary boton"  pkeventos="${evento.pk_eventos}">Ver reservas</button></a></p>
             `;
         eventosContainer.appendChild(divEvento);
         const Btns = divEvento.querySelectorAll('.boton');
-            Btns.forEach(Btn => {
-                    Btn.addEventListener("click", function() {
+            Btns.forEach(async (Btn) => {
+                    Btn.addEventListener("click", async function() {
                         const pkEventos = this.getAttribute('pkeventos');
                         const accion = this.getAttribute('accion');
                         console.log('pkeventos es:', pkEventos," y la accion es: ",accion);
                         //cargar popup del admin
                         if(accion=='modificar'){
-                                MandarGet(pkEventos, accion)
-                                .then(data => {
-                                    if(data.length>0){
-                                        const evento = data[0];
-                                        console.log("Respuesta JSON:", evento);
-                                        document.getElementById('Titulo').value = evento.titulo;
-                                        document.getElementById('Descripcion').value = evento.descripcion;
-                                        document.getElementById('Fecha_inicio').value = evento.fecha_inicio;
-                                        document.getElementById('Fecha_fin').value = evento.fecha_fin;
-                                        var titulo = evento.titulo;
-                                        var descripcion = evento.descripcion;
-                                        var fecha_inicio = evento.fecha_inicio;
-                                        var fecha_fin = evento.fecha_fin;
-                                        var img = evento.img;
-                                        if(!Modificar){
-                                            agregarbtnVer(pkEventos);
-                                            //agregarbtnVerReservas(pkEventos);
-                                        }
-                                        Cargar_A_Actualizar(pkEventos);
-                                        Modificar = true;
-                                    }
-                                })
+                             bool = await filabool(pkEventos);
+                            console.log("filabool es igual a:"+bool);
 
-                            .catch(error => {
-                                console.error("Error en la solicitud AJAX:", error);
-                            });
-                           
+                                if(bool=="false"){
+                                
+                                    MandarGet(pkEventos, accion)
+                                    .then(data => {
+                                        if(data.length>0){
+                                            const evento = data[0];
+                                            console.log("Respuesta JSON:", evento);
+                                            document.getElementById('Titulo').value = evento.titulo;
+                                            document.getElementById('Descripcion').value = evento.descripcion;
+                                            document.getElementById('Fecha_inicio').value = evento.fecha_inicio;
+                                            document.getElementById('Fecha_fin').value = evento.fecha_fin;
+                                            var titulo = evento.titulo;
+                                            var descripcion = evento.descripcion;
+                                            var fecha_inicio = evento.fecha_inicio;
+                                            var fecha_fin = evento.fecha_fin;
+                                            var img = evento.img;
+                                            if(!Modificar){
+                                                agregarbtnVer(pkEventos);
+                                                //agregarbtnVerReservas(pkEventos);
+                                            }
+                                            Cargar_A_Actualizar(pkEventos);
+                                            Modificar = true;
+                                        }
+                                    })
+
+                                .catch(error => {
+                                    console.error("Error en la solicitud AJAX:", error);
+                                });
+                        }else{alert("Ya inicio la fila para este evento");  }
                                                                                        
                         }else if(accion=='eliminar'){
 
+                            bool = await ReservasBool(pkEventos);
+                            if(bool=="false"){
 
                             var boton = document.getElementById("boton").innerText = "Cargar Evento";
                             var accionpost = document.getElementById('accion').value = "agregar";
@@ -192,7 +199,8 @@ function mostrarEventosEnPagina() {
                             EliminarEvento(pkEventos);
                             alert("Se elimino el evento: "+pkEventos);
                             location.reload();
-
+                            }
+                            else{alert("El evento posee reservas.");}
                         }
                           
              });
@@ -360,6 +368,35 @@ function mostrarEventosEnPagina() {
                 console.log(accion,boton,pk_eventos);
             }
 
+            
+            function filabool(pkEventos) {
+                const url = `../Controllers/panelController.php?FilaBool=true&pkEvento=${pkEventos}`;
+                console.log('URL de la solicitud:', url);
+                return fetch(url)
+                    .then(response => response.text())
+                    .then(data => {
+                        return data.trim(); // Devolver directamente el resultado como un booleano
+                    })
+                    .catch(error => {
+                        console.error('Error al hacer la solicitud:', error);
+                        return false;
+                    });
+            }
+
+            
+            function ReservasBool(pkEventos) {
+                const url = `../Controllers/panelController.php?ReservasBool=true&pkEvento=${pkEventos}`;
+                console.log('URL de la solicitud:', url);
+                return fetch(url)
+                    .then(response => response.text())
+                    .then(data => {
+                        return data.trim(); // Devolver directamente el resultado como un booleano
+                    })
+                    .catch(error => {
+                        console.error('Error al hacer la solicitud:', error);
+                        return false;
+                    });
+            }
 
 
 

@@ -79,6 +79,7 @@ if (isset($_GET['VerificarOrden']) && $_GET['VerificarOrden'] == 'true' && isset
 
 
 
+
 if (isset($_POST['activo']) && $_POST['activo'] == 'no') {
     $instancia2->BorrarSession();
 }

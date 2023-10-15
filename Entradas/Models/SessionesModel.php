@@ -1,4 +1,5 @@
 <?php
+use PhpOffice\PhpSpreadsheet\Calculation\DateTimeExcel\Time;
 session_start(); 
 require_once 'Conexion.php';
 class SessionesModel  
@@ -49,14 +50,18 @@ class SessionesModel
     public function InsertarSession(){
         $this->setSession();
         if(!$this->SessionBool()){
+            date_default_timezone_set("America/Argentina/Buenos_Aires");
+            $TiempoInsercion = date('H:i:s'); // Formato HH:MM:SS
+
             try{
                 $this->session = session_id();
                 $this->db->exec("SET TRANSACTION ISOLATION LEVEL READ COMMITTED");
                 $this->db->beginTransaction();
-                $sql = "INSERT INTO sessiones (sessiones, fk_eventos) VALUES (:sessiones, :fk_eventos)";
+                $sql = "INSERT INTO sessiones (sessiones, fk_eventos,TiempoInsercion) VALUES (:sessiones, :fk_eventos, :TiempoInsercion)";
                 $stmt = $this->db->prepare($sql);
                 $stmt->bindParam(':sessiones', $this->session, PDO::PARAM_STR);
                 $stmt->bindParam(':fk_eventos', $this->pkevento, PDO::PARAM_STR);
+                $stmt->bindParam(':TiempoInsercion', $TiempoInsercion, PDO::PARAM_STR);
                 $stmt->execute();
                 $this->db->commit();
                 echo "session insertada con éxito. <br>";
@@ -150,6 +155,25 @@ class SessionesModel
         } else {
             return false; // Tu sesión no tiene el valor más pequeño
         }
+    }
+
+    public function FilaBool($pkevento) {
+        $bool = true;
+        try{
+            $sql = "SELECT * FROM sessiones where fk_eventos =:fk_eventos";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':fk_eventos', $pkevento, PDO::PARAM_INT);
+            $stmt->execute();
+            $sessiones = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if($sessiones == false || $sessiones == null){
+                $bool = false;
+            }
+        }
+        catch(PDOException $e){
+            $bool = false;
+            echo $e; 
+        }
+        return $bool; 
     }
     
 
