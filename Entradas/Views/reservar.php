@@ -112,7 +112,7 @@
                 }
             };
             xhr.send("activo=no");
-            alert("Se agoto su tiempo para realizar la compra, sera redirijido a la sala de espera.");
+            alert("Sera redirijido a la sala de espera.");
             window.location.href = 'Eventos.html';
         }
 
@@ -150,45 +150,27 @@
  
 
 
-
-
-
-
-
- 
-        var tiempoExpiracionSession = 30000; // 2 minutos
-
-        var timerId = null;
+       
+        var intervalId = null;
 
         function extenderSession(pk_eventos) {
-            if (timerId) {
-                // Si el temporizador está en funcionamiento, el usuario ya respondió "extender la sesión"
-                clearTimeout(timerId); // Cancela el temporizador actual
-                timerId = null;
-                // Agrega 2 minutos más al tiempo de expiración
-            }
-
-            // Muestra la alerta
             const resultado = window.confirm("Esta alerta se cerrará automáticamente después de 30 segundos. ¿Desea extender la sesión?");
+            
             if (resultado) {
-                tiempoExpiracionSession += 30000; // Agrega 30 segundos más al tiempo de expiración
-            } else {
-                // Si el usuario no hizo clic en "Cancelar," programa el cierre automático después de 30 segundos
-                timerId = setTimeout(() => {
-                    // Cierra la alerta
-                    alert("Será redirigido a la página principal.");
-                    // Envia una solicitud para cerrar la sesión
-                    enviarSolicitudPOSTParaCerrarSesion(pk_eventos);
-                }, 15000);
+                // Reinicia el intervalo de cerrar sesión y vuelve a configurarlo
+                clearInterval(intervalId);
+                intervalId = setInterval(() => enviarSolicitudPOSTParaCerrarSesion(pk_eventos), 30000);
             }
         }
-        
 
-        // Ejecuta la función para extender la sesión cada 2 minutos (120,000 milisegundos)
+        // Configura un intervalo inicial para enviar la solicitud de cerrar sesión
+        intervalId = setInterval(() => enviarSolicitudPOSTParaCerrarSesion(pk_eventos), 30000);
+
+        // Establece un intervalo para mostrar la alerta cada 2 minutos (120,000 milisegundos)
         setInterval(() => extenderSession(pk_eventos), 15000);
 
-        // Ejecuta la función para enviar la solicitud cada 2 minutos (120,000 milisegundos)
-        setInterval(() => enviarSolicitudPOSTParaCerrarSesion(pk_eventos), tiempoExpiracionSession);
+
+
 
 
 
