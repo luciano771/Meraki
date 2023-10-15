@@ -157,10 +157,10 @@
 
 
 
-        let tiempoExpiracion = 15000; // 2 minutos
-        let tiempoExpiracionSession = 30000; // 2 minutos
+        var tiempoExpiracion = 15000; // 2 minutos
+        var tiempoExpiracionSession = 30000; // 2 minutos
 
-        let timerId = null;
+        var timerId = null;
 
         function extenderSession(pk_eventos) {
             if (timerId) {
