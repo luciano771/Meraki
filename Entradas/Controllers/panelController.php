@@ -369,7 +369,6 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
         
         $bool = $instancia3->ConsultarReservas($_GET["pkEvento"]);
         if($bool!=null){
-            //$jsonData = json_encode($resultado);
             generarExcelReservas($resultado);
         }
         else{
@@ -443,8 +442,6 @@ function generarExcelReservas($jsonData) {
         echo "No se pudo abrir el archivo temporal para escritura.";
     }
 }
-
-
 
 
 

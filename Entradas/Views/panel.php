@@ -121,15 +121,29 @@ function mostrarEventosEnPagina() {
   const inicio = (paginaActual - 1) * eventosPorPagina;
   const fin = inicio + eventosPorPagina;
 
+    var urlCompleta = window.location.href;
+    // Separar la URL en partes (dominio y resto)
+    var partesURL = urlCompleta.split('/');
+    // Obtener la parte del dominio
+    var dominio = partesURL.slice(0, 4).join('/'); // Esto captura "http://localhost/meraki/entradas con slice(0,5)"
+    // Concatenar el resto de la URL que desees
+    
+
   for (let i = inicio; i < fin; i++) {
     if (eventos[i]) {
+         
+
       const evento = eventos[i];
+      var restoDeLaURL = '/Controllers/panelController.php?Listado=true&pkEvento='+evento.pk_eventos;
+        // Construir la nueva URL
+        var nuevaURL = dominio + restoDeLaURL;
       const divEvento = document.createElement('div');
       divEvento.className = 'eventoPanel';
         divEvento.innerHTML = `
             <p>${evento.pk_eventos}: ${evento.titulo} 
             <button class="btn btn-primary boton" accion="modificar" pkeventos="${evento.pk_eventos}">Modificar</button>
-            <button class="btn btn-primary boton" accion="eliminar" pkeventos="${evento.pk_eventos}">Eliminar</button></p>
+            <button class="btn btn-primary boton" accion="eliminar" pkeventos="${evento.pk_eventos}">Eliminar</button>
+            <a href="${nuevaURL}"><button class="btn btn-primary boton"  pkeventos="${evento.pk_eventos}">Ver reservas</button></a></p>
             `;
         eventosContainer.appendChild(divEvento);
         const Btns = divEvento.querySelectorAll('.boton');
@@ -156,7 +170,7 @@ function mostrarEventosEnPagina() {
                                         var img = evento.img;
                                         if(!Modificar){
                                             agregarbtnVer(pkEventos);
-                                            agregarbtnVerReservas(pkEventos);
+                                            //agregarbtnVerReservas(pkEventos);
                                         }
                                         Cargar_A_Actualizar(pkEventos);
                                         Modificar = true;
@@ -168,7 +182,7 @@ function mostrarEventosEnPagina() {
                             });
                            
                                                                                        
-                        }else{
+                        }else if(accion=='eliminar'){
 
 
                             var boton = document.getElementById("boton").innerText = "Cargar Evento";
