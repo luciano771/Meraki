@@ -10,11 +10,11 @@
 <body>
     <header>    
         <div class="cabecera">
-            <h2>Comprar entradas</h2>&nbsp;
+            <h2>Reservar entradas</h2>&nbsp;
             <h3> (No actualizar la pagina mientras realiza la reserva).</h3>
         </div>
      </header>
-
+<!-- 
     <form action="../Controllers/compradoresController.php" method="post">
         <div class="contenedor"> 
             <div class="mb-3">
@@ -47,6 +47,23 @@
             </div>
             <input type="hidden" name="pk_eventos" value="<?php echo $_GET['pk_eventos']; ?>">
             <button type="submit" class="btn btn-primary">Comprar</button>
+        </div>
+    </form>
+    <br> -->
+
+    
+    <form action="../Controllers/compradoresController.php" method="post">
+        <div class="contenedor"> 
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="dni" class="form-label">DNI actor</label>
+                <input type="text" class="form-control" id="dni_actor" name="dni_actor" required>
+            </div>
+            <input type="hidden" name="pk_eventos" value="<?php echo $_GET['pk_eventos']; ?>">
+            <button type="submit" class="btn btn-primary">Reservar</button>
         </div>
     </form>
     <br>

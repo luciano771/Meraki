@@ -63,40 +63,37 @@ class CompradoresModel {
                 // El DNI no existe en la tabla de actores, muestra un mensaje de error o toma medidas adecuadas
                 echo '<script>
                 alert("El dni no esta registrado.");
-                window.location.href = "../Views/reservar.php?pk_eventos=' . $this->fk_eventos . '";
+                window.location.href = "../Views/Eventos.html?pk_eventos=' . $this->fk_eventos . '";
                 </script>';
             } elseif ($compra == 1) {
                 // Ya se ha realizado una compra para este actor, manejar esto según tus requerimientos
                 echo '<script>
                 alert("Ya se compraron entradas para este actor.");
-                window.location.href = "../Views/reservar.php?pk_eventos=' . $this->fk_eventos . '";
+                window.location.href = "../Views/Eventos.html?pk_eventos=' . $this->fk_eventos . '";
                 </script>';
             } else {
                 $this->db->exec("SET TRANSACTION ISOLATION LEVEL READ COMMITTED");
                 $this->db->beginTransaction();
                 // No se ha realizado una compra, proceder con la inserción y actualización
-                $sql = "INSERT INTO comprador (email, nombre, apellido, dni, telefono,  cantidad_entradas, CodigoEntrada, fk_eventos) VALUES (:email, :nombre, :apellido, :dni, :telefono, :cantidad_entradas, :TokenEntrada, :fk_eventos)";
+                $sql = "INSERT INTO comprador (email, CodigoEntrada, fk_eventos) VALUES (:email, :TokenEntrada, :fk_eventos)";
                 $stmt = $this->db->prepare($sql);
                 $stmt->bindParam(':email', $this->email, PDO::PARAM_STR);
-                $stmt->bindParam(':nombre', $this->nombre, PDO::PARAM_STR);
-                $stmt->bindParam(':apellido', $this->apellido, PDO::PARAM_STR);
-                $stmt->bindParam(':dni', $this->dni, PDO::PARAM_STR);
-                $stmt->bindParam(':telefono', $this->dni, PDO::PARAM_STR);
-                $stmt->bindParam(':cantidad_entradas', $this->cantidad_entradas, PDO::PARAM_INT);
                 $stmt->bindParam(':TokenEntrada', $this->TokenEntrada, PDO::PARAM_STR);
                 $stmt->bindParam(':fk_eventos', $this->fk_eventos, PDO::PARAM_INT);
                 $this->db->commit();
                 $stmt->execute();
+                $lastInsertId = $this->db->lastInsertId();
                 echo "Comprador insertado con éxito.";
                 // Actualizar el campo "compra" en la tabla "actores" a 1
 
 
                 $this->db->exec("SET TRANSACTION ISOLATION LEVEL READ COMMITTED");
                 $this->db->beginTransaction();
-                $sql = "UPDATE actores SET compra = 1 WHERE dni = :dni_actor and fk_eventos = :fk_eventos ";
+                $sql = "UPDATE actores SET compra = 1, fk_comprador:= :lastInsertId WHERE dni = :dni_actor AND fk_eventos = :fk_eventos";
                 $stmt = $this->db->prepare($sql);
                 $stmt->bindParam(':dni_actor', $this->dni_actor, PDO::PARAM_STR);
                 $stmt->bindParam(':fk_eventos', $this->fk_eventos, PDO::PARAM_INT); // Agregamos esto
+                $stmt->bindParam(':lastInsertId', $lastInsertId, PDO::PARAM_INT);
                 $this->db->commit();
                 $stmt->execute();
                 $this->enviarMail();
@@ -119,9 +116,8 @@ class CompradoresModel {
     
     public function enviarMail(){
     $to = $this->email; // Cambia esto por la dirección de correo a la que quieres enviar el mensaje
-    $subject = "Mensaje de contacto de $this->nombre";
-    $message = "Nombre: $this->nombre\n";
-    $message .= "La reserva de su entrada para el estudiante con dni $this->dni_actor fue efectiva.\nEl código de compra es el siguiente: $this->TokenEntrada\n";
+    $subject = "Reserva de la entrada";
+    $message = "La reserva de su entrada para el estudiante con dni $this->dni_actor fue efectiva.\nEl código de compra es el siguiente: $this->TokenEntrada\n";
 
     // Configura los parámetros de correo
     $headers = "From: team@merakicodelabs.com"; // Reemplaza con tu dirección de correo
@@ -185,23 +181,22 @@ class CompradoresModel {
 
 
 
-    public function ObtenerReservasPorId($pkevento){
-
-        try{
-        $consulta = "SELECT email,nombre,apellido,telefono,dni,cantidad_entradas,CodigoEntrada FROM comprador where fk_eventos= :pkevento";
-        $stmt = $this->db->prepare($consulta);
-        $stmt->bindParam(':pkevento', $pkevento, PDO::PARAM_INT); 
-        $stmt->execute();
-        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        if($resultados==null){
-            $resultados=null;
-        }
-        return $resultados;
+    public function ObtenerReservasPorId($pkevento) {
+        try {
+                    
+            $consulta = "SELECT  a.nombre, a.apellido, a.dni, c.codigoentrada from actores a, comprador c where a.fk_eventos = c.fk_eventos AND a.fk_comprador = c.pk_comprador and c.fk_eventos = :pkevento and a.compra = 1 order by c.CodigoEntrada";
+            $stmt = $this->db->prepare($consulta);
+            $stmt->bindParam(':pkevento', $pkevento, PDO::PARAM_INT);
+            $stmt->execute();
+            $reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return json_encode($reservas);
         } catch (PDOException $e) {
-        return 'Error: ' . $e->getMessage();
+            error_log('Error en ObtenerReservasPorId: ' . $e->getMessage());
+            return null;
         }
-    }   
-
+    }
+    
+    
 
     public function ConsultarReservas($pkeventos){
         try {
@@ -214,7 +209,7 @@ class CompradoresModel {
             $listado = $stmt->fetchAll(PDO::FETCH_ASSOC);
             // Cerrar la conexión a la base de datos
             $db = null;            
-            if($listado ==null || $listado==false){
+            if($listado == null || $listado == false){
                 $listado=null;
             }
             return $listado;

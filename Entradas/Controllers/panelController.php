@@ -362,11 +362,15 @@ if($_SERVER["REQUEST_METHOD"] == "GET"){
         }
     }
     if(isset($_GET["ListadoReservas"]) && $_GET["ListadoReservas"]=="true" && isset($_GET["pkEvento"])){
+            
+        
         $resultado = $instancia3->ObtenerReservasPorId($_GET["pkEvento"]);
+     
+        
         $bool = $instancia3->ConsultarReservas($_GET["pkEvento"]);
         if($bool!=null){
-            $jsonData = json_encode($resultado);
-            generarExcelReservas($jsonData);
+            //$jsonData = json_encode($resultado);
+            generarExcelReservas($resultado);
         }
         else{
             echo '
@@ -412,20 +416,18 @@ function generarExcelReservas($jsonData) {
     $archivo = fopen($nombreArchivo, "w");
 
     if ($archivo) {
-        // Definir los encabezados
-        fputcsv($archivo, ["Nombre", "Apellido", "Email", "DNI", "Teléfono", "Cantidad de entradas", "Código de Entrada"], "\t");
+        // Obtén los nombres de las columnas (encabezados) a partir de la primera fila de datos
+        $encabezados = array_keys(reset($datos));
+        fputcsv($archivo, $encabezados, "\t");
 
         foreach ($datos as $dato) {
-            $fila = array(
-                $dato['nombre'],
-                $dato['apellido'],
-                $dato['email'],
-                $dato['dni'],
-                $dato['telefono'],
-                $dato['cantidad_entradas'], // Agregar "Cantidad de entradas" a los datos
-                $dato['CodigoEntrada'],
-            );
-            fputcsv($archivo, $fila, "\t"); // Usar una tabulación como separador
+            // Agrega los valores de todas las columnas en el orden de los encabezados
+            $fila = [];
+            foreach ($encabezados as $columna) {
+                $fila[] = $dato[$columna];
+            }
+
+            fputcsv($archivo, $fila, "\t");
         }
 
         fclose($archivo);
@@ -441,12 +443,6 @@ function generarExcelReservas($jsonData) {
         echo "No se pudo abrir el archivo temporal para escritura.";
     }
 }
-
-
-
-
-
-
 
 
 
