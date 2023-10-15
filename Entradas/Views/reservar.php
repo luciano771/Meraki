@@ -157,7 +157,9 @@
 
 
 
-        let tiempoExpiracion = 30000; // 2 minutos
+        let tiempoExpiracion = 15000; // 2 minutos
+        let tiempoExpiracionSession = 30000; // 2 minutos
+
         let timerId = null;
 
         function extenderSession(pk_eventos) {
@@ -165,7 +167,7 @@
                 // Si el temporizador está en funcionamiento, el usuario ya respondió "extender la sesión"
                 clearTimeout(timerId); // Cancela el temporizador actual
                 timerId = null;
-                tiempoExpiracion += 30000; // Agrega 2 minutos más al tiempo de expiración
+                tiempoExpiracionSession += 30000; // Agrega 2 minutos más al tiempo de expiración
             }
 
             // Muestra la alerta
@@ -185,7 +187,7 @@
         setInterval(() => extenderSession(pk_eventos), tiempoExpiracion);
 
         // Ejecuta la función para enviar la solicitud cada 2 minutos (120,000 milisegundos)
-        setInterval(() => enviarSolicitudPOSTParaCerrarSesion(pk_eventos), tiempoExpiracion);
+        setInterval(() => enviarSolicitudPOSTParaCerrarSesion(pk_eventos), tiempoExpiracionSession);
 
 
 
