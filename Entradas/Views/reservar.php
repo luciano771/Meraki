@@ -139,7 +139,7 @@
                 });
         }
         
-        setInterval(function () {verificarEstadoSesion(pk_eventos);}, 30000);
+        setInterval(function () {verificarEstadoSesion(pk_eventos);}, 60000);
 
 
         window.addEventListener("beforeunload", function (e) {
@@ -149,28 +149,33 @@
 
 
         let tiempoExpiracion = 15000; // 15 segundos
-        
+        let timerId = null;
 
-        function extenderSession(pk_eventos) {
-            // Muestra la alerta
-            const resultado = window.confirm("Esta alerta se cerrará automáticamente después de 15 segundos. ¿Desea extender la sesión?");
-            if (resultado) {
-                clearTimeout(tiempoExpiracion);                
-            }else if(!resultado){alert("Sera redirigido a la pagina principal.");
-                // Envia una solicitud para cerrar la sesión
-                enviarSolicitudPOSTParaCerrarSesion(pk_eventos);}
+            function extenderSession(pk_eventos) {
+                if (timerId) {
+                    // Si el temporizador está en funcionamiento, el usuario ya respondió "extender la sesión"
+                    clearTimeout(timerId); // Cancela el temporizador actual
+                }
 
-               tiempoExpiracion = setTimeout(() => {
-                    // Cierra la alerta
+                // Muestra la alerta
+                const resultado = window.confirm("Esta alerta se cerrará automáticamente después de 15 segundos. ¿Desea extender la sesión?");
+                if (!resultado) {
                     alert("Sera redirigido a la pagina principal.");
                     // Envia una solicitud para cerrar la sesión
                     enviarSolicitudPOSTParaCerrarSesion(pk_eventos);
-                    // Restablece el temporizador para futuras alertas
-                }, tiempoExpiracion);
-        }
+                } else {
+                    // El usuario eligió extender la sesión, establece un nuevo temporizador
+                    timerId = setTimeout(() => {
+                        alert("Sera redirigido a la pagina principal.");
+                        // Envia una solicitud para cerrar la sesión
+                        enviarSolicitudPOSTParaCerrarSesion(pk_eventos);
+                    }, tiempoExpiracion);
+                }
+            }
 
-        // Ejecuta la función para extender la sesión cada 2 minutos (120,000 milisegundos)
-        setInterval(() => extenderSession(pk_eventos), 120000);
+            // Ejecuta la función para extender la sesión cada 2 minutos (120,000 milisegundos)
+            setInterval(() => extenderSession(pk_eventos), 120000);
+
 
 
 
