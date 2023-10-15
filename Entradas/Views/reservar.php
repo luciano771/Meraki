@@ -148,34 +148,25 @@
         });
 
 
-
         let tiempoExpiracion = 15000; // 15 segundos
-        let timerId = null;
+        
 
         function extenderSession(pk_eventos) {
-            if (timerId) {
-                // Si el temporizador está en funcionamiento, el usuario ya respondió "extender la sesión"
-                clearTimeout(timerId); // Cancela el temporizador actual
-            }
-            // Vuelve a establecer el temporizador
-            timerId = setTimeout(() => {
-                // Cierra la alerta
-                alert("Sera redirigido a la pagina principal.");
-                // Envia una solicitud para cerrar la sesión
-                enviarSolicitudPOSTParaCerrarSesion(pk_eventos);
-                // Restablece el temporizador para futuras alertas
-                timerId = null;
-            }, tiempoExpiracion);
-
             // Muestra la alerta
             const resultado = window.confirm("Esta alerta se cerrará automáticamente después de 15 segundos. ¿Desea extender la sesión?");
             if (resultado) {
-                // El usuario eligió extender la sesión, cancela el temporizador
-                clearTimeout(timerId);
-                timerId = null;
-            }else{alert("Sera redirigido a la pagina principal.");
+                clearTimeout(tiempoExpiracion);                
+            }else if(!resultado){alert("Sera redirigido a la pagina principal.");
                 // Envia una solicitud para cerrar la sesión
                 enviarSolicitudPOSTParaCerrarSesion(pk_eventos);}
+
+               tiempoExpiracion = setTimeout(() => {
+                    // Cierra la alerta
+                    alert("Sera redirigido a la pagina principal.");
+                    // Envia una solicitud para cerrar la sesión
+                    enviarSolicitudPOSTParaCerrarSesion(pk_eventos);
+                    // Restablece el temporizador para futuras alertas
+                }, tiempoExpiracion);
         }
 
         // Ejecuta la función para extender la sesión cada 2 minutos (120,000 milisegundos)
