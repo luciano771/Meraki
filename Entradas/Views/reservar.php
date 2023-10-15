@@ -78,9 +78,7 @@
 
     <script>
         
-        
-        TiempodeExpiracion= 20000;
-        
+         
         var url = new URL(window.location.href);
 
         let pk_eventos = url.searchParams.get('pk_eventos');
@@ -153,7 +151,7 @@
 
         function extenderSession(pk_eventos) {
             const resultado = window.confirm("Esta alerta se cerrará automáticamente después de 10 segundos. ¿Desea extender la sesión?");
-            tiempo = 5000;
+            tiempo = 15000;
             if (!resultado) {
                 // Programa el cierre automático después de 10 segundos
                 setTimeout(() => {
@@ -167,7 +165,7 @@
 
 
         // Ejecuta la función para extender la sesión cada 10 segundos
-        setInterval(() => extenderSession(pk_eventos), 10000);
+        setInterval(() => extenderSession(pk_eventos), 120000);
 
 
     </script>
