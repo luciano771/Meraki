@@ -109,7 +109,7 @@
 
         window.addEventListener("beforeunload", function (e) {
             console.log("Evento unload disparado"); // Agrega un mensaje de depuración en la consola
-            enviarSolicitudPOSTParaCerrarSesion();
+            if(){enviarSolicitudPOSTParaCerrarSesion();} 
         });
 
         function enviarSolicitudPOSTParaCerrarSesion() {
