@@ -101,7 +101,7 @@
         }
 
 
-        setInterval(function () {VerificarOrden(pk_eventos);}, 90000);
+        setInterval(function () {VerificarOrden(pk_eventos);}, 30000);
         
      
         redireccion = false;
