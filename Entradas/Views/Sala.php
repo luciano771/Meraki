@@ -95,16 +95,6 @@
 
         setInterval(function () {VerificarOrden(pk_eventos);}, 60000);
         
-     
-        redireccion = false;
-         
-
-        window.addEventListener("beforeunload", function (e) {
-            console.log("Evento unload disparado"); // Agrega un mensaje de depuración en la consola
-            enviarSolicitudPOSTParaCerrarSesion();
-            
-        });
-
         function enviarSolicitudPOSTParaCerrarSesion() {
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "../Controllers/salaController.php", true);
@@ -115,7 +105,19 @@
                 }
             };
             xhr.send("activo=no");
+            aler("dfdfdfdf");
         }
+     
+        redireccion = false;
+         
+
+        window.addEventListener("beforeunload", function (e) {
+            console.log("Evento unload disparado"); // Agrega un mensaje de depuración en la consola
+            enviarSolicitudPOSTParaCerrarSesion();
+            
+        });
+
+        
 
 
  
