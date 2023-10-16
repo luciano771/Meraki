@@ -154,7 +154,7 @@
 
 
   
-
+        var PrimerModal = false;
 
 
         var tiempoExpiracionCerrarSesion = 10000; // 30 segundos
@@ -179,6 +179,7 @@
             // Reinicia el intervalo de cerrar sesión y vuelve a configurarlo
             clearInterval(intervalId);
             intervalId = setInterval(() => enviarSolicitudPOSTParaCerrarSesion(pk_eventos), tiempoExpiracionCerrarSesion);
+            PrimerModal = true;
         }
 
         // Evento para ocultar la ventana modal
@@ -191,8 +192,8 @@
         intervalId = setInterval(() => enviarSolicitudPOSTParaCerrarSesion(pk_eventos), tiempoExpiracionCerrarSesion);
 
         // Establece un intervalo para mostrar la ventana modal cada 2 minutos (120,000 milisegundos)
-        setInterval(mostrarModal, 5000);
-
+        if(!PrimerModal){setInterval(mostrarModal, 5000);}
+ 
 
 
 
