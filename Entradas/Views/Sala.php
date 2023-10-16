@@ -32,6 +32,7 @@
 
     <script>
     
+        let  dataInicial = 0;
 
         var url = new URL(window.location.href);
 
@@ -57,8 +58,20 @@
                 if(!PrimeraEjecucion){
                     sessionesContainer.innerHTML = ''; // Limpia el contenido existente
                 }
-                if(data.length-1 == 0){sessionesContainer.innerHTML = '<h4>Redirijiendo...</h4>';enviarHeartbeat(pk_eventos); VerificarOrden(pk_eventos);}
-                if(data.length-1 == -1){enviarHeartbeat(pk_eventos);}
+                
+                if(data.length != dataInicial){
+                    VerificarOrden();
+                    enviarHeartbeat(pk_eventos);
+                    dataInicial=data.length;
+
+                }
+
+                //almacenar en una variable los nuevos data.length.
+                // comparar data.length con el valor almacenado en la variable y ver si cambio
+                // si cambio ejecutar verificarorden y borrarsession
+
+
+
 
                 sessionesContainer.appendChild(divSessiones);
 
