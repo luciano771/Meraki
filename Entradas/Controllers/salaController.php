@@ -15,13 +15,14 @@ date_default_timezone_set("America/Argentina/Buenos_Aires");
 
 if(isset($_GET['ESTADOSESSION']) && $_GET['ESTADOSESSION'] == 'ESTADO' && isset($_GET['pkeventos'])) {
     
-    if( $_SESSION['estado'] =='false') {
-        $instancia2->setPkevento($_GET['pkeventos']);
-        $instancia2->InsertarSession();
-    }else{
-        $estado ='activa';
-        echo trim( $_SESSION['estado']);
-    } 
+    
+    $resultado=false;
+    $bool = $instancia2->SessionTrue();
+    if($bool==true){
+        $resultado = true;
+    }
+    echo trim($resultado);
+
 
 }     
 
@@ -87,17 +88,18 @@ if (isset($_GET['VerificarOrden']) && $_GET['VerificarOrden'] == 'true' && isset
 
  
 
-
-
-
-
 if (isset($_POST['activo']) && $_POST['activo'] == 'no') {
+    $_SESSION['estado'] = 'false'; 
     $instancia2->BorrarSession();
-    $response = ["redireccionar" => true];
-    echo json_encode($response);
+     
+    
 }
 
 
+
+
+
+ 
  
 
 

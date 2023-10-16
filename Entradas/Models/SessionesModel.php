@@ -88,7 +88,7 @@ class SessionesModel
                 $this->db->commit();
                 echo "session borrada con éxito. <br>";  
                 $this->session = null;
-                $_SESSION["estado"] = 'false';     
+                $_SESSION['estado'] = 'false';     
             }
             catch(PDOException $e){
                 $this->db->rollBack();
@@ -178,8 +178,30 @@ class SessionesModel
     
  
     
-
-
+    public function SessionTrue() {
+        $this->setSession(); // Si $this->session no está definido en esta función
+    
+        $bool = false;
+        try {
+            $sql = "SELECT sessiones 
+                    FROM sessiones 
+                    WHERE sessiones = :sessiones"; // Corrección del nombre del parámetro
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':sessiones', $this->session, PDO::PARAM_INT); // Corrección del nombre del parámetro
+            $stmt->execute();
+    
+            $session = $stmt->fetchColumn();
+            if ($session != null) {
+                $bool = true;
+            }
+        } catch (PDOException $e) {
+            // Manejar el error apropiadamente (por ejemplo, registrar o lanzar una excepción)
+            error_log('Error en session: ' . $e->getMessage());
+        }
+    
+        return $bool;
+    }
+    
     
 
 

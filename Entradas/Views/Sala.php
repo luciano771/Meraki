@@ -26,6 +26,10 @@
             <div id="sessiones-listado">
         </div>
     </section>
+
+   
+
+
     <script>
     
 
@@ -34,7 +38,7 @@
         let redijir  = false;
         let pk_eventos = url.searchParams.get('pk_eventos');
         PrimeraEjecucion = true;
-        function SessionesLista(){
+        function SessionesLista(pk_eventos){
             const sessionesContainer = document.getElementById("sessiones-listado")
             
             fetch('../Controllers/sessionesController.php')
@@ -53,8 +57,9 @@
                 if(!PrimeraEjecucion){
                     sessionesContainer.innerHTML = ''; // Limpia el contenido existente
                 }
-                if(data.length-1 == 0){sessionesContainer.innerHTML = '<h4>Redirijiendo...</h4>';}
- 
+                if(data.length-1 == 0){sessionesContainer.innerHTML = '<h4>Redirijiendo...</h4>';enviarHeartbeat(pk_eventos); VerificarOrden(pk_eventos);}
+                if(data.length-1 == -1){enviarHeartbeat(pk_eventos);}
+
                 sessionesContainer.appendChild(divSessiones);
 
                 }
@@ -76,6 +81,28 @@
         //obtengo el orden por session para redijir por orden de llegada a reservar.php
         //se manda cada 15 seg al servidor para verificar el orden. 
          
+        function enviarHeartbeat(pk_eventos) {
+            fetch("../Controllers/salaController.php?ESTADOSESSION=ESTADO&pkeventos=" + pk_eventos)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Error en la solicitud AJAX");
+                    }
+
+                    return response.text();
+                })
+                .then(data => {
+                    if (data.trim() != 1) {
+                         
+                        window.location.href = '../Views/Eventos.html';
+                    }
+                    console.log(data.trim());
+                })
+                .catch(error => {
+                    // Maneja errores en la solicitud AJAX
+                    console.error("Error en la solicitud AJAX:", error);
+                });
+        }
+
         function VerificarOrden() {
         fetch("../Controllers/salaController.php?VerificarOrden=true&pk_eventos=" + pk_eventos)
             .then(response => {
@@ -100,7 +127,6 @@
             });
         }
 
-
         setInterval(function () {VerificarOrden(pk_eventos);}, 30000);
         
      
@@ -109,7 +135,9 @@
 
         window.addEventListener("beforeunload", function (e) {
             console.log("Evento unload disparado"); // Agrega un mensaje de depuración en la consola
-            if(!redijir){enviarSolicitudPOSTParaCerrarSesion();} 
+            if(!redijir){
+                enviarSolicitudPOSTParaCerrarSesion();
+            }
         });
 
         function enviarSolicitudPOSTParaCerrarSesion() {
@@ -118,7 +146,8 @@
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    window.location.href ="../Views/Eventos.html";           
+                    window.location.href ="../Views/Eventos.html";        
+
                 }
             };
             xhr.send("activo=no");
@@ -127,24 +156,10 @@
 
  
 
-        function enviarHeartbeat(pk_eventos) {
-            fetch("../Controllers/salaController.php?ESTADOSESSION=ESTADO&pkeventos="+pk_eventos)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("Error en la solicitud AJAX");
-                    }
-                    console.log("heartbeat enviado");
-
-                    return response.text();
-                 })
-                .catch(error => {
-                    // Maneja errores en la solicitud AJAX
-                    console.error("Error en la solicitud AJAX:", error);
-                });
-        }
+        
+        //setInterval(function () {enviarHeartbeat(pk_eventos);}, 5000);
 
 
-        setInterval(function () {enviarHeartbeat(pk_eventos);}, 5000);
 
     </script>
 
