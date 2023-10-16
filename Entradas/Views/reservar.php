@@ -142,7 +142,7 @@
                 });
         }
         
-        setInterval(function () {verificarEstadoSesion(pk_eventos);}, 60000);
+        setInterval(function () {verificarEstadoSesion(pk_eventos);}, 5000);
 
 
         window.addEventListener("beforeunload", function (e) {
