@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservar</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="Estilos/reservar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">    <link rel="stylesheet" href="Estilos/reservar.css">
+    
 </head>
 <body>
     <header>    
@@ -67,15 +67,18 @@
         </div>
     </form>
     <br>
+    
  
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <p>Esta alerta se cerrará automáticamente después de 30 segundos. ¿Desea extender la sesión?</p>
+            <button id="aceptar" class="modal-button">Aceptar</button>
+            <button id="cancelar" class="modal-button cancel">Cancelar</button>
+        </div>
+    </div>
+    
 
-
-
-
-
-
-
-
+ 
     <script>
         
          
@@ -150,24 +153,47 @@
  
 
 
-       
-        var intervalId = null;
+  
 
-        function extenderSession(pk_eventos) {
-            const resultado = window.confirm("Esta alerta se cerrará automáticamente después de 30 segundos. ¿Desea extender la sesión?");
-            
-            if (resultado) {
-                // Reinicia el intervalo de cerrar sesión y vuelve a configurarlo
-                clearInterval(intervalId);
-                intervalId = setInterval(() => enviarSolicitudPOSTParaCerrarSesion(pk_eventos), 30000);
-            }
+
+
+        var tiempoExpiracionCerrarSesion = 10000; // 30 segundos
+        var intervalId = null;
+        var modal = document.getElementById("modal");
+        var btnAceptar = document.getElementById("aceptar");
+        var btnCancelar = document.getElementById("cancelar");
+
+        // Función para mostrar la ventana modal
+        function mostrarModal() {
+            modal.style.display = "block";
+        }
+
+        // Función para ocultar la ventana modal
+        function ocultarModal() {
+            modal.style.display = "none";
+        }
+
+        // Evento para mostrar la ventana modal
+        btnAceptar.onclick = function() {
+            ocultarModal();
+            // Reinicia el intervalo de cerrar sesión y vuelve a configurarlo
+            clearInterval(intervalId);
+            intervalId = setInterval(() => enviarSolicitudPOSTParaCerrarSesion(pk_eventos), tiempoExpiracionCerrarSesion);
+        }
+
+        // Evento para ocultar la ventana modal
+        btnCancelar.onclick = function() {
+            ocultarModal();
+            enviarSolicitudPOSTParaCerrarSesion(pk_eventos);
         }
 
         // Configura un intervalo inicial para enviar la solicitud de cerrar sesión
-        intervalId = setInterval(() => enviarSolicitudPOSTParaCerrarSesion(pk_eventos), 30000);
+        intervalId = setInterval(() => enviarSolicitudPOSTParaCerrarSesion(pk_eventos), tiempoExpiracionCerrarSesion);
 
-        // Establece un intervalo para mostrar la alerta cada 2 minutos (120,000 milisegundos)
-        setInterval(() => extenderSession(pk_eventos), 15000);
+        // Establece un intervalo para mostrar la ventana modal cada 2 minutos (120,000 milisegundos)
+        setInterval(mostrarModal, 5000);
+
+
 
 
 
