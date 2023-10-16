@@ -27,14 +27,13 @@
         </div>
     </section>
     <script>
-
+    
 
         var url = new URL(window.location.href);
 
         let redijir  = false;
         let pk_eventos = url.searchParams.get('pk_eventos');
         PrimeraEjecucion = true;
-
         function SessionesLista(){
             const sessionesContainer = document.getElementById("sessiones-listado")
             
@@ -55,8 +54,7 @@
                     sessionesContainer.innerHTML = ''; // Limpia el contenido existente
                 }
                 if(data.length-1 == 0){sessionesContainer.innerHTML = '<h4>Redirijiendo...</h4>';}
-                if(data.length-1 == -1){enviarSolicitudPOSTParaCerrarSesion();}
-
+ 
                 sessionesContainer.appendChild(divSessiones);
 
                 }
@@ -68,11 +66,12 @@
                 console.error('Error al obtener los usuarios en espera:', error);
             });
             PrimeraEjecucion=false;
+
+           
         }
 
         SessionesLista();
-        setInterval(SessionesLista, 2000);
-
+        setInterval(SessionesLista, 5000);
 
         //obtengo el orden por session para redijir por orden de llegada a reservar.php
         //se manda cada 15 seg al servidor para verificar el orden. 
@@ -105,13 +104,14 @@
         setInterval(function () {VerificarOrden(pk_eventos);}, 90000);
         
      
-        //evento befoureunload, donde cerramos session si recarga o cierra ventana/pestaña.
         redireccion = false;
+         
+
         window.addEventListener("beforeunload", function (e) {
             console.log("Evento unload disparado"); // Agrega un mensaje de depuración en la consola
-            if(!redijir){enviarSolicitudPOSTParaCerrarSesion();} 
+            enviarSolicitudPOSTParaCerrarSesion();
+            
         });
-
 
         function enviarSolicitudPOSTParaCerrarSesion() {
             var xhr = new XMLHttpRequest();
@@ -119,12 +119,10 @@
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    // La solicitud POST se ha completado con éxito
-                    // Puedes mostrar un mensaje o realizar otras acciones aquí
+                    window.location.href ="../Views/Eventos.html";           
                 }
             };
             xhr.send("activo=no");
-            window.location.href ="Eventos.html";
         }
 
 
@@ -136,9 +134,10 @@
                     if (!response.ok) {
                         throw new Error("Error en la solicitud AJAX");
                     }
-                    return response.text();
                     console.log("heartbeat enviado");
-                })
+
+                    return response.text();
+                 })
                 .catch(error => {
                     // Maneja errores en la solicitud AJAX
                     console.error("Error en la solicitud AJAX:", error);

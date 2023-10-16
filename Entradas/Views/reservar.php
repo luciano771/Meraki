@@ -115,7 +115,7 @@
                 }
             };
             xhr.send("activo=no");
-           // alert("Sera redirijido a la sala de espera.");
+            alert("Sera redirijido a la sala de espera.");
             window.location.href = 'Eventos.html';
         }
 

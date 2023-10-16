@@ -1,4 +1,6 @@
 <?php
+
+
 include '../Models/EventosModel.php';
 include '../Models/ActoresModel.php';
 include '../Models/SessionesModel.php';
@@ -13,12 +15,12 @@ date_default_timezone_set("America/Argentina/Buenos_Aires");
 
 if(isset($_GET['ESTADOSESSION']) && $_GET['ESTADOSESSION'] == 'ESTADO' && isset($_GET['pkeventos'])) {
     
-    if(!isset($_SESSION['estado']) || $_SESSION['estado']=='false') {
+    if( $_SESSION['estado'] =='false') {
         $instancia2->setPkevento($_GET['pkeventos']);
         $instancia2->InsertarSession();
     }else{
         $estado ='activa';
-        echo trim($estado);
+        echo trim( $_SESSION['estado']);
     } 
 
 }     

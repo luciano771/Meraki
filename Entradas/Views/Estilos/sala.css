@@ -61,7 +61,7 @@ section {
     
   }
   
-  @keyframes giro {
+  /* @keyframes giro {
     0% {
       transform: rotate(0deg);
     }
@@ -69,7 +69,7 @@ section {
     100% {
       transform: rotate(360deg);
     }
-  }
+  } */
 
 
  
