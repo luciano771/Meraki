@@ -107,7 +107,7 @@
      
         //evento befoureunload, donde cerramos session si recarga o cierra ventana/pestaña.
         redireccion = false;
-        window.addEventListener("unload", function (e) {
+        window.addEventListener("beforeunload", function (e) {
             console.log("Evento unload disparado"); // Agrega un mensaje de depuración en la consola
             if(!redijir){enviarSolicitudPOSTParaCerrarSesion();} 
         });
@@ -124,6 +124,7 @@
                 }
             };
             xhr.send("activo=no");
+            window.location.href ="Eventos.html";
         }
 
 
