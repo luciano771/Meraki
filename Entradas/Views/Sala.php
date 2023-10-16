@@ -48,15 +48,19 @@
                 const divSessiones = document.createElement('div');
                 divSessiones.className = 'divSessiones';
                 divSessiones.innerHTML = `
-                    <h4>Cantidad de usuarios en espera: ${data.length}</h4>
+                    <h4>Cantidad de usuarios en espera: ${data.length}
                 `;
                 
                 if(!PrimeraEjecucion){
                     sessionesContainer.innerHTML = ''; // Limpia el contenido existente
                 }
+                if(data.length == 1){sessionesContainer.innerHTML = '<h4>Redirijiendo...</h4>';}
+
                 sessionesContainer.appendChild(divSessiones);
 
                 }
+
+                 
 
             })
             .catch(error => {
