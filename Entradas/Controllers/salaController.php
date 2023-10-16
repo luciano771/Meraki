@@ -48,21 +48,30 @@ if(isset($_GET['SESSION']) && $_GET['SESSION'] == 'ESTADO') {
         }   //o una vez el comprador halla efectuado su compra se llama d
     } else {
         // Haz algo si la fecha de inicio no es posterior a la fecha actual
-        echo '
+        ?>
         <!DOCTYPE html>
-            <html>
-            <head>
-                <title>Página Actual</title>
-                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-            </head>
-            <body>
-                <h4>El evento inicia el '.$fecha_inicio.'</h4>
-                <!-- Tu contenido de página actual aquí -->
+        <html>
+        <head>
+            <title>Página Actual</title>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+                  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+                  crossorigin="anonymous">
+        </head>
+        <body>
+        <?php
+        if ($fechaActual < $fecha_inicio ) {
+            echo '<h4>El evento inicia el ' . $fecha_inicio . '</h4>';
+        } elseif ($fecha_fin < $fechaActual) {
+            echo '<h4>El evento finalizó el ' . $fecha_inicio . '</h4>';
+        }
+        ?>
+        <!-- Tu contenido de página actual aquí -->
 
-                <!-- Botón "Volver" que redirige al usuario a la página anterior -->
-                &nbsp; <a href="javascript:history.back()" class="btn btn-primary">Volver</a>
-            </body>
-        </html>';
+        <!-- Botón "Volver" que redirige al usuario a la página anterior -->
+        &nbsp; <a href="javascript:history.back()" class="btn btn-primary">Volver</a>
+        </body>
+        </html>
+        <?php
     }
 }
 

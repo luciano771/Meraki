@@ -291,14 +291,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
 
-if(isset($_GET["EliminarEvento"]) && $_GET["EliminarEvento"]=="true" && isset($_GET["pkEvento"])){
-    $instancia2->BorrarListado($_GET["pkEvento"]);
-    $instancia3->BorrarCompradores($_GET["pkEvento"]);
-    $instancia->BorrarEvento($_GET["pkEvento"]);
-    $response = array('message' => 'Evento eliminado con éxito');
-    header('Content-Type: application/json');
-    echo json_encode($response);
-} 
+// if(isset($_GET["EliminarEvento"]) && $_GET["EliminarEvento"]=="true" && isset($_GET["pkEvento"])){
+//     $instancia2->BorrarListado($_GET["pkEvento"]);
+//     $instancia3->BorrarCompradores($_GET["pkEvento"]);
+//     $instancia->BorrarEvento($_GET["pkEvento"]);
+//     $response = array('message' => 'Evento eliminado con éxito');
+//     header('Content-Type: application/json');
+//     echo json_encode($response);
+// } 
        
     
     
