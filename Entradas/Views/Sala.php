@@ -53,7 +53,7 @@
                 if(!PrimeraEjecucion){
                     sessionesContainer.innerHTML = ''; // Limpia el contenido existente
                 }
-                if(data.length-1 == 0){sessionesContainer.innerHTML = '<h4>Redirijiendo...</h4>';}
+        
  
                 sessionesContainer.appendChild(divSessiones);
 
@@ -76,32 +76,24 @@
         //obtengo el orden por session para redijir por orden de llegada a reservar.php
         //se manda cada 15 seg al servidor para verificar el orden. 
          
-        function VerificarOrden() {
-        fetch("../Controllers/salaController.php?VerificarOrden=true&pk_eventos=" + pk_eventos)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Error en la solicitud AJAX");
+        function enviarSolicitudPOSTParaCerrarSesion() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "../Controllers/salaController.php", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.redireccionar) {
+                    window.location.href = "../Views/Eventos.html";
                 }
-                return response.text();
-            })
-            .then(data => {
-                if (data.trim() === 'true') {
-                    // No es necesario redirigir desde el cliente, ya que se hace desde el servidor
-                    console.log('Debería redirigirme: ' + data);
-                    redijir  = true;
-                    window.location.href = '../Views/reservar.php?pk_eventos=' + pk_eventos;
-                } else {
-                    console.log('No debería redirigirme: ' + data);
-                }
-            })
-            .catch(error => {
-                // Maneja errores en la solicitud AJAX
-                console.error("Error en la solicitud AJAX:", error);
-            });
-        }
+            }
+        };
+        xhr.send("activo=no");
+    }
 
 
-        setInterval(function () {VerificarOrden(pk_eventos);}, 90000);
+
+        setInterval(function () {VerificarOrden(pk_eventos);}, 60000);
         
      
         redireccion = false;
