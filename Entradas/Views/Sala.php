@@ -48,13 +48,14 @@
                 const divSessiones = document.createElement('div');
                 divSessiones.className = 'divSessiones';
                 divSessiones.innerHTML = `
-                    <h4>Cantidad de usuarios en espera: ${data.length}
+                    <h4>Cantidad de usuarios en espera: ${data.length-1}
                 `;
                 
                 if(!PrimeraEjecucion){
                     sessionesContainer.innerHTML = ''; // Limpia el contenido existente
                 }
-                if(data.length == 1){sessionesContainer.innerHTML = '<h4>Redirijiendo...</h4>';}
+                if(data.length-1 == 0){sessionesContainer.innerHTML = '<h4>Redirijiendo...</h4>';}
+                if(data.length-1 == -1){enviarSolicitudPOSTParaCerrarSesion();}
 
                 sessionesContainer.appendChild(divSessiones);
 
