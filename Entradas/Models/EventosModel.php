@@ -139,13 +139,36 @@ class EventosModel
     
     public function BorrarEvento($pkeventos){
         $bool = true;
+
+        try {
+            $consulta = "SELECT img FROM eventos WHERE pk_eventos= :pkevento";
+            $stmt = $this->db->prepare($consulta);
+            $stmt->bindParam(':pkevento', $pkeventos, PDO::PARAM_INT); 
+            $stmt->execute();
+            $rutaImagen = $stmt->fetch();
+            $rutaArchivo = $rutaImagen['img'];
+            
+            if (unlink($rutaArchivo)) {
+                echo 'El archivo ha sido eliminado exitosamente.';
+            } else {
+                echo 'No se pudo eliminar el archivo.';
+            }
+             
+        } catch (PDOException $e) {
+            // En caso de error en la conexión o consulta
+            echo 'Error: ' . $e->getMessage();
+            $bool = false;
+        }
+
+        
+
+
+
         try {
             $consulta = "DELETE FROM eventos where pk_eventos= :pkevento";
             $stmt = $this->db->prepare($consulta);
             $stmt->bindParam(':pkevento', $pkeventos, PDO::PARAM_INT); 
             $stmt->execute();
-             
-            return $bool;
         } catch (PDOException $e) {
             // En caso de error en la conexión o consulta
             echo 'Error: ' . $e->getMessage();
