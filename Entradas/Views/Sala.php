@@ -33,29 +33,42 @@
 
         let redijir  = false;
         let pk_eventos = url.searchParams.get('pk_eventos');
+        PrimeraEjecucion = true;
 
-        const sessionesContainer = document.getElementById("sessiones-listado")
-         
-        fetch('../Controllers/sessionesController.php')
-        .then(response => response.json())
-        .then(data => {
-            // Verifica que data sea un array
+        function SessionesLista(){
+            const sessionesContainer = document.getElementById("sessiones-listado")
+            
+            fetch('../Controllers/sessionesController.php')
+            .then(response => response.json())
+            .then(data => {
+                // Verifica que data sea un array
 
-            // Verifica que la propiedad "sessiones" exista en el objeto
-            if (Array.isArray(data)) {
-            const divSessiones = document.createElement('div');
-            divSessiones.className = 'divSessiones';
-            divSessiones.innerHTML = `
-                <h4>Cantidad de usuarios en espera: ${data.length}</h4>
-            `;
-            sessionesContainer.appendChild(divSessiones);
-            }
+                // Verifica que la propiedad "sessiones" exista en el objeto
+                if (Array.isArray(data)) {
+                const divSessiones = document.createElement('div');
+                divSessiones.className = 'divSessiones';
+                divSessiones.innerHTML = `
+                    <h4>Cantidad de usuarios en espera: ${data.length}</h4>
+                `;
+                
+                if(!PrimeraEjecucion){
+                    sessionesContainer.innerHTML = ''; // Limpia el contenido existente
+                }
+                sessionesContainer.appendChild(divSessiones);
 
-         })
-        .catch(error => {
-            console.error('Error al obtener los usuarios en espera:', error);
-        });
- 
+                }
+
+            })
+            .catch(error => {
+                console.error('Error al obtener los usuarios en espera:', error);
+            });
+            PrimeraEjecucion=false;
+        }
+
+        SessionesLista();
+        setInterval(SessionesLista, 2000);
+
+
         //obtengo el orden por session para redijir por orden de llegada a reservar.php
         //se manda cada 15 seg al servidor para verificar el orden. 
          
@@ -84,7 +97,7 @@
         }
 
 
-        setInterval(function () {VerificarOrden(pk_eventos);}, 15000);
+        setInterval(function () {VerificarOrden(pk_eventos);}, 90000);
         
      
         //evento befoureunload, donde cerramos session si recarga o cierra ventana/pestaña.
