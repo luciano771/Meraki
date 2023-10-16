@@ -104,12 +104,12 @@
         setInterval(function () {VerificarOrden(pk_eventos);}, 30000);
         
      
-        redireccion = false;
+       
          
 
         window.addEventListener("beforeunload", function (e) {
             console.log("Evento unload disparado"); // Agrega un mensaje de depuración en la consola
-            if(){enviarSolicitudPOSTParaCerrarSesion();} 
+            if(!redijir){enviarSolicitudPOSTParaCerrarSesion();} 
         });
 
         function enviarSolicitudPOSTParaCerrarSesion() {
