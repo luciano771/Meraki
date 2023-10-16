@@ -71,9 +71,9 @@
  
     <div id="modal" class="modal">
         <div class="modal-content">
-            <p>Esta alerta se cerrará automáticamente después de 30 segundos. ¿Desea extender la sesión?</p>
-            <button id="aceptar" class="modal-button">Aceptar</button>
-            <button id="cancelar" class="modal-button cancel">Cancelar</button>
+            <p>Esta alerta se cerrará automáticamente después de 15 segundos. ¿Desea extender la sesión?</p>
+            <button id="aceptar" class="btn btn-success">Aceptar</button>
+            <button id="cancelar" class="btn btn-danger">Cancelar</button>
         </div>
     </div>
     
@@ -157,7 +157,7 @@
         var PrimerModal = false;
 
 
-        var tiempoExpiracionCerrarSesion = 10000; // 30 segundos
+        var tiempoExpiracionCerrarSesion = 120000; // 30 segundos
         var intervalId = null;
         var modal = document.getElementById("modal");
         var btnAceptar = document.getElementById("aceptar");
@@ -192,7 +192,7 @@
         intervalId = setInterval(() => enviarSolicitudPOSTParaCerrarSesion(pk_eventos), tiempoExpiracionCerrarSesion);
 
         // Establece un intervalo para mostrar la ventana modal cada 2 minutos (120,000 milisegundos)
-        if(!PrimerModal){setInterval(mostrarModal, 5000);}
+        if(!PrimerModal){setInterval(mostrarModal, 105000);}
  
 
 
