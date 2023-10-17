@@ -88,6 +88,7 @@
             <div class="paginacion">
                 <button id="btnAnterior" class="btn btn-primary boton">Anterior</button>
                 <button id="btnSiguiente" class="btn btn-primary boton">Siguiente</button>
+                <a href="../Controllers/registro.log" download>Registros de reservas</a>
             </div>       
     </div>
 

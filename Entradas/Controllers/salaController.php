@@ -23,7 +23,7 @@ if(isset($_GET['ESTADOSESSION']) && $_GET['ESTADOSESSION'] == 'ESTADO' && isset(
     }
     echo trim($resultado);
 
-
+    
 }     
 
 if(isset($_GET['SESSION']) && $_GET['SESSION'] == 'ESTADO') {

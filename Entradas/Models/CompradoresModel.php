@@ -62,7 +62,7 @@ class CompradoresModel {
             if ($compra === false || $compra === null) {
                 // El DNI no existe en la tabla de actores, muestra un mensaje de error o toma medidas adecuadas
                 echo '<script>
-                alert("El dni no esta registrado.");
+                alert("El dni no esta registrado");
                 window.location.href = "../Views/Eventos.html?pk_eventos=' . $this->fk_eventos . '";
                 </script>';
             } elseif ($compra == 1) {
