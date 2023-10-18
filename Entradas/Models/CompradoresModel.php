@@ -177,7 +177,7 @@ class CompradoresModel {
                 
                 Te esperamos!!!
                 Feeling Danzas";
-
+        echo $message;
             // Configura los parámetros de correo
                 // Configura los parámetros de correo
                 $headers = "From: team@merakicodelabs.com\r\n";
