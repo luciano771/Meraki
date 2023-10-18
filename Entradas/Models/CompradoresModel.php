@@ -141,7 +141,7 @@ class CompradoresModel {
             $consulta = "SELECT apellido, nombre FROM actores where dni= :dni_actor and fk_eventos=:fk_eventos";
             $stmt = $this->db->prepare($consulta);
             $stmt->bindParam(':dni_actor', $this->dni_actor, PDO::PARAM_INT); 
-            $stmt->bindParam(':dni_actor', $this->fk_eventos, PDO::PARAM_INT); 
+            $stmt->bindParam(':fk_eventos', $this->fk_eventos, PDO::PARAM_INT); 
             $stmt->execute();
             $listado = $stmt->fetchAll(PDO::FETCH_ASSOC);
             echo $listado[0]["nombre"];
