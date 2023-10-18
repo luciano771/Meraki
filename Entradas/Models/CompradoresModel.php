@@ -158,7 +158,7 @@ class CompradoresModel {
 
     $to = $this->email; // Cambia esto por la dirección de correo a la que quieres enviar el mensaje
     $subject = "Reserva de la entrada";
-    $message = "Hola!!! Tu número es el ".$this->TokenEntrada." , asignado al ".$this->dni_actor.", a nombre de " .$datosActor[0]. " " .$datosActor[1]. "
+    $message = "Hola!!! Tu número es el ".$this->TokenEntrada." , asignado al ".$this->dni_actor.", a nombre de " .$datosActor[0]["nombre"]. " " .$datosActor[0]["apellido"]. "
                 El número fue asignado en la fila virtual de Feeling Danzas para la venta de entradas del Show Artístico 2023.
                 Te recordamos que la venta de entradas será el sábado 21 de octubre de 9 a 14 hs en nuestra sede de Viamonte 160, Ramos Mejía.
                 Tené en cuenta lo siguiente:
@@ -186,10 +186,10 @@ class CompradoresModel {
 
     // Utiliza la función mail() con el servidor SMTP de Hostinger
     if (mail($to, $subject, $message, $headers)) {
-        echo '<script>
-        alert("Se envió un correo a su email con el código de compra. Por favor, revisa la carpeta de spam en caso de no encontrarlo en la bandeja de entrada.");
-        window.location.href = "../Views/Eventos.html";
-        </script>';
+        // echo '<script>
+        // alert("Se envió un correo a su email con el código de compra. Por favor, revisa la carpeta de spam en caso de no encontrarlo en la bandeja de entrada.");
+        // window.location.href = "../Views/Eventos.html";
+        // </script>';
     } else {
         echo '<script>
         alert("Hubo un error al enviar el correo con el código de compra. Comunícate con el organizador del evento para obtenerlo.");
