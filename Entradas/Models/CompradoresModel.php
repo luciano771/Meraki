@@ -156,10 +156,11 @@ class CompradoresModel {
     
 
     $datosActor = $this->ApellidoNombre();
-    echo $datosActor[0]["nombre"]. " " .$datosActor[0]["apellido"] ."esto se muestra dentro de la funcion correo";
+    $nombre = $datosActor[0]["nombre"];
+    $apellido = $datosActor[0]["apellido"]; 
     $to = $this->email; // Cambia esto por la dirección de correo a la que quieres enviar el mensaje
     $subject = "Reserva de la entrada";
-    $message = "Hola!!! Tu número es el ".$this->TokenEntrada." , asignado al ".$this->dni_actor.", a nombre de " .$datosActor[0]["nombre"]. " " .$datosActor[0]["apellido"]. "
+    $message = "Hola!!! Tu número es el ".$this->TokenEntrada." , asignado al ".$this->dni_actor.", a nombre de " .$nombre. " " .$apellido. "
                 El número fue asignado en la fila virtual de Feeling Danzas para la venta de entradas del Show Artístico 2023.
                 Te recordamos que la venta de entradas será el sábado 21 de octubre de 9 a 14 hs en nuestra sede de Viamonte 160, Ramos Mejía.
                 Tené en cuenta lo siguiente:
