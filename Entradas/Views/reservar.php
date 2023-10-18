@@ -60,7 +60,7 @@
             </div>
             <div class="mb-3">
                 <label for="dni" class="form-label">DNI actor</label>
-                <input type="text" class="form-control" id="dni_actor" name="dni_actor" required>
+                <input type="number" class="form-control" id="dni_actor" name="dni_actor" required>
             </div>
             <input type="hidden" name="pk_eventos" value="<?php echo $_GET['pk_eventos']; ?>">
             <button type="submit" class="btn btn-primary">Reservar</button>
