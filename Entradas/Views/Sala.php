@@ -37,12 +37,13 @@
         var url = new URL(window.location.href);
 
         let redijir  = false;
-        let pk_eventos = url.searchParams.get('pk_eventos');
+        var pk_eventos = url.searchParams.get('pk_eventos');
         PrimeraEjecucion = true;
+        console.log(pk_eventos)
         function SessionesLista(pk_eventos){
             const sessionesContainer = document.getElementById("sessiones-listado")
             
-            fetch('../Controllers/sessionesController.php')
+            fetch('../Controllers/salaController.php?pkevento='+url.searchParams.get('pk_eventos')+"&fila")
             .then(response => response.json())
             .then(data => {
                 // Verifica que data sea un array
@@ -69,11 +70,11 @@
                 // comparar data.length con el valor almacenado en la variable y ver si cambio
                 // si cambio ejecutar verificarorden y borrarsession
                 sessionesContainer.appendChild(divSessiones);
-
-                }
+               }
+       
 
                 VerificarOrden();
-                enviarHeartbeat(pk_eventos);
+                enviarHeartbeat(url.searchParams.get('pk_eventos'));
 
             })
             .catch(error => {
@@ -136,7 +137,7 @@
             });
         }
 
-        setInterval(function () {VerificarOrden(pk_eventos);}, 30000);
+       
         
      
        
@@ -166,8 +167,7 @@
  
 
         
-        //setInterval(function () {enviarHeartbeat(pk_eventos);}, 5000);
-
+ 
 
 
     </script>

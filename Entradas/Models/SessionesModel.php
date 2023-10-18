@@ -119,15 +119,14 @@ class SessionesModel
         return $id_sessiones;
     }
     
+
     public function SessionListado(){
         $this->setSession();
-        try {
-            $sql = "SELECT * FROM sessiones";
+        try{
+            $sql = "SELECT sessiones FROM sessiones";
             $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(':sessiones', $this->session, PDO::PARAM_STR);
             $stmt->execute();
             $id_sessiones = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $id_sessiones;
         }
         catch(PDOException $e){
             $id_sessiones = null;
@@ -136,17 +135,22 @@ class SessionesModel
         return $id_sessiones; 
     }
 
-
- 
+    
     public function FilaDelante(){
         $this->setSession();
+        $pk = intval($this->pkevento);
+
         try {
-            $sql = "SELECT sessiones FROM sessiones WHERE id_sessiones < (SELECT id_sessiones FROM sessiones WHERE sessiones = :sessiones)";
+            $sql = "SELECT sessiones FROM sessiones WHERE id_sessiones < (
+                SELECT id_sessiones
+                FROM sessiones
+                WHERE sessiones = :sessiones) AND fk_eventos = :fk_eventos";
             $stmt = $this->db->prepare($sql);
             $stmt->bindParam(':sessiones', $this->session, PDO::PARAM_STR);
+            $stmt->bindParam(':fk_eventos', $pk, PDO::PARAM_INT);
             $stmt->execute();
             $id_sessiones = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            return $id_sessiones;
+           
         }
         catch(PDOException $e){
             $id_sessiones = null;
@@ -154,10 +158,6 @@ class SessionesModel
         }
         return $id_sessiones; 
     }
-    
-
-
-
     public function SessionBool(){
         
         $listadoSessiones = $this->SessionListado();

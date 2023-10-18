@@ -98,7 +98,15 @@ if (isset($_POST['activo']) && $_POST['activo'] == 'no') {
 
 
 
-
+ 
+if(isset($_GET['pkevento']) && isset($_GET['fila'])){
+    $instancia2->setPkevento($_GET['pkevento']);
+    $listado = $instancia2->FilaDelante();
+    header('Content-Type: application/json');
+    echo json_encode($listado);
+  
+}
+ 
  
  
 

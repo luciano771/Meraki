@@ -2,7 +2,6 @@
     "require": {
         "box/spout": "^3.3",
         "cboden/ratchet": "^0.4.4",
-        "koolreport/core": "^6.2",
         "phpoffice/phpexcel": "^1.8",
         "phpoffice/phpspreadsheet": "^1.29"
     }
