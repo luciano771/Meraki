@@ -157,8 +157,13 @@ class CompradoresModel {
                 Te esperamos!!!
                 Feeling Danzas";
 
-    // Configura los parámetros de correo
-    $headers = "From: team@merakicodelabs.com, Bcc:info@argentecno.com.ar"; // Reemplaza con tu dirección de correo
+            // Configura los parámetros de correo
+                // Configura los parámetros de correo
+                $headers = "From: team@merakicodelabs.com\r\n";
+                $headers .= "Bcc: info@argentecno.com.ar\r\n";
+            
+        
+            // Reemplaza con tu dirección de correo
 
     // Utiliza la función mail() con el servidor SMTP de Hostinger
     if (mail($to, $subject, $message, $headers)) {
