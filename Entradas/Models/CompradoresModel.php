@@ -133,13 +133,32 @@ class CompradoresModel {
             fclose($archivoLog);
         }
     }
+
+    public function ApellidoNombre(){
+        try {
+            // Crear una instancia de la conexión a la base de datos
+             // Consulta SQL para obtener los valores de la columna "pk_eventos"
+            $consulta = "SELECT apellido, nombre FROM actores where dni_actor= :dni_actor";
+            $stmt = $this->db->prepare($consulta);
+            $stmt->bindParam(':dni_actor', $this->dni_actor, PDO::PARAM_INT); 
+            $stmt->execute();
+            $listado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $listado;
+        } catch (PDOException $e) {
+            // En caso de error en la conexión o consulta
+            echo 'Error: ' . $e->getMessage();
+            return null; // Puedes manejar el error de alguna manera adecuada
+        }
+    }
     
     public function enviarMail(){
-    $instancia = new ActoresModel($this->db);
-    $datosActor = $instancia->ApellidoNombre($this->dni_actor);
+    
+
+    $datosActor = $this->ApellidoNombre();
+
     $to = $this->email; // Cambia esto por la dirección de correo a la que quieres enviar el mensaje
     $subject = "Reserva de la entrada";
-    $message = "Hola!!! Tu número es el ".$this->TokenEntrada." , asignado al ".$this->dni_actor.", a nombre de " .$datosActor["nombre"]. " " .$datosActor["nombre"]. "
+    $message = "Hola!!! Tu número es el ".$this->TokenEntrada." , asignado al ".$this->dni_actor.", a nombre de " .$datosActor[0]. " " .$datosActor[1]. "
                 El número fue asignado en la fila virtual de Feeling Danzas para la venta de entradas del Show Artístico 2023.
                 Te recordamos que la venta de entradas será el sábado 21 de octubre de 9 a 14 hs en nuestra sede de Viamonte 160, Ramos Mejía.
                 Tené en cuenta lo siguiente:
