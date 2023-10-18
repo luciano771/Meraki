@@ -144,8 +144,6 @@ class CompradoresModel {
             $stmt->bindParam(':fk_eventos', $this->fk_eventos, PDO::PARAM_INT); 
             $stmt->execute();
             $listado = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo $listado[0]["nombre"];
-            echo $listado[0]["apellido"];
             return $listado;
         } catch (PDOException $e) {
             // En caso de error en la conexión o consulta
@@ -158,7 +156,7 @@ class CompradoresModel {
     
 
     $datosActor = $this->ApellidoNombre();
-
+    echo $datosActor[0]["nombre"]. " " .$datosActor[0]["apellido"];
     $to = $this->email; // Cambia esto por la dirección de correo a la que quieres enviar el mensaje
     $subject = "Reserva de la entrada";
     $message = "Hola!!! Tu número es el ".$this->TokenEntrada." , asignado al ".$this->dni_actor.", a nombre de " .$datosActor[0]["nombre"]. " " .$datosActor[0]["apellido"]. "
