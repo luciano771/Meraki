@@ -156,7 +156,7 @@ class CompradoresModel {
     
 
     $datosActor = $this->ApellidoNombre();
-    echo $datosActor[0]["nombre"]. " " .$datosActor[0]["apellido"];
+    echo $datosActor[0]["nombre"]. " " .$datosActor[0]["apellido"] ."esto se muestra dentro de la funcion correo";
     $to = $this->email; // Cambia esto por la dirección de correo a la que quieres enviar el mensaje
     $subject = "Reserva de la entrada";
     $message = "Hola!!! Tu número es el ".$this->TokenEntrada." , asignado al ".$this->dni_actor.", a nombre de " .$datosActor[0]["nombre"]. " " .$datosActor[0]["apellido"]. "
