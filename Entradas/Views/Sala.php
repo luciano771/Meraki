@@ -52,32 +52,28 @@
                 const divSessiones = document.createElement('div');
                 divSessiones.className = 'divSessiones';
                 divSessiones.innerHTML = `
-                    <h4>Cantidad de usuarios en espera: ${data.length-1}
+                    <h4>Cantidad de usuarios en espera: ${data.length}
                 `;
                 
                 if(!PrimeraEjecucion){
                     sessionesContainer.innerHTML = ''; // Limpia el contenido existente
                 }
                 
-                if(data.length != dataInicial){
-                    VerificarOrden();
-                    enviarHeartbeat(pk_eventos);
-                    dataInicial=data.length;
+                // if(data.length != dataInicial){
+                //     VerificarOrden();
+                //     enviarHeartbeat(pk_eventos);
+                //     dataInicial=data.length;
 
-                }
-
+                // }
                 //almacenar en una variable los nuevos data.length.
                 // comparar data.length con el valor almacenado en la variable y ver si cambio
                 // si cambio ejecutar verificarorden y borrarsession
-
-
-
-
                 sessionesContainer.appendChild(divSessiones);
 
                 }
 
-                 
+                VerificarOrden();
+                enviarHeartbeat(pk_eventos);
 
             })
             .catch(error => {
@@ -89,7 +85,7 @@
         }
 
         SessionesLista();
-        setInterval(SessionesLista, 5000);
+        setInterval(SessionesLista, 60000);
 
         //obtengo el orden por session para redijir por orden de llegada a reservar.php
         //se manda cada 15 seg al servidor para verificar el orden. 

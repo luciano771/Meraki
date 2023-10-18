@@ -83,12 +83,6 @@
         
     
 
-
-
-
-
-
-
         var url = new URL(window.location.href);
 
         let pk_eventos = url.searchParams.get('pk_eventos');
