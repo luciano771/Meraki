@@ -186,10 +186,10 @@ class CompradoresModel {
 
     // Utiliza la función mail() con el servidor SMTP de Hostinger
     if (mail($to, $subject, $message, $headers)) {
-        // echo '<script>
-        // alert("Se envió un correo a su email con el código de compra. Por favor, revisa la carpeta de spam en caso de no encontrarlo en la bandeja de entrada.");
-        // window.location.href = "../Views/Eventos.html";
-        // </script>';
+        echo '<script>
+        alert("Se envió un correo a su email con el código de compra. Por favor, revisa la carpeta de spam en caso de no encontrarlo en la bandeja de entrada.");
+        window.location.href = "../Views/Eventos.html";
+        </script>';
     } else {
         echo '<script>
         alert("Hubo un error al enviar el correo con el código de compra. Comunícate con el organizador del evento para obtenerlo.");
