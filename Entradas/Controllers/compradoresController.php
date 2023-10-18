@@ -30,19 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $instancia->setDni_actor($dni_actor);
     //$instancia->setCantidadEntradas($cantidad_entradas);
 
-    date_default_timezone_set("America/Argentina/Buenos_Aires");
-    $TiempoInsercion = date('d-m-y H:i:s'); // Formato d-m-y H:i:s
-    // Crea una cadena con los datos para el registro
-    $registro = "Email: " . $email . " - DNI actor: " . $dni_actor . " - Fecha: " . $TiempoInsercion;
-    // Abre el archivo de registro en modo escritura
-    $archivoLog = fopen("registro.log", "a"); // "a" para agregar datos al archivo
-    if ($archivoLog) {
-        // Escribe la cadena de registro en el archivo
-        fwrite($archivoLog, $registro . "\n");
-
-        // Cierra el archivo de registro
-        fclose($archivoLog);
-    }
     
  
     $id = $_POST['pk_eventos'];

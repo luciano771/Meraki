@@ -1,5 +1,7 @@
 <?php
 require_once 'Conexion.php';
+require_once 'ActoresModel.php';
+ 
 
 class CompradoresModel {
     private $db;
@@ -45,6 +47,7 @@ class CompradoresModel {
     }
     
     public function insertarComprador() {
+        $resultado="";
         $bool=true;
         $this->setTokenEntrada();
         try {
@@ -65,12 +68,14 @@ class CompradoresModel {
                 alert("El dni no esta registrado");
                 window.location.href = "../Views/Eventos.html?pk_eventos=' . $this->fk_eventos . '";
                 </script>';
+                $resultado="El dni no esta registrado";
             } elseif ($compra == 1) {
                 // Ya se ha realizado una compra para este actor, manejar esto según tus requerimientos
                 echo '<script>
                 alert("Ya se compraron entradas para este actor.");
                 window.location.href = "../Views/Eventos.html?pk_eventos=' . $this->fk_eventos . '";
                 </script>';
+                $resultado="Ya se compraron entradas para este actor";
             } else {
                 $this->db->exec("SET TRANSACTION ISOLATION LEVEL READ COMMITTED");
                 $this->db->beginTransaction();
@@ -84,6 +89,7 @@ class CompradoresModel {
                 $stmt->execute();
                 $lastInsertId = $this->db->lastInsertId();
                 echo "Comprador insertado con éxito.";
+                $resultado="Comprador insertado con éxito";
                 // Actualizar el campo "compra" en la tabla "actores" a 1
 
 
@@ -108,19 +114,51 @@ class CompradoresModel {
             $bool = false;
             throw new Exception('Error al verificar la compra: ' . $e->getMessage());
         }
-
+        $this->log($resultado);
         return $bool;
     }
     
-   
+    public function log($resultado){
+        date_default_timezone_set("America/Argentina/Buenos_Aires");
+        $TiempoInsercion = date('d-m-y H:i:s'); // Formato d-m-y H:i:s
+        // Crea una cadena con los datos para el registro
+        $registro = "Evento: ". $this->fk_eventos." Email: " . $this->email . " - DNI actor: " . $this->dni_actor . " - Fecha: " . $TiempoInsercion ." - Comentario:".$resultado;
+        // Abre el archivo de registro en modo escritura
+        $archivoLog = fopen("registro.log", "a"); // "a" para agregar datos al archivo
+        if ($archivoLog) {
+            // Escribe la cadena de registro en el archivo
+            fwrite($archivoLog, $registro . "\n");
+
+            // Cierra el archivo de registro
+            fclose($archivoLog);
+        }
+    }
     
     public function enviarMail(){
+    $instancia = new ActoresModel($this->db);
+    $datosActor = $instancia->ApellidoNombre($this->dni_actor);
     $to = $this->email; // Cambia esto por la dirección de correo a la que quieres enviar el mensaje
     $subject = "Reserva de la entrada";
-    $message = "La reserva de su entrada para el estudiante con dni $this->dni_actor fue efectiva.\nEl código de compra es el siguiente: $this->TokenEntrada\n";
+    $message = "Hola!!! Tu número es el ".$this->TokenEntrada." , asignado al ".$this->dni_actor.", a nombre de " .$datosActor["nombre"]. " " .$datosActor["nombre"]. "
+                El número fue asignado en la fila virtual de Feeling Danzas para la venta de entradas del Show Artístico 2023.
+                Te recordamos que la venta de entradas será el sábado 21 de octubre de 9 a 14 hs en nuestra sede de Viamonte 160, Ramos Mejía.
+                Tené en cuenta lo siguiente:
+                * El número no es transferible
+                * Se permite el ingreso de UNA PERSONA por número
+                * Tardamos aproximadamente 3 minutos con cada persona que elige y paga sus entradas. Según tu número podés calcular aproximadamente a qué hora venir al Estudio
+                * El pago de las entradas ES ÚNICAMENTE EN EFECTIVO
+                * Por favor te pedimos que sepas exactamente cuántas entradas necesitas para evitar demoras
+                * Podrás comprar hasta 15 entradas
+                
+                Este es un mail de respuesta automático
+                NO RESPONDER
+                Si tenés alguna consulta, comunicate a nuestro WhatsApp 1132782933
+                
+                Te esperamos!!!
+                Feeling Danzas";
 
     // Configura los parámetros de correo
-    $headers = "From: team@merakicodelabs.com"; // Reemplaza con tu dirección de correo
+    $headers = "From: team@merakicodelabs.com, Bcc:info@argentecno.com.ar"; // Reemplaza con tu dirección de correo
 
     // Utiliza la función mail() con el servidor SMTP de Hostinger
     if (mail($to, $subject, $message, $headers)) {

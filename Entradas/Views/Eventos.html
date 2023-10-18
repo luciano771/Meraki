@@ -106,10 +106,11 @@
                         // Ahora puedes utilizar pkEventos en tu aplicación, por ejemplo, enviarlo al servidor o realizar alguna otra acción específica
                         console.log('pk_eventos al hacer clic en Reservar:', pkEventos);
                         
-                        if (fechaActual >= fechaInicioEvento && fechaActual<=fechaFinEvento) {
-                            //VerificarOrden(pkEventos);                      
-                        } else {
-                            alert("Las reservas para este evento cerraron el: "+convertirFechaAFormatoDMY(evento.fecha_inicio)); 
+                        if (fechaActual <= fechaInicioEvento){
+                            alert("Las reservas para este evento comienzan el: "+convertirFechaAFormatoDMY(evento.fecha_inicio) + " a las "+convertirFechaAFormatoHHmm(evento.fecha_inicio)); 
+                        }
+                        else if(fechaActual >= fechaFinEvento){
+                            alert("Las reservas para este evento finalizaron el: "+convertirFechaAFormatoDMY(evento.fecha_fin)+ " a las "+convertirFechaAFormatoHHmm(evento.fecha_fin)); 
                         }
                         
                     });

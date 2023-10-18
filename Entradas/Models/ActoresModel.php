@@ -113,6 +113,22 @@ class ActoresModel {
         }
     }
     
+    public function ApellidoNombre($dni_actor){
+        try {
+            // Crear una instancia de la conexión a la base de datos
+             // Consulta SQL para obtener los valores de la columna "pk_eventos"
+            $consulta = "SELECT apellido, nombre FROM actores where dni_actor= :dni_actor";
+            $stmt = $this->db->prepare($consulta);
+            $stmt->bindParam(':dni_actor', $dni_actor, PDO::PARAM_INT); 
+            $stmt->execute();
+            $listado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $listado;
+        } catch (PDOException $e) {
+            // En caso de error en la conexión o consulta
+            echo 'Error: ' . $e->getMessage();
+            return null; // Puedes manejar el error de alguna manera adecuada
+        }
+    }
     
     
     
@@ -157,6 +173,9 @@ class ActoresModel {
         } 
         $reader->close();       
     }
+
+
+    
      
 }
 
