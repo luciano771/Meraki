@@ -67,3 +67,12 @@ img{
     max-height: 200px;
  
 }
+
+
+@media (max-width: 768px) {
+    #eventos-container {
+        display: inline-block; /* Cambia la propiedad display a inline-block en pantallas más pequeñas */
+        width: auto; /* Deja que los divs ocupen el ancho disponible */
+        margin: 5px;
+    }
+}
