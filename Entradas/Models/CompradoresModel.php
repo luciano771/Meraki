@@ -144,6 +144,8 @@ class CompradoresModel {
             $stmt->bindParam(':dni_actor', $this->fk_eventos, PDO::PARAM_INT); 
             $stmt->execute();
             $listado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo $listado[0]["nombre"];
+            echo $listado[0]["apellido"];
             return $listado;
         } catch (PDOException $e) {
             // En caso de error en la conexión o consulta
