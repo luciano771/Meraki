@@ -138,9 +138,10 @@ class CompradoresModel {
         try {
             // Crear una instancia de la conexión a la base de datos
              // Consulta SQL para obtener los valores de la columna "pk_eventos"
-            $consulta = "SELECT apellido, nombre FROM actores where dni= :dni_actor";
+            $consulta = "SELECT apellido, nombre FROM actores where dni= :dni_actor and fk_eventos=:fk_eventos";
             $stmt = $this->db->prepare($consulta);
             $stmt->bindParam(':dni_actor', $this->dni_actor, PDO::PARAM_INT); 
+            $stmt->bindParam(':dni_actor', $this->fk_eventos, PDO::PARAM_INT); 
             $stmt->execute();
             $listado = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $listado;

@@ -43,12 +43,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } 
 
     
-    
+     
    
 }
  
 
- 
+// if(isset($_GET["actor"]) && $_GET["actor"] == "true") {
+//     try {
+//         $actores = $instancia->ApellidoNombre($dni_actor,$fk_evento);
+//         echo json_encode($actores);
+//         echo ($actores[0]["nombre"]." ".$actores[0]["apellido"]); // Supongo que $actores es un arreglo, así que lo convertimos a JSON
+//     } catch (PDOException $e) {
+//         // En caso de error en la conexión o consulta
+//         echo 'Error: ' . $e->getMessage();
+//     }
+// }
 
 
 
