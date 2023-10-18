@@ -14,7 +14,8 @@ class CompradoresModel {
     private $cantidad_entradas;
     private $fk_eventos;
     private $TokenEntrada;
-
+    private $nombreactor;
+    private $apellidoactor;
     public function __construct($db) {
         $this->db = $db;
     }
@@ -26,6 +27,12 @@ class CompradoresModel {
     }
     public function setApellido($apellido) {
         $this->apellido = $apellido;
+    }
+    public function setNombreactor($nombre) {
+        $this->nombreactor = $nombre;
+    }
+    public function setApellidoactor($apellido) {
+        $this->apellidoactor = $apellido;
     }
     public function setDni($dni) {
         $this->dni = $dni;
@@ -144,6 +151,10 @@ class CompradoresModel {
             $stmt->bindParam(':fk_eventos', $this->fk_eventos, PDO::PARAM_INT); 
             $stmt->execute();
             $listado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $nombre = $listado[0]["nombre"];
+            $apellido = $listado[0]["apellido"]; 
+            $this->setNombreactor($nombre);
+            $this->setApellidoactor($apellido);
             return $listado;
         } catch (PDOException $e) {
             // En caso de error en la conexión o consulta
@@ -155,12 +166,11 @@ class CompradoresModel {
     public function enviarMail(){
     
 
-    $datosActor = $this->ApellidoNombre();
-    $nombre = $datosActor[0]["nombre"];
-    $apellido = $datosActor[0]["apellido"]; 
+    $this->ApellidoNombre();
+
     $to = $this->email; // Cambia esto por la dirección de correo a la que quieres enviar el mensaje
     $subject = "Reserva de la entrada";
-    $message = "Hola!!! Tu número es el ".$this->TokenEntrada." , asignado al ".$this->dni_actor.", a nombre de " .$nombre. " " .$apellido. "
+    $message = "Hola!!! Tu número es el ".$this->TokenEntrada." , asignado al ".$this->dni_actor.", a nombre de " .$this->nombreactor. " " .$this->apellidoactor. "
                 El número fue asignado en la fila virtual de Feeling Danzas para la venta de entradas del Show Artístico 2023.
                 Te recordamos que la venta de entradas será el sábado 21 de octubre de 9 a 14 hs en nuestra sede de Viamonte 160, Ramos Mejía.
                 Tené en cuenta lo siguiente:
