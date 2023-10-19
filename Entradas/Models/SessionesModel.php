@@ -229,8 +229,8 @@ class SessionesModel
 
     public function CronJob(){
             try{
-                $sql = "DELETE FROM sessiones
-                WHERE TIMESTAMPDIFF(MINUTE, tiempoinsercion, NOW()) > 30";
+                $sql = "SET time_zone = '-03:00'; DELETE FROM sessiones WHERE tiempoinsercion <= NOW() - INTERVAL 30 MINUTE";
+
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute();  
                 echo 'borradas con exito'; 

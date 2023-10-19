@@ -195,7 +195,7 @@
         // Establece un intervalo para mostrar la ventana modal cada 2 minutos (120,000 milisegundos)
         if(!PrimerModal){setInterval(mostrarModal, 105000);}
  
-
+        
 
 
 
