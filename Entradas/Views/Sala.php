@@ -31,7 +31,34 @@
 
 
     <script>
+        
+
     
+        function BorrarSessiones30Min() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "../cronjob.php?BorrarSessiones", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        console.log("Sesiones eliminadas con éxito");
+                        // Aquí puedes mostrar un mensaje al usuario en la interfaz
+                    } else {
+                        console.error("Error al eliminar sesiones");
+                        // Aquí puedes manejar el error y mostrar un mensaje de error al usuario
+                    }
+                }
+            };
+            xhr.send();
+        }
+
+        BorrarSessiones30Min();
+        setInterval(BorrarSessiones30Min, 30000);
+
+
+
+
+
         let  dataInicial = 0;
 
         var url = new URL(window.location.href);
@@ -163,27 +190,7 @@
             xhr.send("activo=no");
         }
 
-
-        function BorrarSessiones30Min() {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET", "../cronjob.php?BorrarSessiones", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4) {
-                    if (xhr.status === 200) {
-                        console.log("Sesiones eliminadas con éxito");
-                        // Aquí puedes mostrar un mensaje al usuario en la interfaz
-                    } else {
-                        console.error("Error al eliminar sesiones");
-                        // Aquí puedes manejar el error y mostrar un mensaje de error al usuario
-                    }
-                }
-            };
-            xhr.send();
-        }
-
-        BorrarSessiones30Min();
-        setInterval(BorrarSessiones30Min, 30000);
+ 
 
  
 
