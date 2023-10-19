@@ -230,7 +230,7 @@ class SessionesModel
     public function CronJob(){
             try{
                 $sql = "DELETE FROM sessiones
-                WHERE ABS(TIMESTAMPDIFF(MINUTE, tiempoinsercion, NOW())) > 30;";
+                WHERE TIMESTAMPDIFF(MINUTE, tiempoinsercion, NOW()) > 30";
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute();  
                 echo 'borradas con exito'; 
