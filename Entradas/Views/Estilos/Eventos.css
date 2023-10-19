@@ -75,4 +75,16 @@ img{
         width: auto; /* Deja que los divs ocupen el ancho disponible */
         margin: 5px;
     }
+
+    #titulo {
+          /* Ocupa todo el espacio disponible restante */
+        text-align: center; /* Centra el texto horizontalmente */
+       
+        
+    }
+    
+    /* Estilos para el h2 dentro del título */
+    #titulo h2 {
+        margin-left: 135px; /* Elimina el margen por defecto del h2 */
+    }
 }
