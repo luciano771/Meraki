@@ -65,14 +65,14 @@ class CompradoresModel {
             if ($compra === false || $compra === null) {
                 // El DNI no existe en la tabla de actores, muestra un mensaje de error o toma medidas adecuadas
                 echo '<script>
-                alert("El dni no esta registrado");
+                alert("El dni no esta registrado","Feeling Danzas");
                 window.location.href = "../Views/Eventos.html?pk_eventos=' . $this->fk_eventos . '";
                 </script>';
                 $resultado="El dni no esta registrado";
             } elseif ($compra == 1) {
                 // Ya se ha realizado una compra para este actor, manejar esto según tus requerimientos
                 echo '<script>
-                alert("Ya se compraron entradas para este actor.");
+                alert("Ya se solicitó número para este alumno.","Feeling Danzas");
                 window.location.href = "../Views/Eventos.html?pk_eventos=' . $this->fk_eventos . '";
                 </script>';
                 $resultado="Ya se compraron entradas para este actor";
@@ -189,13 +189,11 @@ class CompradoresModel {
     // Utiliza la función mail() con el servidor SMTP de Hostinger
     if (mail($to, $subject, $message, $headers)) {
         echo '<script>
-        alert("Se envió un correo a su email con el código de compra. Por favor, revisa la carpeta de spam en caso de no encontrarlo en la bandeja de entrada.");
-        window.location.href = "../Views/Eventos.html";
+        alert("Se envió un correo a su email con el número asignado. Por favor, revisa la carpeta de spam en caso de no encontrarlo en la bandeja de entrada.","Feeling Danzas");        window.location.href = "../Views/Eventos.html";
         </script>';
     } else {
         echo '<script>
-        alert("Hubo un error al enviar el correo con el código de compra. Comunícate con el organizador del evento para obtenerlo.");
-        window.location.href = "../Views/Eventos.html";
+        alert("Hubo un error al enviar el correo con el número asignado. Comunícate con el organizador del evento para obtenerlo.","Feeling Danzas");        window.location.href = "../Views/Eventos.html";
         </script>';
     }
 }

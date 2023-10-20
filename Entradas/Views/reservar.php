@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reservar</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">    <link rel="stylesheet" href="Estilos/reservar.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">   
+     <link rel="stylesheet" href="Estilos/reservar.css">
     
 </head>
 <body>
@@ -89,13 +90,20 @@
 
 
         function enviarHeartbeat(pk_eventos) {
-            fetch("../Controllers/salaController.php?ESTADOSESSION=ESTADO&pkeventos="+pk_eventos)
+            fetch("../Controllers/salaController.php?ESTADOSESSION=ESTADO&pkeventos=" + pk_eventos)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error("Error en la solicitud AJAX");
                     }
+
                     return response.text();
-                    console.log("heartbeat enviado");
+                })
+                .then(data => {
+                    if (data.trim() != 1) {
+                         
+                        window.location.href = '../Views/Eventos.html';
+                    }
+                    console.log(data.trim());
                 })
                 .catch(error => {
                     // Maneja errores en la solicitud AJAX
@@ -116,34 +124,13 @@
                 }
             };
             xhr.send("activo=no");
-            alert("Sera redirijido a la sala de espera.");
+            alert("Sera redirigido a la sala de espera.","Feeling Danzas");
             window.location.href = 'Eventos.html';
         }
 
 
-        //setInterval(function () {enviarSolicitudPOSTParaCerrarSesion(pk_eventos);}, TiempodeExpiracion);
-
-      
-
         
-        function verificarEstadoSesion(pk_eventos) {
-            // Hacer una solicitud AJAX al archivo PHP que obtiene el estado de la sesión
-            fetch('../Controllers/salaController.php?SESSION=ESTADO')
-                .then(response => response.text())
-                .then(data => {
-                    // Verificar si el estado es "false"
-                    if (data.trim() == 'false') {
-                        // Llamar a la función para cerrar la sesión
-                        enviarSolicitudPOSTParaCerrarSesion(pk_eventos);
-                        enviarHeartbeat(pk_eventos);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error al obtener el estado de la sesión:', error);
-                });
-        }
-        
-        setInterval(function () {verificarEstadoSesion(pk_eventos);}, 5000);
+        setInterval(function () {enviarHeartbeat(pk_eventos);}, 60000);
 
 
         window.addEventListener("beforeunload", function (e) {
@@ -179,6 +166,7 @@
             ocultarModal();
             // Reinicia el intervalo de cerrar sesión y vuelve a configurarlo
             clearInterval(intervalId);
+            AumentarSession();
             intervalId = setInterval(() => enviarSolicitudPOSTParaCerrarSesion(pk_eventos), tiempoExpiracionCerrarSesion);
             PrimerModal = true;
         }
@@ -196,6 +184,23 @@
         if(!PrimerModal){setInterval(mostrarModal, 105000);}
  
         
+        function AumentarSession() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "../cronjob.php?AumentarSession", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        console.log("Sesiones eliminadas con éxito");
+                        // Aquí puedes mostrar un mensaje al usuario en la interfaz
+                    } else {
+                        console.error("Error al eliminar sesiones");
+                        // Aquí puedes manejar el error y mostrar un mensaje de error al usuario
+                    }
+                }
+            };
+            xhr.send();
+        }
 
 
 

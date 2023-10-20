@@ -11,6 +11,11 @@ if(isset($_GET["BorrarSessiones"])){
     $instancia2->CronJob();
 }
 
+if(isset($_GET["AumentarSession"])){
+    $instancia2->AumentarSession();
+}
+
+
 
 
 

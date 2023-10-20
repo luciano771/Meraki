@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sala de espera</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">   
     <link rel="stylesheet" href="Estilos/sala.css">
+ 
 </head>
 <body>
     <header>
@@ -27,7 +29,13 @@
         </div>
     </section>
 
-   
+        <div id="modal" class="modal">
+        <div class="modal-content">
+            <p>Esta alerta se cerrará automáticamente después de 15 segundos. ¿Desea extender la sesión?</p>
+            <button id="aceptar" >Aceptar</button>
+            <button id="cancelar" >Cancelar</button>
+        </div>
+    </div>
 
 
     <script>
@@ -53,9 +61,28 @@
         }
 
         BorrarSessiones30Min();
-        setInterval(BorrarSessiones30Min, 30000);
+       
 
+        
+        function AumentarSession() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "../cronjob.php?AumentarSession", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        console.log("Sesiones eliminadas con éxito");
+                        // Aquí puedes mostrar un mensaje al usuario en la interfaz
+                    } else {
+                        console.error("Error al eliminar sesiones");
+                        // Aquí puedes manejar el error y mostrar un mensaje de error al usuario
+                    }
+                }
+            };
+            xhr.send();
+        }
 
+       
 
 
 
@@ -191,7 +218,52 @@
         }
 
  
+    //modal session
+    
+    
+    
+        var PrimerModal = false;
 
+
+        var tiempoExpiracionCerrarSesion = 285000; // 299985
+        var intervalId = null;
+        var modal = document.getElementById("modal");
+        var btnAceptar = document.getElementById("aceptar");
+        var btnCancelar = document.getElementById("cancelar");
+
+        // Función para mostrar la ventana modal
+        function mostrarModal() {
+            modal.style.display = "block";
+        }
+
+        // Función para ocultar la ventana modal
+        function ocultarModal() {
+            modal.style.display = "none";
+        }
+
+        // Evento para mostrar la ventana modal
+        btnAceptar.onclick = function() {
+            ocultarModal();
+            // Reinicia el intervalo de cerrar sesión y vuelve a configurarlo
+            clearInterval(intervalId);
+            AumentarSession();
+            intervalId = setInterval(() => enviarSolicitudPOSTParaCerrarSesion(pk_eventos), tiempoExpiracionCerrarSesion);
+            PrimerModal = true;
+        }
+
+        // Evento para ocultar la ventana modal
+        btnCancelar.onclick = function() {
+            ocultarModal();
+            enviarSolicitudPOSTParaCerrarSesion(pk_eventos);
+        }
+
+        // Configura un intervalo inicial para enviar la solicitud de cerrar sesión
+        intervalId = setInterval(() => enviarSolicitudPOSTParaCerrarSesion(pk_eventos), tiempoExpiracionCerrarSesion);
+
+        // Establece un intervalo para mostrar la ventana modal cada 2 minutos (120,000 milisegundos) 299970
+        if(!PrimerModal){setInterval(mostrarModal, 270000);}
+ 
+        
  
 
         

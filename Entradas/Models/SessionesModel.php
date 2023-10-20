@@ -229,7 +229,7 @@ class SessionesModel
 
     public function CronJob(){
             try{
-                $sql = "SET time_zone = '-03:00'; DELETE FROM sessiones WHERE tiempoinsercion <= NOW() - INTERVAL 30 MINUTE";
+                $sql = "SET time_zone = '-03:00'; DELETE FROM sessiones WHERE tiempoinsercion <= NOW() - INTERVAL 5 MINUTE";
 
                 $stmt = $this->db->prepare($sql);
                 $stmt->execute();  
@@ -239,6 +239,22 @@ class SessionesModel
                 echo $e;                
             }       
     }
+
+    public function AumentarSession(){
+                $this->setSession();
+        try {
+            $sql = "UPDATE sessiones SET tiempoinsercion = tiempoinsercion + INTERVAL 5 MINUTE WHERE sessiones = :sessiones";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':sessiones', $this->session, PDO::PARAM_STR); // Cambié PDO::PARAM_INT a PDO::PARAM_STR si la sesión es un valor de texto
+            $stmt->execute();  
+            echo 'Session aumentada con éxito '.$this->session; 
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }       
+    }
+
+
+
 
 }
 
